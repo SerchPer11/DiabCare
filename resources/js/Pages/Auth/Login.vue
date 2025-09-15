@@ -1,20 +1,12 @@
-<script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+// resources/js/Pages/Auth/Login.vue
 
-defineProps({
-    canResetPassword: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-});
+<script setup>
+import { Head, Link, useForm } from '@inertiajs/vue3';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
 
 const form = useForm({
     email: '',
@@ -30,71 +22,59 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Log in" />
+  <GuestLayout>
+    <Head title="Log in" />
 
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
-
+    <Card class="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle class="text-2xl">
+          Iniciar Sesión
+        </CardTitle>
+        <CardDescription>
+          Ingresa tu correo para acceder a tu cuenta.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+          <div class="grid gap-4">
+            <div class="grid gap-2">
+              <Label for="email">Correo Electrónico</Label>
+              <Input
+                id="email"
+                v-model="form.email"
+                type="email"
+                placeholder="nombre@ejemplo.com"
+                required
+                autocomplete="username"
+              />
+              <p v-if="form.errors.email" class="text-sm text-destructive">{{ form.errors.email }}</p>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
-                </label>
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            <div class="grid gap-2">
+              <div class="flex items-center">
+                <Label for="password">Contraseña</Label>
+              </div>
+              <Input id="password" v-model="form.password" type="password" required autocomplete="current-password" />
+              <p v-if="form.errors.password" class="text-sm text-destructive">{{ form.errors.password }}</p>
+              <Link
+                  :href="route('password.request')"
+                  class="underline transition-opacity hover:opacity-60"
                 >
-                    Forgot your password?
+                ¿Olvidaste tu contraseña?
                 </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
             </div>
+            <Button type="submit" class="w-full hover:opacity-60 bg-blue-500 text-accent" :disabled="form.processing">
+              Acceder
+            </Button>
+          </div>
         </form>
-    </GuestLayout>
+        <div class="mt-4 text-center text-sm">
+          ¿No tienes una cuenta?
+          <Link :href="route('register')" 
+           class="underline transition-opacity hover:opacity-60">
+            Regístrate
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  </GuestLayout>
 </template>

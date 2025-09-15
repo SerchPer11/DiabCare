@@ -1,10 +1,12 @@
+// resources/js/Pages/Auth/Register.vue
+
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
 
 const form = useForm({
     name: '',
@@ -21,93 +23,53 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
-        <Head title="Register" />
+  <GuestLayout>
+    <Head title="Register" />
 
+    <Card class="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle class="text-2xl">
+          Crear una Cuenta
+        </CardTitle>
+        <CardDescription>
+          Ingresa tus datos para registrarte.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
+          <div class="grid gap-4">
+            <div class="grid gap-2">
+              <Label for="name">Nombre</Label>
+              <Input id="name" v-model="form.name" required autofocus autocomplete="name" />
+              <p v-if="form.errors.name" class="text-sm text-destructive">{{ form.errors.name }}</p>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+            <div class="grid gap-2">
+              <Label for="email">Correo Electrónico</Label>
+              <Input id="email" v-model="form.email" type="email" required autocomplete="username" />
+              <p v-if="form.errors.email" class="text-sm text-destructive">{{ form.errors.email }}</p>
             </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
+            <div class="grid gap-2">
+              <Label for="password">Contraseña</Label>
+              <Input id="password" v-model="form.password" type="password" required autocomplete="new-password" />
+              <p v-if="form.errors.password" class="text-sm text-destructive">{{ form.errors.password }}</p>
             </div>
-
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
+            <div class="grid gap-2">
+              <Label for="password_confirmation">Confirmar Contraseña</Label>
+              <Input id="password_confirmation" v-model="form.password_confirmation" type="password" required autocomplete="new-password" />
+              <p v-if="form.errors.password_confirmation" class="text-sm text-destructive">{{ form.errors.password_confirmation }}</p>
             </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
-                </PrimaryButton>
-            </div>
+            <Button type="submit" class="w-full" :disabled="form.processing">
+              Crear Cuenta
+            </Button>
+          </div>
         </form>
-    </GuestLayout>
+        <div class="mt-4 text-center text-sm">
+          ¿Ya tienes una cuenta?
+          <Link :href="route('login')" class="underline">
+            Inicia sesión
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  </GuestLayout>
 </template>
