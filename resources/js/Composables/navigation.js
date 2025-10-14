@@ -1,51 +1,62 @@
-// resources/js/navigation.js
-import { mdiViewDashboard, mdiPill, mdiCog, mdiShieldAccount } from '@mdi/js';
+// resources/js/Composables/navigation.js
+import { 
+  mdiViewDashboard, 
+  mdiAccountGroup, 
+  mdiCardAccountDetails,
+  mdiSecurity,
+  mdiViewModule,
+  mdiKey 
+} from '@mdi/js';
 
 const navigation = [
-  // --- Este es un link individual, sin grupo ---
   {
-    isGroup: false, // Propiedad para identificarlo
+    type: 'single',
     title: "Dashboard",
-    url: () => route('dashboard'),
+    route: 'dashboard',
     icon: mdiViewDashboard,
   },
   
-  // --- Este es un grupo colapsable ---
+  // Gestión de Pacientes
   {
-    isGroup: true, // Propiedad para identificarlo
-    groupName: "Aplicación",
-    links: [
+    type: 'group',
+    title: "Seguridad",
+    icon: mdiSecurity,
+    permission: 'security.view', // Si no tiene este permiso, no ve el grupo
+    roles: ['admin'], // Solo estos roles pueden ver pacientes
+    items: [
       {
-        title: "Tratamientos",
-        url: () => "#",
-        icon: mdiPill,
-        /*meta: {
-          permissions: ['ver tratamientos', 'editar tratamientos']
-        }*/
+        title: "Modulos",
+        route: 'modules.index',
+        icon: mdiViewModule ,
+        permission: 'modules.index',
+        roles: ['admin']
+      },
+      {
+        title: "Permisos",
+        route: 'permissions.index',
+        icon: mdiKey,
+        permission: 'permissions.index',
+        roles: ['admin']
+      },
+      {
+        title: "Roles",
+        route: 'roles.index',
+        icon: mdiCardAccountDetails ,
+        permission: 'roles.index',
+        roles: ['admin']
       },
     ]
-  },
 
-  // --- Otro grupo colapsable ---
-  {
-    isGroup: true,
-    groupName: "Ajustes",
-    links: [
-      {
-        title: "Administración",
-        url: () => "#",
-        icon: mdiShieldAccount,
-        /*meta: {
-          permissions: ['administrar usuarios']
-        }*/
-      },
-      {
-        title: "Configuración",
-        url: () => "#",
-        icon: mdiCog,
-      },
-    ]
   },
+  {
+    type: 'single',
+    title: "Usuarios",
+    route: 'users.index',
+    icon: mdiAccountGroup,
+    permission: 'users.index',
+    roles: ['admin']
+  },
+  
 ];
 
 export default navigation;
