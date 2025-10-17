@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
 
         // Crear usuario Admin
-        $admin = User::create([
+        User::create([
             'name' => 'Admin',
             'last_name' => 'General',
             'email' => 'admin@gmail.com',
@@ -23,7 +23,6 @@ class UserSeeder extends Seeder
             'phone' => '0987654321',
             'gender' => 'male',
         ]);
-        $admin->assignRole('admin');
 
         /*
         // Crear usuario Doctor

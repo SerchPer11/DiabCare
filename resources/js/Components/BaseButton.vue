@@ -80,7 +80,7 @@ const componentClass = computed(() => {
     "inline-flex", "justify-center", "items-center", "whitespace-nowrap",
     "focus:outline-none", "transition-colors", "focus:ring", "duration-150",
     "border rounded-lg", props.disabled || props.processing ? "cursor-not-allowed" : "cursor-pointer",
-    props.roundedFull ? "rounded-full" : "rounded", props.small ? "" : "h-12"
+    props.roundedFull ? "rounded-full" : "rounded", props.small ? "" : "h-10", "text-sm"
   ];
 
   // getButtonColor devuelve un array, lo agregamos al array base

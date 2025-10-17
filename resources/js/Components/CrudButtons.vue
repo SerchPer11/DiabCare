@@ -1,5 +1,5 @@
 <template>
-    <CardBox class="mt-4 flex justify-end">
+    <CardBox class="mt-2">
         <slot />
     </CardBox>
 </template>

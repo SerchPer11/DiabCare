@@ -6,10 +6,11 @@
     <ModuleForm />
 
     <CrudButtons>
-        <div class="flex gap-2">
-            <BaseButton :icon="mdiClose " color="whiteDark" label="Cancelar" />
-            <BaseButton :icon="mdiSend " color="info" label="Guardar" />
-        </div>
+      <div class="flex gap-2 justify-end">
+        <BaseButton :icon="mdiClose" color="whiteDark" label="Cancelar" variant="outline"
+          :routeName="`${routeName}index`" />
+        <BaseButton :icon="mdiSend" color="info" label="Guardar" @click="saveForm" :processing="processing" />
+      </div>
     </CrudButtons>
   </AuthenticatedLayout>
 </template>
@@ -37,5 +38,5 @@ const props = defineProps({
   },
 });
 
-useModule(props);
+const { saveForm, processing } = useModule(props);
 </script>

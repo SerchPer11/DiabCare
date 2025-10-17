@@ -20,6 +20,7 @@ class RoleSeeder extends Seeder
         ]);
         
         $allPermissions = Permission::all();
+        //$adminPermissions = Permission::whereIn('module_key', ['admin'])->get();
         $admin->syncPermissions($allPermissions);
 
         /*

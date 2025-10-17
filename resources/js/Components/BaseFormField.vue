@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'; // <--- 1. Importa 'computed'
+import { computed } from 'vue';
 import { Label } from '@/Components/ui/label';
 import { Input } from '@/Components/ui/input';
 import { Textarea } from '@/Components/ui/textarea';
@@ -36,26 +36,34 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  // --- INICIO DE LA LÓGICA ADAPTADA ---
+  valueSelect: {
+    type: String,
+    default: 'id',
+  },
+  valueOption: {
+    type: String,
+    default: 'name',
+  },
+  // --- FIN DE LA LÓGICA ADAPTADA ---
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-// 2. Crea la propiedad computada que actuará como intermediario
 const computedValue = computed({
-  // 'get' se usa para leer el valor y pasarlo al control interno
   get() {
     return props.modelValue;
   },
-  // 'set' se dispara cuando el control interno intenta cambiar el valor
   set(newValue) {
-    emit('update:modelValue', newValue); // Emite el cambio al padre
+    emit('update:modelValue', newValue);
   },
 });
 </script>
 
 <template>
   <div class="space-y-2">
-    <Label v-if="type !== 'switch' && type !== 'checkbox'" :for="label" :class="[{ 'text-destructive': error }, 'text-md text-gray-700']">
+    <Label v-if="type !== 'switch' && type !== 'checkbox'" :for="label"
+      :class="[{ 'text-destructive': error }, 'text-md text-gray-700']">
       {{ label }}
       <span v-if="required" class="text-destructive"> *</span>
     </Label>
@@ -72,12 +80,13 @@ const computedValue = computed({
         <SelectValue :placeholder="placeholder" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem v-for="option in options" :key="option.value" :value="option.value">
-          {{ option.label }}
+        <SelectItem v-for="option in options" :key="option[valueSelect] ?? option"
+          :value="option[valueSelect] ?? option">
+          {{ option[valueOption] ?? option }}
         </SelectItem>
       </SelectContent>
     </Select>
-
+    
     <div v-if="type === 'switch'" class="flex items-center space-x-2 pt-2">
       <Switch :id="label" v-model:checked="computedValue" :class="{ 'border border-destructive': error }" />
       <Label :for="label" :class="{ 'text-destructive': error }">{{ label }}</Label>

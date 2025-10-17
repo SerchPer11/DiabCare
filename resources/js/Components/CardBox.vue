@@ -1,34 +1,81 @@
-<template>
-  <div class="card-box border bg-light">
-    <div v-if="isForm" class="mb-6 text-lg font-medium">
-      <form @submit.prevent="submit" >
-      <slot />
-      </form>
-    </div>
-    
-    <div v-else class="mb-4 text-xl font-semibold">
-      <slot />
-    </div>
-  </div>
-</template>
 <script setup>
-const props = defineProps({
-  isForm: {
-    type: Boolean,
-    default: false,
-  },
-});
-</script>
-<style scoped>
-.card-box {
-  border-radius: 12px; /* Bordes redondeados */
-  padding: 24px; /* Espacio interior para que el contenido no se pegue a los bordes */
-  width: 100%; /* Ocupa todo el ancho de su contenedor padre */
-  
-  /* Sombra sutil y moderna para dar efecto de profundidad */
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+import { computed, useSlots } from "vue";
+import CardBoxComponentBody from "@/Components/CardBoxComponentBody.vue";
+import CardBoxComponentFooter from "@/Components/CardBoxComponentFooter.vue";
 
-  /* Opcional: un borde ligero si prefieres eso a la sombra */
-  /* border: 1px solid #e2e8f0; */
-}
-</style>
+const props = defineProps({
+  rounded: {
+    type: String,
+    default: "rounded-xl",
+  },
+  padding: {
+    type: String,
+    default: "p-1",
+  },
+  flex: {
+    type: String,
+    default: "flex-col",
+  },
+  bg: {
+    type: String,
+    default: "bg-white",
+  },
+  hasBorder: {
+    type: Boolean,
+    default: true,
+  },
+  hasComponentLayout: Boolean,
+  hasTable: Boolean,
+  isForm: Boolean,
+  isHoverable: Boolean,
+  isModal: Boolean,
+});
+
+const emit = defineEmits(["submit"]);
+
+const slots = useSlots();
+
+const hasFooterSlot = computed(() => slots.footer && !!slots.footer());
+
+const componentClass = computed(() => {
+  const base = [
+    props.bg,
+    props.padding,
+    props.rounded,
+    props.flex,
+    props.isModal ? "dark:bg-slate-900" : "dark:bg-slate-900/70",
+  ];
+
+  if (props.isHoverable) {
+    base.push("hover:shadow-lg transition-shadow duration-500");
+  }
+
+  if (props.hasBorder) {
+    base.push("border-2 border-medic-200/60 dark:border-gray-700 shadow-md");
+  }
+
+  return base;
+});
+
+const submit = (event) => {
+  emit("submit", event);
+};
+</script>
+
+<template>
+  <component
+    :is="isForm ? 'form' : 'div'"
+    :class="componentClass"
+    @submit="submit"
+  >
+    <slot v-if="hasComponentLayout" />
+    <template v-else>
+      <CardBoxComponentBody :no-padding="hasTable">
+        <slot />
+      </CardBoxComponentBody>
+      <CardBoxComponentFooter v-if="hasFooterSlot">
+        <slot name="footer" />
+      </CardBoxComponentFooter>
+    </template>
+  </component>
+</template>
