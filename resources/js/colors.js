@@ -33,7 +33,7 @@ export const getButtonColor = (
       success: "bg-success-400 dark:bg-emerald-500 text-white",
       danger: "bg-error-400 dark:bg-red-500 text-white",
       warning: "bg-warning-300 dark:bg-yellow-500 text-white",
-      info: "bg-medic-400 dark:bg-blue-500 text-white",
+      info: "bg-medic-500 dark:bg-blue-500 text-white",
     },
     bgHover: {
       white: "hover:bg-gray-100",
@@ -42,7 +42,7 @@ export const getButtonColor = (
       contrast: "hover:bg-gray-700 hover:dark:bg-slate-100",
       success: "hover:bg-emerald-800 hover:border-emerald-800 hover:dark:bg-emerald-600 hover:dark:border-emerald-600",
       danger: "hover:bg-red-800 hover:border-red-800 hover:dark:bg-red-600 hover:dark:border-red-600",
-      warning: "hover:bg-warning-400 hover:border-warning-400 hover:dark:bg-yellow-600 hover:dark:border-yellow-600",
+      warning: "hover:bg-warning-400 hover:border-warning-400 hover:dark:bg-red-600 hover:dark:border-red-600",
       info: "hover:bg-medic-400/85 hover:border-medic-400 hover:dark:bg-blue-600 hover:dark:border-blue-600",
     },
     borders: {

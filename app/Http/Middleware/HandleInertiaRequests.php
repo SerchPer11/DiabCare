@@ -38,6 +38,12 @@ class HandleInertiaRequests extends Middleware
                 'roles' => $request->user() ? $request->user()->getRolesArray() : [],
                 'can' => $request->user() ? $request->user()->getPermissionArray() : [],
             ],
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+                'info' => fn () => $request->session()->get('info'),
+                'warning' => fn () => $request->session()->get('warning'),
+            ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

@@ -76,7 +76,7 @@ const computedValue = computed({
       :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength" />
 
     <Select v-if="type === 'select'" v-model="computedValue">
-      <SelectTrigger :class="{ 'border-destructive': error }">
+      <SelectTrigger :id="label" :class="{ 'border-destructive': error }" class="h-12">
         <SelectValue :placeholder="placeholder" />
       </SelectTrigger>
       <SelectContent>

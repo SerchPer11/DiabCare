@@ -3,9 +3,9 @@
 <script setup>
 import { SidebarProvider, SidebarTrigger } from '@/Components/ui/sidebar';
 import AppSidebar from '@/Components/AppSidebar.vue';
-import { Button } from '@/Components/ui/button';
 import Icon from '@/Components/Icon.vue';
 import { mdiMenu, mdiBell } from '@mdi/js';
+import BaseButton from '@/Components/BaseButton.vue';
 </script>
 
 <template>
@@ -17,10 +17,7 @@ import { mdiMenu, mdiBell } from '@mdi/js';
       <div class="flex flex-col flex-1 w-full">
         <header class="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 shadow-md">
           <SidebarTrigger as-child class="text-muted-foreground hover:text-primary focus:ring-0 focus:ring-offset-0" >
-            <Button class="md:hidden" size="sm">
-              <Icon :path="mdiMenu"/>
-              <span class="sr-only">Toggle Menu</span>
-            </Button>
+              <BaseButton :icon="mdiMenu" small />
           </SidebarTrigger>
           
           <div class="ml-auto">

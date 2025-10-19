@@ -27,26 +27,39 @@ createInertiaApp({
     },
 });
 
-router.on('success', (event) => {
-    const props = event.detail.page.props;
-
-    if (props.success) {
-        messageSuccess(props.success); 
-    } else if (props.error) {
-        error500(props.error); 
+// Inertia v2 syntax - listeners for flash messages
+router.on('navigate', (event) => {
+    // En Inertia v2, los datos pueden estar directamente en event.detail
+    const page = event.detail?.page || event.detail;
+    
+    if (page && page.props) {
+        // Manejar mensajes de success/error directos
+        if (page.props.success) {
+            messageSuccess(page.props.success);
+        } else if (page.props.error) {
+            error500(page.props.error);
+        }
+        
+        // Manejar flash messages
+        if (page.props.flash) {
+            if (page.props.flash.success) {
+                messageSuccess(page.props.flash.success);
+            } else if (page.props.flash.error) {
+                error500(page.props.flash.error);
+            } else if (page.props.flash.info) {
+                error422(page.props.flash.info);
+            }
+        }
     }
 });
 
-router.on('error', (errors) => {
-    const errorObject = errors.detail.errors;
+router.on('exception', (errors) => {
+    console.log('Inertia exception event:', errors); // Debug log
     
-    if (errorObject && errorObject.response) {
-        if (errorObject.response.status === 500) {
-            error500();
-        }
-    }
-    
-    if(errors.detail.errors.message) {
-        error422();
+    // Manejar errores de validación 422
+    if (errors.detail && errors.detail.errors) {
+        error422('Por favor, revisa los campos del formulario.');
+    } else {
+        error500('Ocurrió un error inesperado.');
     }
 });

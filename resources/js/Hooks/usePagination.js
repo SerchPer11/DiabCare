@@ -67,14 +67,14 @@ export const usePagination = (props) => {
         }
 
         if (active) {
-            return `${baseClasses} bg-forest-400 text-white shadow-sm`;
+            return `${baseClasses} bg-medic-400 text-white shadow-sm`;
         }
 
         if (isPrevious(label) || isNext(label)) {
-            return `${baseClasses} text-gray-700 dark:text-gray-300 hover:bg-forest-100 hover:text-white dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600`;
+            return `${baseClasses} text-gray-700 dark:text-gray-300 hover:bg-medic-100 hover:text-white dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600`;
         }
 
-        return `${baseClasses} text-gray-700 dark:text-gray-300 hover:bg-forest-100 hover:text-white dark:hover:bg-gray-700 hover:text-slate-600 dark:hover:text-slate-400`;
+        return `${baseClasses} text-gray-700 dark:text-gray-300 hover:bg-medic-100 hover:text-white dark:hover:bg-gray-700 hover:text-slate-600 dark:hover:text-slate-400`;
     };
 
     return {

@@ -13,7 +13,6 @@ use Inertia\Response;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Expr\AssignOp\Mod;
 
 class ModuleController extends Controller
 {

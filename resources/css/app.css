@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -88,5 +89,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .swal-icon {
+    border-color: #283C2A !important;
+    color: #283C2A !important;
+  }
+
+  .swal-info-icon {
+    border-color: #86857E !important;
+    color: #86857E !important;
+  }
+
+  .swal-success-icon {
+    border-color: #1A8245 !important;
+    color: #1A8245 !important;
+  }
+
+  .swal-warning-icon {
+    border-color: #F27430 !important;
+    color: #F27430 !important;
+  }
+
+  .swal-error-icon {
+    border-color: #E10E0E !important;
+    color: #E10E0E !important;
   }
 }
