@@ -23,10 +23,9 @@ class UserSeeder extends Seeder
             'phone' => '0987654321',
             'gender' => 'male',
         ]);
-
-        /*
+        
         // Crear usuario Doctor
-        $doctor = User::create([
+        User::create([
             'name' => 'Dr. Juan',
             'last_name' => 'Pérez',
             'email' => 'doctor@gmail.com',
@@ -34,10 +33,9 @@ class UserSeeder extends Seeder
             'phone' => '5555555555',
             'gender' => 'male',
         ]);
-        $doctor->assignRole('doctor');
 
         // Crear usuario Paciente
-        $patient = User::create([
+        User::create([
             'name' => 'María',
             'last_name' => 'González',
             'email' => 'paciente@gmail.com',
@@ -45,8 +43,5 @@ class UserSeeder extends Seeder
             'phone' => '1111111111',
             'gender' => 'female',
         ]);
-        $patient->assignRole('patient');
-
-        //$this->command->info('Usuarios con roles creados exitosamente!');*/
     }
 }

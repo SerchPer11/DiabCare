@@ -19,5 +19,13 @@ class AssignRoleUserSeeder extends Seeder
         $admin = User::find(1);
         $role = Role::find(1);
         $admin->assignRole($role);
+
+        $doctor = User::find(2);
+        $role = Role::find(2);
+        $doctor->assignRole($role);
+
+        $patient = User::find(3);
+        $role = Role::find(3);
+        $patient->assignRole($role);
     }
 }

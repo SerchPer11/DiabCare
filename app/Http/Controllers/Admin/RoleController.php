@@ -29,10 +29,10 @@ class RoleController extends Controller
         $this->source = 'Admin/Role/Pages/';
         $this->model = new Role();
 
-        /* $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
-        $this->middleware("permission:{$this->routeName}store")->only(['store', 'create']);
-        $this->middleware("permission:{$this->routeName}update")->only(['edit', 'update']);
-        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);*/
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+        $this->middleware("permission:{$this->routeName}create")->only(['store', 'create']);
+        $this->middleware("permission:{$this->routeName}edit")->only(['edit', 'update']);
+        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
     }
 
     public function index(Request $request)

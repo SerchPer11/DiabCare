@@ -19,22 +19,17 @@ class RoleSeeder extends Seeder
             'description' => 'Administrador',
         ]);
         
-        $allPermissions = Permission::all();
-        //$adminPermissions = Permission::whereIn('module_key', ['admin'])->get();
-        $admin->syncPermissions($allPermissions);
+        //$adminPermissions = Permission::all();
+        $adminPermissions = Permission::whereIn('module_key', ['security'])->get();
+        $admin->syncPermissions($adminPermissions);
 
-        /*
+        
         $doctor = Role::create([
             'name' => 'doctor',
             'description' => 'Doctor',
         ]);
-
-        
-        $doctor->givePermissionTo([
-            'patients.index',
-
-            
-        ]);
+        $doctorPermissions = Permission::whereIn('module_key', ['doctor'])->get();
+        $doctor->syncPermissions($doctorPermissions);
 
         // Patient - Acceso limitado
         $patient = Role::create([
@@ -42,9 +37,8 @@ class RoleSeeder extends Seeder
             'description' => 'Paciente',
         ]);
 
-        $patient->givePermissionTo([
-            'appointments.view',
-            'files.view',
-        ]);*/
+        $patientPermissions = Permission::whereIn('module_key', ['patient'])->get();
+        $patient->syncPermissions($patientPermissions);
+        
     }
 }

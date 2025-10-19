@@ -12,11 +12,35 @@ class ModuleSeeder extends Seeder
      */
     public function run(): void
     {
-
+        //modulos de administrador
         Module::create([
             'name' => 'Módulo de seguridad',
             'description' => 'Módulos de seguridad y administración',
             'key' => 'security',
+            'user_id' => 1,
+        ]);
+
+        Module::create([
+            'name' => 'Módulo de administración',
+            'description' => 'Módulo para la gestión administrativa',
+            'key' => 'admin',
+            'user_id' => 1,
+        ]);
+          
+
+        //modulo de pacientes
+        Module::create([
+            'name' => 'Módulo de pacientes',
+            'description' => 'Módulo para la gestión de pacientes',
+            'key' => 'patient',
+            'user_id' => 1,
+        ]);
+
+        //modulo de medicos
+        Module::create([
+            'name' => 'Módulo de médicos',
+            'description' => 'Módulo para la gestión de médicos',
+            'key' => 'doctor',
             'user_id' => 1,
         ]);
     }

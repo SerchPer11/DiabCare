@@ -9,7 +9,6 @@
             <div class="flex gap-2 justify-end">
                 <BaseButton :icon="mdiClose" color="whiteDark" label="Cancelar" variant="outline"
                     :routeName="`${routeName}index`" />
-                <BaseButton :icon="mdiDelete" color="danger" label="Eliminar" @click="destroyForm" :processing="processing" />
                 <BaseButton :icon="mdiSend" color="info" label="Guardar" @click="saveForm" :processing="processing" />
             </div>
         </CrudButtons>

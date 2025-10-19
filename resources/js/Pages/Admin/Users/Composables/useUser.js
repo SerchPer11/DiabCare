@@ -8,6 +8,7 @@ export const useUser = (props = {}) => {
 
     const user = props.user?.data || {};
 
+
     const form = useForm({
         _method: user.id ? "patch" : "post",
         name: user.name ?? null,
@@ -16,6 +17,9 @@ export const useUser = (props = {}) => {
         password_confirmation: null,
 
         roles: user.roles?.map(role => role.id) ?? [],
+
+        placehHolder: user.id ? "Dejar en blanco para mantener la contraseña actual" : "Crea una contraseña",
+        is_required: user.id ? false : true,
     });
 
     provide("form", form);

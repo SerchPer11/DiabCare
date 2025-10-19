@@ -8,12 +8,12 @@
             <BaseFormField type="input" label="Correo electrónico" v-model="form.email" :error="form.errors.email"
                 placeholder="Ejemplo: usuario@ejemplo.com" required :maxLength="100" />
 
-            <BaseFormField type="password" label="Contraseña" v-model="form.password" :error="form.errors.password"
-                placeholder="Dejar en blanco para mantener la contraseña actual" :maxLength="100" />
+            <BaseFormField type="password" label="Contraseña" :required="form.is_required" v-model="form.password" :error="form.errors.password"
+                :placeholder="form.placehHolder" :maxLength="100" />
 
-            <BaseFormField type="password" label="Confirmar Contraseña" v-model="form.password_confirmation"
+            <BaseFormField type="password" label="Confirmar Contraseña" :required="form.is_required" v-model="form.password_confirmation"
                 :error="form.errors.password_confirmation"
-                placeholder="Dejar en blanco para mantener la contraseña actual" :maxLength="100" />
+                placeholder="Confirma la contraseña" :maxLength="100" />
         </div>
         <MultiCheck v-model="form.roles" label="Rol(es) Asignados" :options="roles" :error="form.errors.roles"
             optionValue="id" optionLabel="name" optionKey="id" />
