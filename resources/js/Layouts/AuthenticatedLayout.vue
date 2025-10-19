@@ -15,7 +15,7 @@ import BaseButton from '@/Components/BaseButton.vue';
       <AppSidebar class="hidden md:block shadow-md" />
 
       <div class="flex flex-col flex-1 w-full">
-        <header class="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-medic-50 px-4 shadow-md">
+        <header class="sticky top-0 z-10 flex h-16 items-center gap-4 border-b px-4 shadow-md">
           <SidebarTrigger as-child class="text-medic-300 hover:text-medic-500 focus:ring-0 focus:ring-offset-0 w-6" >
               <BaseButton :icon="mdiMenu" small />
           </SidebarTrigger>

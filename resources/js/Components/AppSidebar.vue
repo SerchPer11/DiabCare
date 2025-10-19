@@ -117,7 +117,7 @@ const openProfile = () => {
                             <SidebarMenu>
                                 <SidebarMenuItem v-for="subItem in item.items" :key="subItem.title" as-child>
                                     <Link :href="route(subItem.route)"
-                                        class="flex items-center gap-3 rounded-lg px-6 py-2 text-medic-300 transition-colors hover:bg-medic-50 hover:text-medic-500 ml-2 "
+                                        class="flex items-center gap-3 rounded-lg px-6 py-2 text-medic-300 transition-colors hover:bg-medic-100 hover:text-medic-500 ml-2 "
                                         :class="{ 'bg-medic-100 text-medic-500': isRouteRelated(subItem.route, route().current()) }">
                                     <Icon :path="subItem.icon" class="h-4 w-4" />
                                     <span>{{ subItem.title }}</span>
