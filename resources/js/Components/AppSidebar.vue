@@ -1,33 +1,29 @@
 // resources/js/Components/AppSidebar.vue
+
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import {
-      Sidebar,
-      SidebarContent,
-      SidebarGroup,
-      SidebarGroupLabel,
-      SidebarMenu,
-      SidebarMenuItem,
-      SidebarHeader,
-      SidebarFooter,
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarHeader,
+  SidebarFooter,
 } from "@/Components/ui/sidebar";
 import {
-      Collapsible,
-      CollapsibleContent,
-      CollapsibleTrigger,
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
 } from "@/Components/ui/collapsible";
 import Icon from '@/Components/Icon.vue';
 import { mdiHeartPulse, mdiLogout, mdiChevronDown } from '@mdi/js';
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
+import ThemeToggleGroup from '@/Components/ThemeToggleGroup.vue';
 import { useNavigation } from '@/Composables/useNavigation.js';
 
-const {
-    navigation: authorizedNavigation,
-    user,
-    userName,
-    userInitials,
-    userRoleLabel,
-    userEmail
+
 const {
     navigation: authorizedNavigation,
     user,
