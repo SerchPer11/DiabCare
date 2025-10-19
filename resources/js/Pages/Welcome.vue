@@ -44,13 +44,19 @@ const nav = [
 
           <div class="flex items-center gap-3">
             <Link
-              v-if="canLogin"
+              v-if="canLogin && !$page.props.auth?.user"
               :href="route('login')"
               class="px-4 py-2 text-sm font-semibold rounded-lg border border-medic-300 text-medic-700 hover:bg-medic-50"
               >Iniciar sesión</Link
             >
             <Link
-              v-if="canRegister"
+              v-if="canLogin && $page.props.auth?.user"
+              :href="route('dashboard')"
+              class="px-4 py-2 text-sm font-semibold rounded-lg border border-medic-300 text-medic-700 hover:bg-medic-50"
+              >Dashboard</Link
+            >
+            <Link
+              v-if="canRegister && !$page.props.auth?.user"
               :href="route('register')"
               class="px-4 py-2 text-sm font-semibold rounded-lg bg-medic-500 text-white hover:bg-medic-600 shadow-sm"
               >Crear cuenta</Link
@@ -73,23 +79,29 @@ const nav = [
           </p>
           <div class="mt-6 flex flex-wrap gap-3">
             <Link
-              v-if="canRegister"
+              v-if="canRegister && !$page.props.auth?.user"
               :href="route('register')"
               class="px-6 py-3 rounded-xl bg-medic-600 text-white font-semibold hover:bg-medic-700 shadow"
               >Comenzar</Link
             >
             <Link
-              v-if="canLogin"
+              v-if="canLogin && !$page.props.auth?.user"
               :href="route('login')"
               class="px-6 py-3 rounded-xl border border-medic-300 text-medic-700 font-semibold hover:bg-medic-50"
               >Entrar</Link
+            >
+            <Link
+              v-if="canLogin && $page.props.auth?.user"
+              :href="route('dashboard')"
+              class="px-6 py-3 rounded-xl border border-medic-300 text-medic-700 font-semibold hover:bg-medic-50"
+              >Dashboard</Link
             >
           </div>
         </div>
 
         <div class="relative">
           <div class="rounded-2xl border border-medic-100 bg-white p-5 shadow-lg">
-            <img src="/storage/imgHome.png" alt="Imagen Home" class="w-80 h-80 object-contain mx-auto" />
+            <img src="imgHome.png" alt="Imagen Home" class="w-80 h-80 object-contain mx-auto" />
           </div>
           <div class="hidden md:block absolute -bottom-6 -left-6 w-24 h-24 rounded-2xl bg-medic-100/60 blur-2xl"></div>
           <div class="hidden md:block absolute -top-6 -right-6 w-24 h-24 rounded-2xl bg-medic-200/60 blur-2xl"></div>
@@ -150,16 +162,22 @@ const nav = [
         <p class="mt-2 text-medic-600">Crea tu cuenta o entra con tu perfil para comenzar.</p>
         <div class="mt-6 flex justify-center gap-3">
           <Link
-            v-if="canRegister"
+            v-if="canRegister && !$page.props.auth?.user"
             :href="route('register')"
             class="px-6 py-3 rounded-xl bg-medic-600 text-white font-semibold hover:bg-medic-700 shadow"
             >Crear cuenta</Link
           >
           <Link
-            v-if="canLogin"
+            v-if="canLogin && !$page.props.auth?.user"
             :href="route('login')"
             class="px-6 py-3 rounded-xl border border-medic-300 text-medic-700 font-semibold hover:bg-medic-50"
             >Iniciar sesión</Link
+          >
+          <Link
+            v-if="canLogin && $page.props.auth?.user"
+            :href="route('dashboard')"
+            class="px-6 py-3 rounded-xl border border-medic-300 text-medic-700 font-semibold hover:bg-medic-50"
+            >Dashboard</Link
           >
         </div>
       </div>
