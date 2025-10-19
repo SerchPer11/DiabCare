@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Admin\RoleResource;
 
 class UserResource extends JsonResource
 {
@@ -19,9 +20,11 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
+            'phone' => $this->phone,
+            'gender' => $this->gender,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            // Agregar otros campos que necesites
+            'roles' => RoleResource::collection($this->whenLoaded('roles')),
         ];
     }
 }

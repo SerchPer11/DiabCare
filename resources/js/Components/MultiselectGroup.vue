@@ -160,7 +160,7 @@ const deselectAll = (event) => {
                 <div v-else v-for="item in filteredItems" :key="item.id" class="flex items-center space-x-3">
                     <Checkbox :id="`item-${item.id}`" :model-value="props.modelValue.includes(item[itemValueKey])"
                         @update:model-value="(checked) => handleCheckboxChange(item[itemValueKey], checked)"
-                        class="data-[state=checked]:bg-medic-500" />
+                        class="data-[state=checked]:bg-medic-500 data-[state=checked]:border-medic-500 data-[state=unchecked]:border-medic-300" />
 
                     <Label :for="`item-${item.id}`" class="font-normal cursor-pointer">
                         {{ item[itemLabelKey] }} ({{ item.name }})
