@@ -24,13 +24,13 @@ import ThemeToggleGroup from '@/Components/ThemeToggleGroup.vue';
 import { useNavigation } from '@/Composables/useNavigation.js';
 
 
-const {
-    navigation: authorizedNavigation,
-    user,
-    userName,
-    userInitials,
-    userRoleLabel,
-    userEmail
+const { 
+  navigation: authorizedNavigation, 
+  user, 
+  userName, 
+  userInitials, 
+  userRoleLabel,
+  userEmail
 } = useNavigation();
 
 // Función helper para detectar si una ruta está relacionada con otra
