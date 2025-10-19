@@ -41,6 +41,14 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'users.edit', 'guard_name' => 'web', 'description' => 'Editar usuarios', 'module_key' => 'security']);
         Permission::create(['name' => 'users.delete', 'guard_name' => 'web', 'description' => 'Eliminar usuarios', 'module_key' => 'security']);
 
-        
+        // catalogo médico
+
+        // Vistas de subgrupos de catalogo médico
+        Permission::create(['name' => 'medic.view', 'guard_name' => 'web', 'description' => 'Ver catálogo médico', 'module_key' => 'doctor']);
+
+        Permission::create(['name' => 'medications.index', 'guard_name' => 'web', 'description' => 'Ver medicamentos', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'medications.create', 'guard_name' => 'web', 'description' => 'Crear medicamentos', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'medications.edit', 'guard_name' => 'web', 'description' => 'Editar medicamentos', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'medications.delete', 'guard_name' => 'web', 'description' => 'Eliminar medicamentos', 'module_key' => 'doctor']);
     }
 }

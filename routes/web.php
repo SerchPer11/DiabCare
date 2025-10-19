@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\Doctor\Catalogs\MedicationController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\RoleController;
@@ -34,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('security/permissions', PermissionController::class)->names('permissions');
     Route::resource('security/roles', RoleController::class)->names('roles');
     Route::resource('administration/users', UserController::class)->names('users');
+
+    Route::prefix('doctor')->name('doctor.')->group(function () {
+        //Rutas para gestión de medicamentos
+        Route::resource('medications', MedicationController::class)->names('medications');
+    });
 
     
 });

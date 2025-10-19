@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             'name' => 'Dr. Juan',
             'last_name' => 'Pérez',
             'email' => 'doctor@gmail.com',
-            'password' => bcrypt('password123'),
+            'password' => bcrypt('12345678'),
             'phone' => '5555555555',
             'gender' => 'male',
         ]);
@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
             'name' => 'María',
             'last_name' => 'González',
             'email' => 'paciente@gmail.com',
-            'password' => bcrypt('password123'),
+            'password' => bcrypt('12345678'),
             'phone' => '1111111111',
             'gender' => 'female',
         ]);
