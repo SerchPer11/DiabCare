@@ -15,21 +15,21 @@ import BaseButton from '@/Components/BaseButton.vue';
       <AppSidebar class="hidden md:block shadow-md" />
 
       <div class="flex flex-col flex-1 w-full">
-        <header class="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 shadow-md">
-          <SidebarTrigger as-child class="text-muted-foreground hover:text-primary focus:ring-0 focus:ring-offset-0" >
+        <header class="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-medic-50 px-4 shadow-md">
+          <SidebarTrigger as-child class="text-medic-300 hover:text-medic-500 focus:ring-0 focus:ring-offset-0 w-6" >
               <BaseButton :icon="mdiMenu" small />
           </SidebarTrigger>
           
           <div class="ml-auto">
             <div class="mr-6">
-              <button class="text-dark-foreground hover:text-muted-foreground focus:ring-0 focus:ring-offset-0">
+              <button class="text-medic-500 hover:text-medic-300 focus:ring-0 focus:ring-offset-0">
                 <Icon :path="mdiBell"/> <!-- FALTA AGREGAR LOGICA DE NOTIFICACIONES -->
               </button>
             </div>
           </div>
         </header>
         
-        <main class="flex-1 p-4 md:p-6">
+        <main class="flex-1 p-4 md:p-6 bg-medic-50/85 overflow-auto">
           <slot />
         </main>
       </div>
