@@ -11,17 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('medication_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('filename');
-            $table->string('usage');
-            $table->string('path');
-            $table->unsignedBigInteger('size');
-            $table->string('mime_type');
-            $table->morphs('imageable');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('medication_types');
     }
 };
