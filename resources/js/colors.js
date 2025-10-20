@@ -1,3 +1,13 @@
+export const colorsBgLight = {
+  white: "bg-white text-black",
+  light: "bg-white text-forest-400 dark:bg-slate-900/70 dark:text-white border-gray-600",
+  contrast: "bg-gray-800 text-white dark:bg-white dark:text-black border-gray-900",
+  success: "bg-emerald-100 text-emerald-500 border-emerald-600",
+  danger: "bg-red-100 text-red-500 border-red-600",
+  warning: "bg-yellow-100 text-yellow-500 border-yellow-600",
+  info: "bg-blue-100 text-blue-500 border-blue-600",
+};
+
 export const getButtonColor = (
   color,
   isOutlined,
