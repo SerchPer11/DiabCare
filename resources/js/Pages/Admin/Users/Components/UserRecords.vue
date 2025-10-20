@@ -18,7 +18,7 @@
                 <tr v-for="item in users.data" :key="item.id"
                     class="border border-gray-200 h-12 bg-gray-50 shadow-sm text-gray-500  ">
                     <td data-label="Nombre">
-                        {{ item.name }}
+                        {{ item.name }} {{ item.last_name }}
                     </td>
                     <td data-label="Correo">
                         <span v-if="item.email">{{ item.email }}</span>

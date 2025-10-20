@@ -2,6 +2,7 @@ import { useLoading } from '@/Hooks/useLoading';
 import { useForm } from '@inertiajs/vue3';
 import { provide, computed } from 'vue';
 import { messageConfirm } from "@/Hooks/useErrorsForm";
+import { last } from 'lodash';
 
 export const useUser = (props = {}) => {
     const { setLoading } = useLoading();
@@ -12,6 +13,7 @@ export const useUser = (props = {}) => {
     const form = useForm({
         _method: user.id ? "patch" : "post",
         name: user.name ?? null,
+        last_name: user.last_name ?? null,
         email: user.email ?? null,
         password: null,
         password_confirmation: null,
