@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Doctor\Catalogs\ExerciseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,9 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix('doctor')->name('doctor.')->group(function () {
         //Rutas para gestión de medicamentos
         Route::resource('medications', MedicationController::class)->names('medications');
+        Route::resource('catalogs/exercises', ExerciseController::class)->names('catalogs.exercises');
     });
 
     
 });
+
+
 
 require __DIR__.'/auth.php';
