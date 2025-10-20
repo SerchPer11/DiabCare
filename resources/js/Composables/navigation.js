@@ -8,6 +8,7 @@ import {
     mdiKey,
     mdiMedicalBag,
     mdiMedication,
+    mdiGymnastics,
 } from '@mdi/js';
 
 const navigation = [
@@ -64,6 +65,12 @@ const navigation = [
         icon: mdiMedicalBag ,
         permission: 'medic.view', // Si no tiene este permiso, no ve el grupo
         items: [
+            {
+                title: "Ejercicios",
+                route: 'doctor.catalogs.exercises.index',
+                icon: mdiGymnastics ,
+                permission: 'doctor.catalogs.exercises.index',
+            },
             {
                 title: "Medicamentos",
                 route: 'doctor.medications.index',
