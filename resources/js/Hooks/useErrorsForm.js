@@ -1,8 +1,8 @@
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
-const cancelColor = "#22AD5C";
-const confirmColor = "#22AD5C";
+const cancelColor = "#2F8AD4";
+const confirmColor = "#2F8AD4";
 const warningColor = "#F23030";
 const confirmMessage = "Aceptar";
 const warningMessage = "Sí";

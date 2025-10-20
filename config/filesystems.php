@@ -41,7 +41,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -58,6 +58,12 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'), // Los archivos se guardarán en storage/app/private
+            'visibility' => 'private', // Asegura que los archivos no sean públicos por defecto
+            'throw' => false,
         ],
 
     ],

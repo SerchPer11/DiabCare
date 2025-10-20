@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Doctor\Catalogs\Medication;
+use Database\Seeders\Catalogs\Medications;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,6 +25,7 @@ class DatabaseSeeder extends Seeder
             AssignRoleUserSeeder::class,
             ExerciseTypeSeeder::class,
             ExerciseSeeder::class,
+            Medications::class,
         ]);
     }
 }

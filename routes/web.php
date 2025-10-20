@@ -37,6 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('security/roles', RoleController::class)->names('roles');
     Route::resource('administration/users', UserController::class)->names('users');
 
+    Route::prefix('catalogs')->name('catalogs.')->group(function () {
+        //Rutas para gestión de usuarios
+        
+    });
+
     Route::prefix('doctor')->name('doctor.')->group(function () {
         //Rutas para gestión de medicamentos
         Route::resource('medications', MedicationController::class)->names('medications');

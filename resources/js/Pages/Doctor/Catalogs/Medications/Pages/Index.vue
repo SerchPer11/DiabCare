@@ -2,22 +2,22 @@
     <AuthenticatedLayout>
         <CrudHead :title="title" />
 
-        <IndexBanner :title="title" :icon="mdiAccountGroup" :routeName="routeName" main @apply-filters="applyFilters"
+        <IndexBanner :title="title" :icon="mdiMedication" :routeName="routeName" main @apply-filters="applyFilters"
             @clear-filters="clearFilters" v-model:search="filters.search" v-model:rows="filters.rows"
-            :total="users?.meta?.total || 0" />
+            :total="medications?.meta?.total || 0" />
 
-        <!--<UserRecords :users="users" :routeName="routeName" />-->
+        <MedicationRecords :medications="medications" :routeName="routeName" />
     </AuthenticatedLayout>
 
 </template>
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-//import UserRecords from '../Components/UserRecords.vue';
+import MedicationRecords from '../Components/MedicationRecords.vue';
 import IndexBanner from '@/Components/IndexBanner.vue';
 import CrudHead from '@/Components/CrudHead.vue';
 import { useFilters } from '@/Hooks/useFilters';
-import { mdiAccountGroup } from '@mdi/js';
+import { mdiMedication } from '@mdi/js';
 
 
 const props = defineProps({
@@ -31,9 +31,9 @@ const props = defineProps({
     },
     routeName: {
         type: String,
-        default: 'users.'
+        default: 'doctor.medications.'
     },
-    users: {
+    medications: {
         type: Object,
         required: true
     }
