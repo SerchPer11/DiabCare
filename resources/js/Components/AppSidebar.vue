@@ -1,5 +1,3 @@
-// resources/js/Components/AppSidebar.vue
-
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import {
@@ -23,7 +21,6 @@ import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import ThemeToggleGroup from '@/Components/ThemeToggleGroup.vue';
 import { useNavigation } from '@/Composables/useNavigation.js';
 
-
 const {
     navigation: authorizedNavigation,
     user,
@@ -33,38 +30,54 @@ const {
     userEmail
 } = useNavigation();
 
-// Función helper para detectar si una ruta está relacionada con otra
+// --- INICIO DE LA LÓGICA MODIFICADA ---
+
+/**
+ * Extrae el prefijo base de una ruta de recurso.
+ * Ejemplo: 'users.create' -> 'users'
+ * Ejemplo: 'doctor.medicaments.edit' -> 'doctor.medicaments'
+ * @param {string} routeName - El nombre completo de la ruta.
+ * @returns {string} - El prefijo del recurso.
+ */
+const getRoutePrefix = (routeName) => {
+    if (!routeName || !routeName.includes('.')) {
+        return routeName;
+    }
+    const parts = routeName.split('.');
+    parts.pop(); // Elimina la última parte (index, create, edit, etc.)
+    return parts.join('.'); // Une el resto para formar el prefijo
+};
+
+/**
+ * Función helper mejorada para detectar si una ruta está relacionada con otra.
+ * @param {string} targetRoute - La ruta del enlace del sidebar.
+ * @param {string} currentRoute - La ruta actual de la página.
+ * @returns {boolean}
+ */
 const isRouteRelated = (targetRoute, currentRoute) => {
-    // Coincidencia exacta
+    // La coincidencia exacta siempre tiene la máxima prioridad.
     if (route().current(targetRoute)) {
         return true;
     }
 
-    // Extraer el prefijo base (antes del último punto)
-    // Ejemplo: 'roles.index' -> 'roles'
-    const routePrefix = targetRoute.includes('.') ? targetRoute.split('.')[0] : targetRoute;
-
-    // Verificar si la ruta actual empieza con el mismo prefijo
-    // Ejemplo: 'roles.create' empieza con 'roles.'
-    if (currentRoute && currentRoute.startsWith(routePrefix + '.')) {
-        return true;
+    if (!targetRoute || !currentRoute) {
+        return false;
     }
 
-    return false;
+    // Compara los prefijos de recurso.
+    const targetPrefix = getRoutePrefix(targetRoute);
+    const currentPrefix = getRoutePrefix(currentRoute);
+
+    return targetPrefix === currentPrefix;
 };
 
-// Función para detectar si un grupo contiene la página actual
+// --- FIN DE LA LÓGICA MODIFICADA ---
+
+// Esta función no necesita cambios, ya que ahora depende de la nueva `isRouteRelated`.
 const isGroupActive = (group) => {
     if (group.type !== 'group' || !group.items) return false;
-
     const currentRouteName = route().current();
-
-    const isActive = group.items.some(subItem => {
-        const isRelated = isRouteRelated(subItem.route, currentRouteName);
-        return isRelated;
-    });
-
-    return isActive;
+    return group.items.some(subItem => isRouteRelated(subItem.route, currentRouteName));
 };
 
 const openProfile = () => {

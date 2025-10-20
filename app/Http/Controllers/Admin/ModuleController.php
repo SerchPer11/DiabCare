@@ -56,7 +56,7 @@ class ModuleController extends Controller
     public function create()
     {
         return Inertia::render("{$this->source}Create", [
-            'title' => 'Crear Módulo',
+            'title' => 'Módulos',
             'routeName' => $this->routeName,
         ]);
     }
@@ -72,7 +72,7 @@ class ModuleController extends Controller
     public function edit(Module $module)
     {
         return Inertia::render("{$this->source}Edit", [
-            'title' => 'Editar Módulo',
+            'title' => 'Módulos',
             'routeName' => $this->routeName,
             'module' => $module
         ]);

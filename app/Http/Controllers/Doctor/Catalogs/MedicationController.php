@@ -30,16 +30,16 @@ class MedicationController extends Controller
 
     public function __construct(PhotoService $photoService)
     {
-        $this->routeName = 'doctor.medications.';
+        $this->routeName = 'doctor.catalogs.medications.';
         $this->source = 'Doctor/Catalogs/Medications/Pages/';
         $this->model = new Medication();
         $this->configPhotos = new PhotoStorageConfig('public', 'medication/photos', 'photos');
         $this->photoService = $photoService;
 
-        /*$this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
         $this->middleware("permission:{$this->routeName}create")->only(['store', 'create']);
         $this->middleware("permission:{$this->routeName}edit")->only(['edit', 'update']);
-        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);*/
+        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);
     }
 
     public function index(Request $request)

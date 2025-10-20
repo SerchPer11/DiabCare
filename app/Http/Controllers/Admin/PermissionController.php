@@ -63,7 +63,7 @@ class PermissionController extends Controller
     public function create()
     {
         return Inertia::render("{$this->source}Create", [
-            'title'     => 'Agregar Permisos',
+            'title'     => 'Permisos',
             'routeName' => $this->routeName,
             'modules'   => Module::orderBy('name')->get(),
         ]);
@@ -90,7 +90,7 @@ class PermissionController extends Controller
     public function edit(Permission $permission): Response
     {
         return Inertia::render("{$this->source}Edit", [
-            'title'         => 'Editar Permisos',
+            'title'         => 'Permisos',
             'routeName'     => $this->routeName,
             'modules'       => Module::orderBy('name')->get(),
             'permission'    => $permission,

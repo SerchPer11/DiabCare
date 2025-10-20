@@ -58,7 +58,7 @@ class UserController extends Controller
     public function create()
     {
         return Inertia::render("{$this->source}Create", [
-            'title'       => 'Crear usuario',
+            'title'       => 'Usuaios',
             'routeName'   => $this->routeName,
             'roles'       => Role::all(),
         ]);
@@ -75,7 +75,7 @@ class UserController extends Controller
     {
         $user->load('roles');
         return Inertia::render("{$this->source}Edit", [
-            'title'       => 'Editar usuario',
+            'title'       => 'Usuarios',
             'routeName'   => $this->routeName,
             'user'        => new UserResource($user),
             'roles'       => Role::all(),

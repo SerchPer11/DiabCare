@@ -72,7 +72,7 @@ class ExerciseController extends Controller
     {
         $exerciseTypes = ExerciseType::all();
         return Inertia::render("{$this->source}Create", [
-            'title'         => 'Agregar Ejercicio',
+            'title'         => 'Ejercicios',
             'routeName'     => $this->routeName,
             'exerciseTypes' => [ 'data' => $exerciseTypes ],
         ]);
@@ -86,7 +86,7 @@ class ExerciseController extends Controller
         $exercise->load('exerciseType');
         $exerciseTypes = ExerciseType::all();
         return Inertia::render("{$this->source}Edit", [
-            'title'         => 'Editar ejercicio',
+            'title'         => 'Ejercicios',
             'routeName'     => $this->routeName,
             'exercise'      => $exercise,
             'exerciseTypes' => [ 'data' => $exerciseTypes ],

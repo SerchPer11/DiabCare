@@ -68,14 +68,14 @@ const navigation = [
             {
                 title: "Ejercicios",
                 route: 'doctor.catalogs.exercises.index',
-                icon: mdiGymnastics ,
+                icon: mdiGymnastics,
                 permission: 'doctor.catalogs.exercises.index',
             },
             {
                 title: "Medicamentos",
-                route: 'doctor.medications.index',
-                icon: mdiMedication ,
-                permission: 'medications.index',
+                route: 'doctor.catalogs.medications.index',
+                icon: mdiMedication,
+                permission: 'doctor.catalogs.medications.index',
             },
         ]
     }

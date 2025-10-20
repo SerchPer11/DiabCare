@@ -58,7 +58,7 @@ class RoleController extends Controller
     public function create()
     {
         return Inertia::render("{$this->source}Create", [
-            'title'         => 'Crear Rol',
+            'title'         => 'Roles',
             'routeName'     => $this->routeName,
             'modules'       => Module::orderBy('key')->get(['id', 'name', 'description', 'key']),
             'permissions'   => Permission::get(['id', 'name', 'description', 'module_key'])->groupBy('module_key')->toArray(),
@@ -79,7 +79,7 @@ class RoleController extends Controller
     {
         $role->load('permissions');
         return Inertia::render("{$this->source}Edit", [
-            'title'         => 'Editar Rol',
+            'title'         => 'Roles',
             'role'          => new RoleResource($role),
             'modules'       => Module::orderBy('key')->get(['id', 'name', 'description', 'key']),
             'permissions'   => Permission::get(['id', 'name', 'description', 'module_key'])->groupBy('module_key')->toArray(),

@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('doctor')->name('doctor.')->group(function () {
         //Rutas para gestión de medicamentos
-        Route::resource('medications', MedicationController::class)->names('medications');
+        Route::resource('catalogs/medications', MedicationController::class)->names('catalogs.medications');
         Route::resource('catalogs/exercises', ExerciseController::class)->names('catalogs.exercises');
     });
 
