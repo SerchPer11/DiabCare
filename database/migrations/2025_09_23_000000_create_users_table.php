@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->date('birthdate')->nullable();
+            $table->unsignedBigInteger('profileable_id')->nullable();
+            $table->string('profileable_type')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

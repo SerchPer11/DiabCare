@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('doctor_profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade')->unique();
-            $table->string('specialty')->nullable();
+            $table->foreignId('specialty_id')->constrained()->onDelete('cascade');
             $table->string('license_number')->nullable();
             $table->date('titulation_date')->nullable();
             $table->softDeletes();

@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import {
     Sidebar,
     SidebarContent,
@@ -20,6 +20,7 @@ import { mdiHeartPulse, mdiLogout, mdiChevronDown } from '@mdi/js';
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import ThemeToggleGroup from '@/Components/ThemeToggleGroup.vue';
 import { useNavigation } from '@/Composables/useNavigation.js';
+import { computed } from 'vue';
 
 const {
     navigation: authorizedNavigation,
@@ -80,10 +81,20 @@ const isGroupActive = (group) => {
     return group.items.some(subItem => isRouteRelated(subItem.route, currentRouteName));
 };
 
-const openProfile = () => {
-    // Lógica para abrir el perfil del usuario PENDIENTE
-    alert('Abrir perfil de usuario');
-};
+const userPrimaryRole = computed(() => usePage().props.auth.roles[0]);
+
+const profileRouteName = computed(() => {
+    switch (userPrimaryRole.value) {
+        case 'admin':
+            return 'admin.profile.show';
+        case 'doctor':
+            return 'doctor.profile.show';
+        case 'paciente':
+            return 'patient.profile.show';
+        default:
+            return 'dashboard';
+    }
+});
 </script>
 
 <template>
@@ -116,7 +127,8 @@ const openProfile = () => {
                         <CollapsibleTrigger class="w-full">
                             <div class="flex w-full items-center justify-between rounded-md text-medic-300 hover:text-medic-500 py-1"
                                 :class="{ ' text-medic-500': isGroupActive(item) }">
-                                <SidebarGroupLabel class="text-md flex items-center gap-2 text-medic-300 hover:text-medic-500"
+                                <SidebarGroupLabel
+                                    class="text-md flex items-center gap-2 text-medic-300 hover:text-medic-500"
                                     :class="{ 'text-medic-500 font-medium': isGroupActive(item) }">
                                     <Icon :path="item.icon" class="h-4 w-4" />
                                     {{ item.title }}
@@ -147,19 +159,19 @@ const openProfile = () => {
             <!--<ThemeToggleGroup />-->
             <div v-if="user">
                 <div class="flex gap-1 p-2">
-                    <button class="flex items-center gap-3 flex-1 hover:bg-medic-100 p-2 rounded-lg w-full"
-                        @click="openProfile">
-                        <Avatar shape="square" class="bg-transparent">
-                            <AvatarFallback class="text-medic-700 text-xl font-semibold">
-                                {{ userInitials }}
-                            </AvatarFallback>
-                        </Avatar>
-                        <div class="flex flex-col overflow-hidden text-left">
-                            <span class="text-sm font-semibold text-medic-700 truncate">{{ userName }}</span>
-                            <span class="text-xs text-medic-500 truncate">{{ userRoleLabel }}</span>
-                            <span class="text-xs text-medic-500 truncate">{{ userEmail }}</span>
-                        </div>
-                    </button>
+                    <Link :href="route(profileRouteName)"
+                        class="flex items-center gap-3 flex-1 hover:bg-medic-100 p-2 rounded-lg w-full">
+                    <Avatar shape="square" class="bg-transparent">
+                        <AvatarFallback class="text-medic-700 text-xl font-semibold">
+                            {{ userInitials }}
+                        </AvatarFallback>
+                    </Avatar>
+                    <div class="flex flex-col overflow-hidden text-left">
+                        <span class="text-sm font-semibold text-medic-700 truncate">{{ userName }}</span>
+                        <span class="text-xs text-medic-500 truncate">{{ userRoleLabel }}</span>
+                        <span class="text-xs text-medic-500 truncate">{{ userEmail }}</span>
+                    </div>
+                    </Link>
                     <Link :href="route('logout')" method="post" as="button" class="ml-auto">
                     <Icon :path="mdiLogout"
                         class="h-6 w-5 text-medic-300 hover:text-red-500 transition-colors duration-200" />

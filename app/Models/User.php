@@ -9,8 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\PatienteProfile;
 use App\Models\DoctorProfile;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Image;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class User extends Authenticatable
 {
@@ -29,6 +29,9 @@ class User extends Authenticatable
         'password',
         'phone',
         'gender',
+        'birthdate',
+        'profileable_id',
+        'profileable_type',
     ];
 
     /**
@@ -60,13 +63,9 @@ class User extends Authenticatable
         return $this->hasOne(PatienteProfile::class);
     }
 
-    public function doctorProfile()
+    public function profileable(): MorphTo
     {
-        return $this->hasOne(DoctorProfile::class);
-    }
-    
-    public function image(){
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->morphTo();
     }
 
     /**

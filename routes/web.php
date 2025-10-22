@@ -2,14 +2,17 @@
 <?php
 
 use App\Http\Controllers\Doctor\Catalogs\MedicationController;
+use App\Http\Controllers\Doctor\Catalogs\ExerciseController;
+use App\Http\Controllers\Doctor\DoctorProfileController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Doctor\Catalogs\ExerciseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+
 
 Route::redirect('/', '/home');
 Route::get('/home', function () {
@@ -43,7 +46,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('doctor')->name('doctor.')->group(function () {
-        //Rutas para gestión de medicamentos
+        //Rutas para gestión de perfil de doctor
+        Route::get('/profile', [DoctorProfileController::class, 'profile'])->name('doctor.profile.show');
+        Route::put('/profile', [DoctorProfileController::class, 'update'])->name('doctor.profile.update');
+        //Rutas para gestión de doctores
         Route::resource('catalogs/medications', MedicationController::class)->names('catalogs.medications');
         Route::resource('catalogs/exercises', ExerciseController::class)->names('catalogs.exercises');
     });

@@ -23,7 +23,7 @@ const props = defineProps({
         default: false,
     },
     options: {
-        type: Array,
+        type: [ Array, Object ],
         default: () => [],
     },
     description: {
@@ -38,7 +38,6 @@ const props = defineProps({
         type: Number,
         default: null,
     },
-    // --- INICIO DE LA LÓGICA ADAPTADA ---
     valueSelect: {
         type: String,
         default: 'id',
@@ -47,11 +46,16 @@ const props = defineProps({
         type: String,
         default: 'name',
     },
-    // --- FIN DE LA LÓGICA ADAPTADA ---
+    // --- NUEVA PROP ---
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
+// ... el resto de tu script se queda igual ...
 const computedValue = computed({
     get() {
         return props.modelValue;
@@ -67,7 +71,6 @@ const computedInputType = computed(() => {
     if (props.type === 'password') {
         return showPassword.value ? 'text' : 'password';
     }
-    // Mantenemos la lógica original para otros tipos
     return props.type === 'input' ? 'text' : props.type;
 });
 </script>
@@ -81,21 +84,19 @@ const computedInputType = computed(() => {
         </Label>
 
         <div v-if="['input', 'text', 'email', 'password', 'number', 'date'].includes(type)" class="relative w-full">
-
             <Input :id="label" :type="computedInputType" v-model="computedValue" :placeholder="placeholder"
                 :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength"
-                :autocomplete="type === 'password' ? 'new-password' : null" />
-
+                :autocomplete="type === 'password' ? 'new-password' : null" :disabled="disabled" />
             <BaseButton v-if="type === 'password'" type="button" small :icon="showPassword ? mdiEyeClosed : mdiEye"
                 @click="showPassword = !showPassword"
-                class="absolute inset-y-0 right-0 flex h-10 mt-1 mr-1 items-center" color="whiteDark" />
-
+                class="absolute inset-y-0 right-0 flex h-10 mt-1 mr-1 items-center" color="whiteDark"
+                :disabled="disabled" />
         </div>
 
         <Textarea v-if="type === 'textarea'" :id="label" v-model="computedValue" :placeholder="placeholder"
-            :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength" />
+            :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength" :disabled="disabled" />
 
-        <Select v-if="type === 'select'" v-model="computedValue">
+        <Select v-if="type === 'select'" v-model="computedValue" :disabled="disabled">
             <SelectTrigger :id="label" :class="{ 'border-destructive': error }" class="h-12">
                 <SelectValue :placeholder="placeholder" />
             </SelectTrigger>
@@ -108,30 +109,19 @@ const computedInputType = computed(() => {
         </Select>
 
         <div v-if="type === 'switch'" class="flex items-center space-x-2 pt-2">
-            <Switch :id="label" v-model:checked="computedValue" :class="{ 'border border-destructive': error }" />
-            <Label :for="label" :class="{ 'text-destructive': error }">{{ label }}</Label>
+            <Switch :id="label" v-model:checked="computedValue" :class="{ 'border border-destructive': error }"
+                :disabled="disabled" /> <Label :for="label" :class="{ 'text-destructive': error }">{{ label }}</Label>
         </div>
 
         <div v-if="type === 'checkbox'" class="flex items-start space-x-3 pt-2">
             <Checkbox :id="label" v-model:checked="computedValue" :class="{ 'border-destructive': error }"
-                class="data-[state=checked]:bg-medic-500 data-[state=checked]:border-medic-500 data-[state=unchecked]:border-medic-300" />
+                class="data-[state=checked]:bg-medic-500 data-[state=checked]:border-medic-500 data-[state=unchecked]:border-medic-300"
+                :disabled="disabled" />
             <div class="grid gap-1.5 leading-none">
-                <Label :for="label" :class="{ 'text-destructive': error }">
-                    {{ label }}
-                    <span v-if="required" class="text-destructive"> *</span>
-                </Label>
-                <p v-if="description" class="text-sm text-muted-foreground">
-                    {{ description }}
-                </p>
             </div>
         </div>
-
-        <div v-if="maxLength && type === 'textarea'" class="text-right text-sm text-muted-foreground">
-            <span>{{ modelValue?.length || 0 }}</span> / <span>{{ maxLength }}</span>
-        </div>
-
-        <p v-if="error" class="text-sm font-medium text-destructive">
-            {{ error }}
-        </p>
+        <p v-if="error" class="text-sm text-destructive mt-1">
+      {{ error }}
+    </p>
     </div>
 </template>

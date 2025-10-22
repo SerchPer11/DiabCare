@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models\Doctor\Catalogs\Medication;
 use Database\Seeders\Catalogs\Medications;
+use Database\Seeders\Doctor\SpecialtySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ExerciseTypeSeeder::class,
             ExerciseSeeder::class,
             Medications::class,
+            SpecialtySeeder::class,
         ]);
     }
 }

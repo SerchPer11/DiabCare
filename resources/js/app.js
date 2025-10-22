@@ -27,8 +27,24 @@ createInertiaApp({
     },
 });
 
-// Inertia v2 syntax - listeners for flash messages
 router.on('navigate', (event) => {
+    handleFlashMessages(event);
+});
+
+router.on('success', (event) => {
+    handleFlashMessages(event);
+});
+
+router.on('error', (event) => {
+    handleFlashMessages(event);
+});
+
+router.on('warning', (event) => {
+    handleFlashMessages(event);
+});
+
+// Función helper para manejar flash messages
+function handleFlashMessages(event) {
     // En Inertia v2, los datos pueden estar directamente en event.detail
     const page = event.detail?.page || event.detail;
     
@@ -51,7 +67,7 @@ router.on('navigate', (event) => {
             }
         }
     }
-});
+}
 
 router.on('exception', (errors) => {
     console.log('Inertia exception event:', errors); // Debug log
