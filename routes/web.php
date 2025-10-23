@@ -33,7 +33,7 @@ Route::get('/test-colors', function () {
     return Inertia::render('TestColors');
 })->name('test.colors');
 
-Route::middleware('auth')->group(function () {
+Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
     //Administración de pacientes
     Route::resource('security/modules', ModuleController::class)->names('modules');
     Route::resource('security/permissions', PermissionController::class)->names('permissions');

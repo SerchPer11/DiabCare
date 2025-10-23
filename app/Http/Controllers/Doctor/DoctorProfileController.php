@@ -28,7 +28,6 @@ class DoctorProfileController extends Controller
         //$this->model = new Doctor();
 
         /*$this->middleware("permission:{$this->routeName}show")->only(['profile']);
-        $this->middleware("permission:{$this->routeName}create")->only(['store']);
         $this->middleware("permission:{$this->routeName}edit")->only(['update']); */
     }
 
