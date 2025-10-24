@@ -19,6 +19,12 @@ class PatientProfileResource extends JsonResource
             'weight' => $this->weight,
             'height' => $this->height,
             'blood_type' => $this->blood_type,
+            'user' => [
+                'id' => $this->user?->id,
+                'name' => $this->user?->name,
+                'last_name' => $this->user?->last_name,
+                'email' => $this->user?->email,
+            ],
             'pathology' => new PatientPathologiesResource($this->whenLoaded('pathology')),
         ];
     }

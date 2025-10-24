@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Doctor\Catalogs\Medication;
 use Database\Seeders\Catalogs\Medications;
 use Database\Seeders\Doctor\SpecialtySeeder;
+use Database\Seeders\ExerciseTypeSeeder;
+use Database\Seeders\ExerciseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,6 +30,8 @@ class DatabaseSeeder extends Seeder
             ExerciseSeeder::class,
             Medications::class,
             SpecialtySeeder::class,
+            AppointmentStatusSeeder::class,
+            AppointmentSeeder::class,
         ]);
     }
 }

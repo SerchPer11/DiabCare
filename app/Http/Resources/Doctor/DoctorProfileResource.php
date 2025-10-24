@@ -19,6 +19,12 @@ class DoctorProfileResource extends JsonResource
             'specialty_id' => $this->specialty_id,
             'license_number' => $this->license_number,
             'titulation_date' => $this->titulation_date,
+            'user' => [
+                'id' => $this->user?->id,
+                'name' => $this->user?->name,
+                'last_name' => $this->user?->last_name,
+                'email' => $this->user?->email,
+            ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

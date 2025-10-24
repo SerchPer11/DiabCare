@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -54,6 +55,9 @@ Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
 
         Route::resource('catalogs/medications', MedicationController::class)->names('catalogs.medications');
         Route::resource('catalogs/exercises', ExerciseController::class)->names('catalogs.exercises');
+
+        //Rutas para gestión de citas médicas
+        Route::resource('appointments', AppointmentController::class)->names('appointments');
     });
 
     Route::prefix('patient')->name('patient.')->group(function () {
