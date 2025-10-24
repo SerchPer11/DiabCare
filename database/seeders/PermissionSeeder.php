@@ -55,5 +55,10 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'doctor.catalogs.exercises.create', 'guard_name' => 'web', 'description' => 'Crear ejercicios', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.catalogs.exercises.edit', 'guard_name' => 'web', 'description' => 'Editar ejercicios', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.catalogs.exercises.delete', 'guard_name' => 'web', 'description' => 'Eliminar ejercicios', 'module_key' => 'doctor']);
+
+        Permission::create(['name' => 'doctor.appointments.index', 'guard_name' => 'web', 'description' => 'Ver citas médicas', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.appointments.create', 'guard_name' => 'web', 'description' => 'Crear citas médicas', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.appointments.edit', 'guard_name' => 'web', 'description' => 'Editar citas médicas', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.appointments.delete', 'guard_name' => 'web', 'description' => 'Eliminar citas médicas', 'module_key' => 'doctor']);
     }
 }
