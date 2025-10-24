@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Patient;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PatientPathologies extends Model
 {
@@ -23,8 +24,8 @@ class PatientPathologies extends Model
         'allergy_details',
     ];
 
-    public function patient()
+    public function patientProfile(): BelongsTo
     {
-        return $this->belongsTo(PatienteProfile::class, 'patient_id');
+        return $this->belongsTo(PatientProfile::class);
     }
 }

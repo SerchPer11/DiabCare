@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('patient_profiles', function (Blueprint $table) {
             $table->id();
-            $table->date('date_of_birth');
             $table->float('weight')->nullable();
-            $table->float('height')->nullable();
+            $table->integer('height')->nullable();
             $table->enum('blood_type', ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])->nullable();
             $table->softDeletes();
             $table->timestamps();

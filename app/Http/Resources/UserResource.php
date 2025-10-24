@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Admin\RoleResource;
 use App\Http\Resources\Doctor\DoctorProfileResource;
+use App\Http\Resources\Patient\PatientProfileResource;
 use App\Models\Doctor\DoctorProfile;
+use App\Models\Patient\PatientProfile;
 
 class UserResource extends JsonResource
 {
@@ -32,7 +34,9 @@ class UserResource extends JsonResource
             'profile' => $this->whenLoaded('profileable', function () {
                 if ($this->profileable instanceof DoctorProfile) {
                     return new DoctorProfileResource($this->profileable);
-                } 
+                } elseif ($this->profileable instanceof PatientProfile) {
+                    return new PatientProfileResource($this->profileable);
+                }
                 return null;
             }),
         ];

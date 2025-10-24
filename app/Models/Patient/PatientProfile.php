@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Patient;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use App\Models\User;
+use App\Models\Patient\PatientPathologies;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class PatienteProfile extends Model
+
+class PatientProfile extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'date_of_birth',
         'weight',
         'height',
         'blood_type',
@@ -24,7 +26,7 @@ class PatienteProfile extends Model
         return $this->morphOne(User::class, 'profileable');
     }
 
-    public function pathologies()
+    public function pathology(): HasOne
     {
         return $this->hasOne(PatientPathologies::class);
     }

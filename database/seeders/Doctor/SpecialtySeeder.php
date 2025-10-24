@@ -5,6 +5,8 @@ namespace Database\Seeders\Doctor;
 use App\Models\Doctor\Specialty;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Doctor\DoctorProfile;
 
 class SpecialtySeeder extends Seeder
 {
@@ -31,5 +33,14 @@ class SpecialtySeeder extends Seeder
             ['name' => 'Ortopedia', 'description' => 'Estudio de los huesos y el sistema musculoesquelético'],
             ['name' => 'Radiología', 'description' => 'Uso de imágenes para diagnosticar enfermedades'],
         ]);
+
+        $doctorProfile = DoctorProfile::create([
+            'specialty_id' => 1,
+            'license_number' => 'DOC123456',
+        ]);
+
+        $doctor = User::where('id', 2)->first();
+        $doctor->profileable()->associate($doctorProfile);
+        $doctor->save();
     }
 }

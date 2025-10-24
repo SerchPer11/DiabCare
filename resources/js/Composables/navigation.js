@@ -9,6 +9,7 @@ import {
     mdiMedicalBag,
     mdiMedication,
     mdiGymnastics,
+    mdiClipboardTextClock
 } from '@mdi/js';
 
 const navigation = [
@@ -19,7 +20,7 @@ const navigation = [
         icon: mdiViewDashboard,
     },
 
-    // Gestión de Pacientes
+    // Seguridad
     {
         type: 'group',
         title: "Seguridad",
@@ -59,11 +60,12 @@ const navigation = [
         permission: 'users.index',
         roles: ['admin']
     },
+    // Doctor
     {
         type: 'group',
         title: "Catalogo Medico",
         icon: mdiMedicalBag ,
-        permission: 'medic.view', // Si no tiene este permiso, no ve el grupo
+        permission: 'medic.view',
         items: [
             {
                 title: "Ejercicios",
@@ -78,7 +80,16 @@ const navigation = [
                 permission: 'doctor.catalogs.medications.index',
             },
         ]
-    }
+    },
+
+    // Paciente
+    {
+        type: 'single',
+        title: "Historial Médico",
+        route: 'patient.medical-history.index',
+        icon: mdiClipboardTextClock,
+        roles: ['patient']
+    },
 ];
 
 export default navigation;

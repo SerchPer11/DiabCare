@@ -54,7 +54,7 @@ export function useNavigation() {
   // Información del usuario
   const userName = computed(() => {
     if (!user.value) return 'Usuario'
-    return user.value.name || 'Usuario'
+    return `${user.value.name} ${user.value.last_name}` || 'Usuario'
   })
   
   const userInitials = computed(() => {

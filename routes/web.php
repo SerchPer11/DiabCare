@@ -3,6 +3,8 @@
 
 use App\Http\Controllers\Doctor\Catalogs\MedicationController;
 use App\Http\Controllers\Doctor\Catalogs\ExerciseController;
+use App\Http\Controllers\Patient\MedicalHistoryController;
+use App\Http\Controllers\Patient\PatientProfileController;
 use App\Http\Controllers\Doctor\DoctorProfileController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
@@ -26,7 +28,7 @@ Route::get('/home', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'ensure.profile.complete'])->name('dashboard');
 
 // Ruta temporal para probar colores
 Route::get('/test-colors', function () {
@@ -41,19 +43,28 @@ Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
     Route::resource('administration/users', UserController::class)->names('users');
 
     Route::prefix('catalogs')->name('catalogs.')->group(function () {
-        //Rutas para gestión de usuarios
         
     });
 
     Route::prefix('doctor')->name('doctor.')->group(function () {
         //Rutas para gestión de perfil de doctor
-        Route::get('/profile', [DoctorProfileController::class, 'profile'])->name('doctor.profile.show');
-        Route::put('/profile', [DoctorProfileController::class, 'update'])->name('doctor.profile.update');
+        Route::get('/profile', [DoctorProfileController::class, 'profile'])->name('profile.show');
+        Route::put('/profile', [DoctorProfileController::class, 'update'])->name('profile.update');
         //Rutas para gestión de doctores
+
         Route::resource('catalogs/medications', MedicationController::class)->names('catalogs.medications');
         Route::resource('catalogs/exercises', ExerciseController::class)->names('catalogs.exercises');
     });
 
+    Route::prefix('patient')->name('patient.')->group(function () {
+        //Rutas para gestión de perfil de paciente
+        Route::get('/profile', [PatientProfileController::class, 'profile'])->name('profile.show');
+        Route::put('/profile', [PatientProfileController::class, 'update'])->name('profile.update');
+
+        //Rutas para gestión de pacientes
+        Route::get('medical-history', [MedicalHistoryController::class, 'index'])->name('medical-history.index');
+        Route::put('medical-history', [MedicalHistoryController::class, 'update'])->name('medical-history.update');
+    });
     
 });
 

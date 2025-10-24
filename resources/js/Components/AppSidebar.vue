@@ -85,11 +85,11 @@ const userPrimaryRole = computed(() => usePage().props.auth.roles[0]);
 
 const profileRouteName = computed(() => {
     switch (userPrimaryRole.value) {
-        case 'admin':
-            return 'admin.profile.show';
+        /*case 'admin':
+            return 'admin.profile.show';*/
         case 'doctor':
             return 'doctor.profile.show';
-        case 'paciente':
+        case 'patient':
             return 'patient.profile.show';
         default:
             return 'dashboard';
@@ -160,14 +160,14 @@ const profileRouteName = computed(() => {
             <div v-if="user">
                 <div class="flex gap-1 p-2">
                     <Link :href="route(profileRouteName)"
-                        class="flex items-center gap-3 flex-1 hover:bg-medic-100 p-2 rounded-lg w-full">
+                        class="flex items-center gap-3 flex-1 hover:bg-medic-100 p-2 rounded-lg w-20">
                     <Avatar shape="square" class="bg-transparent">
                         <AvatarFallback class="text-medic-700 text-xl font-semibold">
                             {{ userInitials }}
                         </AvatarFallback>
                     </Avatar>
                     <div class="flex flex-col overflow-hidden text-left">
-                        <span class="text-sm font-semibold text-medic-700 truncate">{{ userName }}</span>
+                        <span class="text-sm font-semibold text-medic-700 truncate">{{ userName }} </span>
                         <span class="text-xs text-medic-500 truncate">{{ userRoleLabel }}</span>
                         <span class="text-xs text-medic-500 truncate">{{ userEmail }}</span>
                     </div>

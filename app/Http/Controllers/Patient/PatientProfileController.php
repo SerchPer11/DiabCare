@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Doctor;
+namespace App\Http\Controllers\Patient;
 
-use App\Http\Requests\Doctor\UpdateProfileRequest;
-use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Doctor\DoctorProfile;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use App\Models\Doctor\Specialty;
-use Inertia\Response;
-use Inertia\Inertia;
+use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
+use App\Http\Requests\Patient\UpdateProfileRequest;
+use App\Models\Patient\PatientProfile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
-
-class DoctorProfileController extends Controller
+class PatientProfileController extends Controller
 {
     protected $routeName;
     protected $source;
@@ -23,8 +21,8 @@ class DoctorProfileController extends Controller
 
     public function __construct()
     {
-        $this->routeName = 'doctor.profile.';
-        $this->source = 'Doctor/Profile/Pages/';
+        $this->routeName = 'patient.profile.';
+        $this->source = 'Patient/Profile/Pages/';
 
         /*$this->middleware("permission:{$this->routeName}show")->only(['profile']);
         $this->middleware("permission:{$this->routeName}edit")->only(['update']); */
@@ -34,10 +32,10 @@ class DoctorProfileController extends Controller
     {
         $user = User::with(['profileable', 'roles'])->find(Auth::user()->id);
 
+
         return Inertia::render("{$this->source}Profile", [
             'title'     => 'Mi Perfil',
             'routeName' => $this->routeName,
-            'specialties' => Specialty::all()->sortBy('name'),
             'profile'   => new UserResource($user),
         ]);
     }
@@ -66,16 +64,16 @@ class DoctorProfileController extends Controller
 
             if ($user->profileable) {
                 $user->profileable->update([
-                    'specialty_id' => $validatedData['specialty_id'],
-                    'license_number' => $validatedData['license_number'],
-                    'titulation_date' => $validatedData['titulation_date'],
+                    'blood_type' => $validatedData['blood_type'],
+                    'height' => $validatedData['height'],
+                    'weight' => $validatedData['weight'],
 
                 ]);
             } else {
-                $profile = DoctorProfile::create([
-                    'specialty_id' => $validatedData['specialty_id'],
-                    'license_number' => $validatedData['license_number'],
-                    'titulation_date' => $validatedData['titulation_date'],
+                $profile = PatientProfile::create([
+                    'blood_type' => $validatedData['blood_type'],
+                    'height' => $validatedData['height'],
+                    'weight' => $validatedData['weight'],
                 ]);
 
                 $user->profileable()->associate($profile);

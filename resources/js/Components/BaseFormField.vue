@@ -108,9 +108,11 @@ const computedInputType = computed(() => {
             </SelectContent>
         </Select>
 
-        <div v-if="type === 'switch'" class="flex items-center space-x-2 pt-2">
-            <Switch :id="label" v-model:checked="computedValue" :class="{ 'border border-destructive': error }"
-                :disabled="disabled" /> <Label :for="label" :class="{ 'text-destructive': error }">{{ label }}</Label>
+        <div v-if="type === 'switch'" class="flex flex-col space-x-2 space-y-2 mt-5 items-center">
+            <Label :for="label" :class="{ 'text-destructive': error }">{{ label }}</Label>
+            <Switch :id="label" v-model="computedValue" :class="{ 'border border-destructive': error }"
+                :disabled="disabled"
+                class="data-[state=checked]:bg-medic-500 data-[state=unchecked]:bg-medic-100" /> 
         </div>
 
         <div v-if="type === 'checkbox'" class="flex items-start space-x-3 pt-2">

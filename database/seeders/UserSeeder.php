@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor\DoctorProfile;
+use App\Models\Patient\PatientProfile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
@@ -25,7 +27,7 @@ class UserSeeder extends Seeder
         ]);
         
         // Crear usuario Doctor
-        User::create([
+        $doctor= User::create([
             'name' => 'Dr. Juan',
             'last_name' => 'Pérez',
             'email' => 'doctor@gmail.com',
@@ -35,7 +37,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Crear usuario Paciente
-        User::create([
+        $patient = User::create([
             'name' => 'María',
             'last_name' => 'González',
             'email' => 'paciente@gmail.com',
@@ -43,5 +45,17 @@ class UserSeeder extends Seeder
             'phone' => '1111111111',
             'gender' => 'female',
         ]);
+
+        
+
+        // Crear perfil de paciente
+        $patientProfile = PatientProfile::create([
+            'weight' => 65,
+            'height' => 170,
+            'blood_type' => 'O+',
+        ]);
+
+        $patient->profileable()->associate($patientProfile);
+        $patient->save();
     }
 }

@@ -39,14 +39,14 @@ class EnsureProfileIsComplete
         if (!$user->profileable) {
             $routeName = '';
             if ($user->hasRole('doctor')) {
-                $routeName = 'doctor.profile.create';
+                $routeName = 'doctor.profile.show';
             } elseif ($user->hasRole('patient')) {
-                $routeName = 'patient.profile.create';
+                $routeName = 'patient.profile.show';
             }
 
             // Si se definió una ruta para completar el perfil, lo redirigimos.
             if ($routeName) {
-                return redirect()->route($routeName)->with('info', 'Por favor, completa tu perfil para continuar.');
+                return redirect()->route($routeName)->with('info', 'Por favor, completa la información de tu perfil para continuar.');
             }
         }
 

@@ -17,11 +17,13 @@ export const useProfile = (props = {}) => {
         email: profile.email ?? null,
         phone: profile.phone ?? null,
         gender: profile.gender ?? null,
-        specialty_id: profile.profile?.specialty_id ?? null,
-        license_number: profile.profile?.license_number ?? null,
-        titulation_date: profile.profile?.titulation_date ?? null,
         birthdate: profile.birthdate ?? null,
+
+        blood_type: profile.profile?.blood_type ?? null,
+        height: profile.profile?.height ?? null,
+        weight: profile.profile?.weight ?? null,
         roles: profile.roles ?? [],
+
         current_password: null,
         password: null,
         password_confirmation: null,
