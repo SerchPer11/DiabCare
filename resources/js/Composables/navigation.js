@@ -79,7 +79,13 @@ const navigation = [
                 icon: mdiMedication,
                 permission: 'doctor.catalogs.medications.index',
             },
-        ]
+        ], 
+        /*type: 'single',
+        title: "Citas Médicas",
+        route: 'doctor.appointments.index',
+        icon: mdiClipboardTextClock,
+        permission: 'doctor.appointments.index',
+        roles: ['doctor']*/
     },
 
     // Paciente

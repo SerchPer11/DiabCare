@@ -83,7 +83,7 @@ const computedInputType = computed(() => {
             <span v-if="required" class="text-destructive"> *</span>
         </Label>
 
-        <div v-if="['input', 'text', 'email', 'password', 'number', 'date'].includes(type)" class="relative w-full">
+    <div v-if="['input', 'text', 'email', 'password', 'number', 'date', 'time'].includes(type)" class="relative w-full">
             <Input :id="label" :type="computedInputType" v-model="computedValue" :placeholder="placeholder"
                 :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength"
                 :autocomplete="type === 'password' ? 'new-password' : null" :disabled="disabled" />
