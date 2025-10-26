@@ -7,11 +7,13 @@ use App\Http\Controllers\Patient\MedicalHistoryController;
 use App\Http\Controllers\Patient\PatientProfileController;
 use App\Http\Controllers\Doctor\DoctorProfileController;
 use App\Http\Controllers\Doctor\Catalogs\FoodController;
+use App\Http\Controllers\Doctor\RecomendationController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\FileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -37,6 +39,8 @@ Route::get('/test-colors', function () {
     return Inertia::render('TestColors');
 })->name('test.colors');
 
+Route::get('file/serve/{file}', [FileController::class, 'serveFile'])->name('file.serve')->middleware('signed');
+
 Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
     //Administración de pacientes
     Route::resource('security/modules', ModuleController::class)->names('modules');
@@ -61,6 +65,7 @@ Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
 
         //Rutas para gestión de citas médicas
         Route::resource('appointments', AppointmentController::class)->names('appointments');
+        Route::resource('recomendations', RecomendationController::class)->names('recomendations');
     });
 
     Route::prefix('patient')->name('patient.')->group(function () {

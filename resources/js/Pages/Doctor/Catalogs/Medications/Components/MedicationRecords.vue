@@ -47,6 +47,14 @@
         <Pagination v-if="medications?.meta" :links="medications.meta.links" :total="medications.meta.total" :to="medications.meta.to"
         :from="medications.meta.from" />
     </CardBox>
+
+    <CardBox v-else class="mt-2">
+        <div class="flex items-center justify-center gap-4 py-8">
+                <span class="text-gray-500 text-lg">No hay registros</span>
+                <BaseButton color="info" :icon="mdiPlus" label="Agregar" title="Agregar medicación"
+                    :routeName="`${routeName}create`" />
+            </div>
+    </CardBox>
     
 </template>
 

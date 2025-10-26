@@ -38,6 +38,13 @@
         :from="permissions.meta.from" />
     </CardBox>
     
+    <CardBox v-else class="mt-2">
+        <div class="flex items-center justify-center gap-4 py-8">
+                <span class="text-gray-500 text-lg">No hay registros</span>
+                <BaseButton color="info" :icon="mdiPlus" label="Agregar" title="Agregar recomendación"
+                    :routeName="`${routeName}create`" />
+            </div>
+    </CardBox>
 </template>
 
 <script setup>

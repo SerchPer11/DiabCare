@@ -77,7 +77,7 @@ class AppointmentController extends Controller
         ];
         
         return Inertia::render("{$this->source}Create", [
-            'title'           => 'Agregar Cita',
+            'title'           => 'Citas',
             'routeName'       => $this->routeName,
             'statusList'      => $statusList,
             'doctors'         => $doctors,
@@ -110,7 +110,7 @@ class AppointmentController extends Controller
         ];
         
         return Inertia::render("{$this->source}Edit", [
-            'title'           => 'Editar Cita',
+            'title'           => 'Citas',
             'routeName'       => $this->routeName,
             'appointment'     => $appointment,
             'statusList'      => $statusList,
