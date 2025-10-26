@@ -11,6 +11,7 @@ import {
     mdiGymnastics,
     mdiClipboardTextClock,
     mdiFoodApple,
+    mdiHandHeart,
 } from '@mdi/js';
 
 const navigation = [
@@ -93,6 +94,20 @@ const navigation = [
         icon: mdiClipboardTextClock,
         permission: 'doctor.appointments.index',
         roles: ['doctor']*/
+    },
+    {
+        type: 'single',
+        title: "Citas Médicas",
+        route: 'doctor.appointments.index',
+        icon: mdiClipboardTextClock,
+        permission: 'doctor.appointments.index',
+    },
+    {
+        type: 'single',
+        title: "Recomendaciones",
+        route: 'doctor.recomendations.index',
+        icon: mdiHandHeart,
+        permission: 'doctor.recomendations.index',
     },
 
     // Paciente

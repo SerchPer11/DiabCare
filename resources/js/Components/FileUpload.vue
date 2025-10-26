@@ -3,8 +3,6 @@
         <template #heading>
             <div class="flex justify-between">
                 <div class="flex flex-row items-center gap-2">
-                    <BaseIcon class="p-2 rounded-lg" size="24" h="w-10" w="w-10" :path="mdiFileDocumentOutline"
-                        :class="iconClasses" />
 
                     <div>
                         <h3 class="text-base text-forest-400 font-semibold">{{ title }}</h3>

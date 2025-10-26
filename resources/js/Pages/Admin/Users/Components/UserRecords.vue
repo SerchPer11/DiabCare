@@ -42,6 +42,14 @@
         <Pagination v-if="users?.meta" :links="users.meta.links" :total="users.meta.total" :to="users.meta.to"
         :from="users.meta.from" />
     </CardBox>
+
+    <CardBox v-else class="mt-2">
+        <div class="flex items-center justify-center gap-4 py-8">
+                <span class="text-gray-500 text-lg">No hay registros</span>
+                <BaseButton color="info" :icon="mdiPlus" label="Agregar" title="Agregar recomendación"
+                    :routeName="`${routeName}create`" />
+            </div>
+    </CardBox>
     
 </template>
 

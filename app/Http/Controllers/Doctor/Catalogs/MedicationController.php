@@ -86,7 +86,7 @@ class MedicationController extends Controller
             'types'        => MedicationType::all(),
             'presentations' => MedicationPresentation::all(),
             'administrations' => MedicationAdministration::all(),
-            'units'         => Unit::all(),
+            'units'         => Unit::where('type', 'med')->orWhere('type', 'stnd')->get(),
             'routeName'     => $this->routeName,
         ]);
     }
@@ -112,7 +112,7 @@ class MedicationController extends Controller
             'types'        => MedicationType::all(),
             'presentations' => MedicationPresentation::all(),
             'administrations' => MedicationAdministration::all(),
-            'units'         => Unit::all(),
+            'units'         => Unit::where('type', 'med')->orWhere('type', 'stnd')->get(),
             'medication'    => new MedicationResource($medication),
             'routeName'     => $this->routeName,
         ]);

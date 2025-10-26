@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('title');
+            $table->text('description');
             $table->string('filename');
             $table->string('path');
             $table->unsignedBigInteger('size');
             $table->string('mime_type');
             $table->foreignId('file_type_id')->nullable()->constrained()->onDelete('set null');
             $table->morphs('fileable');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
