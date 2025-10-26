@@ -100,10 +100,12 @@ const profileRouteName = computed(() => {
 <template>
     <Sidebar>
         <SidebarHeader class="bg-medic-50">
-            <div class="flex items-center justify-between gap-2 p-3 rounded-lg">
+            <Link :href="route('home')"
+             class="flex items-center justify-between gap-2 p-3 rounded-lg
+             hover:bg-medic-100 transition-colors duration-200">
                 <SidebarGroupLabel class="text-xl text-medic-700 font-semibold">DiabCare</SidebarGroupLabel>
                 <Icon :path="mdiHeartPulse" class="h-6 w-6 text-medic-700 mr-4" />
-            </div>
+            </Link>
         </SidebarHeader>
 
         <SidebarContent class="bg-medic-50">
