@@ -21,12 +21,15 @@ class Medications extends Seeder
         DB::transaction(function () {
             // --- Creación de Unidades ---
             $units = [
-                ['name' => 'Miligramos', 'abbreviation' => 'mg'],
-                ['name' => 'Gramos', 'abbreviation' => 'g'],
-                ['name' => 'Mililitros', 'abbreviation' => 'ml'],
-                ['name' => 'Gota', 'abbreviation' => 'gta'],
-                ['name' => 'Unidad', 'abbreviation' => 'u'],
-                ['name' => 'Pieza', 'abbreviation' => 'pz']
+                ['name' => 'Miligramos', 'abbreviation' => 'mg', 'type' => 'med'],
+                ['name' => 'Gramos', 'abbreviation' => 'g', 'type' => 'stnd'],
+                ['name' => 'Mililitros', 'abbreviation' => 'ml', 'type' => 'med'],
+                ['name' => 'Gota', 'abbreviation' => 'gta', 'type' => 'med'],
+                ['name' => 'Unidad', 'abbreviation' => 'u', 'type' => 'med'],
+                ['name' => 'Pieza', 'abbreviation' => 'pz', 'type' => 'stnd'],
+                ['name' => 'Taza', 'abbreviation' => 'pz', 'type' => 'food'],
+                ['name' => 'Cucharada', 'abbreviation' => 'cda', 'type' => 'food'],
+                ['name' => 'Cucharadita', 'abbreviation' => 'cdta', 'type' => 'food'],
             ];
             foreach ($units as $unit) {
                 Unit::create($unit);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Doctor\Catalogs\ExerciseController;
 use App\Http\Controllers\Patient\MedicalHistoryController;
 use App\Http\Controllers\Patient\PatientProfileController;
 use App\Http\Controllers\Doctor\DoctorProfileController;
+use App\Http\Controllers\Doctor\Catalogs\FoodController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\RoleController;
@@ -53,8 +54,10 @@ Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
         Route::put('/profile', [DoctorProfileController::class, 'update'])->name('profile.update');
         //Rutas para gestión de doctores
 
+        //rutas para gestión de catálogos
         Route::resource('catalogs/medications', MedicationController::class)->names('catalogs.medications');
         Route::resource('catalogs/exercises', ExerciseController::class)->names('catalogs.exercises');
+        Route::resource('catalogs/foods', FoodController::class)->names('catalogs.foods');
 
         //Rutas para gestión de citas médicas
         Route::resource('appointments', AppointmentController::class)->names('appointments');

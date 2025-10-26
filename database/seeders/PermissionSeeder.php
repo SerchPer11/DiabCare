@@ -56,9 +56,18 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'doctor.catalogs.exercises.edit', 'guard_name' => 'web', 'description' => 'Editar ejercicios', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.catalogs.exercises.delete', 'guard_name' => 'web', 'description' => 'Eliminar ejercicios', 'module_key' => 'doctor']);
 
+        Permission::create(['name' => 'doctor.catalogs.foods.index', 'guard_name' => 'web', 'description' => 'Ver alimentos', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.catalogs.foods.create', 'guard_name' => 'web', 'description' => 'Crear alimentos', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.catalogs.foods.edit', 'guard_name' => 'web', 'description' => 'Editar alimentos', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.catalogs.foods.delete', 'guard_name' => 'web', 'description' => 'Eliminar alimentos', 'module_key' => 'doctor']);
+
+        // citas médicas
         Permission::create(['name' => 'doctor.appointments.index', 'guard_name' => 'web', 'description' => 'Ver citas médicas', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.appointments.create', 'guard_name' => 'web', 'description' => 'Crear citas médicas', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.appointments.edit', 'guard_name' => 'web', 'description' => 'Editar citas médicas', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.appointments.delete', 'guard_name' => 'web', 'description' => 'Eliminar citas médicas', 'module_key' => 'doctor']);
+
+        
+
     }
 }
