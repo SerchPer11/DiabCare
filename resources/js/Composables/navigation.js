@@ -9,7 +9,8 @@ import {
     mdiMedicalBag,
     mdiMedication,
     mdiGymnastics,
-    mdiClipboardTextClock
+    mdiClipboardTextClock,
+    mdiFoodApple,
 } from '@mdi/js';
 
 const navigation = [
@@ -78,6 +79,12 @@ const navigation = [
                 route: 'doctor.catalogs.medications.index',
                 icon: mdiMedication,
                 permission: 'doctor.catalogs.medications.index',
+            },
+            {
+                title: "Alimentos",
+                route: 'doctor.catalogs.foods.index',
+                icon: mdiFoodApple,
+                permission: 'doctor.catalogs.foods.index',
             },
         ], 
         /*type: 'single',

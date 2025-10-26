@@ -5,22 +5,21 @@ namespace App\Models\Admin\Catalogs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\Doctor\Catalogs\Medication;
+use App\Models\Doctor\Catalogs\Food;
 
-class Unit extends Model
+class FoodGroup extends Model
 {
-    use HasFactory;
-
-    protected $table = 'units';
+    use HasFactory, SoftDeletes;
+    
+    protected $table = 'food_groups';
 
     protected $fillable = [
         'name',
-        'abbreviation',
-        'type',
+        'description',
     ];
 
-    public function medications()
+    public function foods()
     {
-        return $this->hasMany(Medication::class);
+        return $this->hasMany(Food::class, 'food_group_id');
     }
 }
