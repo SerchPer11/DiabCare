@@ -1,7 +1,7 @@
 <template>
     <AuthenticatedLayout>
         <CrudHead :title="title" />
-        <CrudBanner :title="title" :routeName="routeName" :icon="mdiViewModule" />
+        <CrudBanner :title="title" :routeName="routeName" :icon="mdiViewModule" main />
 
         <ModuleForm />
 

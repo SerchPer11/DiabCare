@@ -1,7 +1,7 @@
 <template>
     <AuthenticatedLayout>
         <CrudHead :title="title" />
-        <CrudBanner :title="title" :routeName="routeName" :icon="mdiCalendar" />
+        <CrudBanner :title="title" :routeName="routeName" :icon="mdiCalendar" main />
 
         <AppointmentForm />
 

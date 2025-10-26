@@ -1,7 +1,7 @@
 <template>
     <AuthenticatedLayout>
         <CrudHead :title="title" />
-        <CrudBanner :title="title" :routeName="routeName" :icon="mdiDumbbell" />
+        <CrudBanner :title="title" :routeName="routeName" :icon="mdiDumbbell" main/>
 
         <ExerciseForm />
 

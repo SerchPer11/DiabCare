@@ -4,7 +4,7 @@
 
         <IndexBanner :title="title" :icon="mdiViewModule" :routeName="routeName" main @apply-filters="applyFilters"
             @clear-filters="clearFilters" v-model:search="filters.search" v-model:rows="filters.rows"
-            :total="modules?.meta?.total || 0" />
+            :total="modules?.meta?.total || 0"  />
 
         <ModuleRecords :modules="modules" :routeName="routeName" />
     </AuthenticatedLayout>
