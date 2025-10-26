@@ -158,6 +158,13 @@ class RecomendationController extends Controller
 
     public function destroy(Recomendation $recomendation)
     {
-        //
+        DB::Transaction(function () use ($recomendation) {
+            $this->photoService->deletePhotos($recomendation->photos, $this->configPhotos->disk,true);
+            $this->fileService->deleteFiles($recomendation->files, $this->configFiles->disk,true);
+            $recomendation->delete();
+        });
+
+        return redirect()->route($this->routeName . 'index')
+            ->with('success', 'Recomendación eliminada correctamente.');
     }
 }
