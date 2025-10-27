@@ -12,6 +12,7 @@ use Database\Seeders\ExerciseTypeSeeder;
 use Database\Seeders\ExerciseSeeder;
 use Database\Seeders\Catalogs\FoodSeeder;
 use Database\Seeders\Doctor\RecomendationSeeder;
+use Database\Seeders\Patient\MeasureSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
             AppointmentSeeder::class,
             FoodSeeder::class,
             RecomendationSeeder::class,
+            MeasureSeeder::class,
         ]);
     }
 }

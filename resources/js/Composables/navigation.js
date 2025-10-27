@@ -12,6 +12,7 @@ import {
     mdiClipboardTextClock,
     mdiFoodApple,
     mdiHandHeart,
+    mdiClipboardPulse,
 } from '@mdi/js';
 
 const navigation = [
@@ -116,7 +117,14 @@ const navigation = [
         title: "Historial Médico",
         route: 'patient.medical-history.index',
         icon: mdiClipboardTextClock,
-        roles: ['patient']
+        permission: 'patient.medical-history.index',
+    },
+    {
+        type: 'single',
+        title: "Mediciones",
+        route: 'measures.index',
+        icon: mdiClipboardPulse,
+        permission: 'measures.index',
     },
 ];
 
