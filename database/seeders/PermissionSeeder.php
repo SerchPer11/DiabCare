@@ -73,7 +73,16 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'doctor.recomendations.edit', 'guard_name' => 'web', 'description' => 'Editar recomendaciones médicas', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.recomendations.delete', 'guard_name' => 'web', 'description' => 'Eliminar recomendaciones médicas', 'module_key' => 'doctor']);
 
-        
+        // mediciones del paciente
+        Permission::create(['name' => 'patient.medical-history.index', 'guard_name' => 'web', 'description' => 'Ver historial médico', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.medical-history.create', 'guard_name' => 'web', 'description' => 'Crear historial médico', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.medical-history.edit', 'guard_name' => 'web', 'description' => 'Editar historial médico', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.medical-history.delete', 'guard_name' => 'web', 'description' => 'Eliminar historial médico', 'module_key' => 'patient']);
+
+        Permission::create(['name' => 'measures.index', 'guard_name' => 'web', 'description' => 'Ver mediciones', 'module_key' => 'patient']);
+        Permission::create(['name' => 'measures.create', 'guard_name' => 'web', 'description' => 'Crear mediciones', 'module_key' => 'patient']);
+        Permission::create(['name' => 'measures.edit', 'guard_name' => 'web', 'description' => 'Editar mediciones', 'module_key' => 'patient']);
+        Permission::create(['name' => 'measures.delete', 'guard_name' => 'web', 'description' => 'Eliminar mediciones', 'module_key' => 'patient']);
 
     }
 }

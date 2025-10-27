@@ -9,10 +9,11 @@ use App\Http\Controllers\Doctor\DoctorProfileController;
 use App\Http\Controllers\Doctor\Catalogs\FoodController;
 use App\Http\Controllers\Doctor\RecomendationController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Patient\MeasureController;
 use App\Http\Controllers\Admin\ModuleController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\FileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,8 @@ Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
         Route::get('medical-history', [MedicalHistoryController::class, 'index'])->name('medical-history.index');
         Route::put('medical-history', [MedicalHistoryController::class, 'update'])->name('medical-history.update');
     });
+
+    Route::resource('measures', MeasureController::class)->names('measures');
     
 });
 
