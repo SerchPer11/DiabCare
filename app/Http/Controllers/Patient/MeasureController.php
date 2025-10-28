@@ -64,7 +64,7 @@ class MeasureController extends Controller
 
         return Inertia::render("{$this->source}Index", [
             'measures' => MeasureResource::collection($measures),
-            'title'           => 'Gestión de mediciones',
+            'title'           => 'Mediciones',
             'routeName'       => $this->routeName,
             'filters'         => $filters
         ]);
@@ -102,7 +102,7 @@ class MeasureController extends Controller
         }
 
         return Inertia::render("{$this->source}Create", [
-            'title'       => 'Medición',
+            'title'       => 'Mediciónes',
             'routeName'   => $this->routeName,
             'patients'    => User::role('patient')->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])->get(),
             'types'       => MeasureType::all(),
@@ -181,7 +181,7 @@ class MeasureController extends Controller
         $measure->load('measureConfig');
 
         return Inertia::render("{$this->source}Edit", [
-            'title'       => 'Medición',
+            'title'       => 'Mediciónes',
             'routeName'   => $this->routeName,
             'patients'    => User::role('patient')->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])->get(),
             'types'       => MeasureType::all(),

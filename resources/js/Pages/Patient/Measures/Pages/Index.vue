@@ -2,7 +2,7 @@
     <AuthenticatedLayout>
         <CrudHead :title="title" />
 
-        <IndexBanner :title="title" :icon="mdiHandHeart" :routeName="routeName" main @apply-filters="applyFilters"
+        <IndexBanner :title="title" :icon="mdiClipboardPulse" :routeName="routeName" main @apply-filters="applyFilters"
             @clear-filters="clearFilters" v-model:search="filters.search" v-model:rows="filters.rows"
             :total="measures?.meta?.total || 0" />
 
@@ -16,7 +16,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import IndexBanner from '@/Components/IndexBanner.vue';
 import CrudHead from '@/Components/CrudHead.vue';
 import { useFilters } from '@/Hooks/useFilters';
-import { mdiHandHeart } from '@mdi/js';
+import { mdiClipboardPulse } from '@mdi/js';
 import MeasureRecords from '../Components/MeasureRecords.vue';
 
 
