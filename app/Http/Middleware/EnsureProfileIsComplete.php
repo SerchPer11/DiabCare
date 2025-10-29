@@ -19,6 +19,9 @@ class EnsureProfileIsComplete
         'doctor.profile.update',   // La ruta que guarda el perfil
         'patient.profile.show',
         'patient.profile.update',
+
+        'patient.medical-history.index',
+        'patient.medical-history.update',
     ];
     
     public function handle(Request $request, Closure $next): Response

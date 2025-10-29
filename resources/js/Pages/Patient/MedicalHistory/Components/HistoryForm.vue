@@ -5,8 +5,22 @@
                 class="p-1 rounded-lg text-medic-500 bg-medic-50" />
             <Label class="text-md text-gray-700">Selecciona las opciones que apliquen:</Label>
         </div>
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mr-2">
+            <BaseFormField type="switch" label="¿Tiene Obesidad?" v-model="form.obesity" :error="form.errors.obesity"
+                disabled />
 
-        <div class="grid grid-cols-1 md:grid-col-1 lg:grid-cols-3 gap-4 mr-2">
+            <BaseFormField type="select" label="Tipo de Obesidad" v-model="form.obesity_type"
+                :error="form.errors.obesity_type" placeholder="Usted no tiene obesidad" :options="obesityTypes" disabled
+                valueSelect="value" />
+
+            <BaseFormField type="switch" label="¿Tiene Alergias?" v-model="form.allergies"
+                :error="form.errors.allergies" />
+
+            <BaseFormField type="textarea" label="Tipo de Alergias" v-model="form.allergies_details"
+                :error="form.errors.allergies_details" placeholder="Descripción de las alergias" h="h-24"
+                :maxLength="200" />
+        </div>
+        <div class="grid grid-cols-1 md:grid-col-1 lg:grid-cols-3 gap-4 mt-4 mr-2">
             <BaseFormField type="switch" label="¿Tiene diabetes?" v-model="form.diabetes"
                 :error="form.errors.diabetes" />
 
@@ -26,21 +40,6 @@
 
             <BaseFormField type="date" label="Fecha de diagnóstico " v-model="form.hypertension_diagnosis_date"
                 :error="form.errors.hypertension_diagnosis_date" placeholder="Ingrese su fecha de diagnóstico" />
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-4 mr-2">
-            <BaseFormField type="switch" label="¿Tiene Obesidad?" v-model="form.obesity" :error="form.errors.obesity"
-                disabled />
-
-            <BaseFormField type="select" label="Tipo de Obesidad" v-model="form.obesity_type"
-                :error="form.errors.obesity_type" placeholder="Usted no tiene obesidad" :options="obesityTypes"
-                disabled valueSelect="value" />
-
-            <BaseFormField type="switch" label="¿Tiene Alergias?" v-model="form.allergies"
-                :error="form.errors.allergies" />
-
-            <BaseFormField type="textarea" label="Tipo de Alergias" v-model="form.allergies_details"
-                :error="form.errors.allergies_details" placeholder="Descripción de las alergias" h="h-24"
-                :maxLength="200" />
         </div>
     </CardBox>
 </template>

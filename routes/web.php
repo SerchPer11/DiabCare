@@ -33,7 +33,7 @@ Route::get('/home', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', 'ensure.profile.complete'])->name('dashboard');
+})->middleware(['auth', 'verified', 'ensure.profile.complete', 'ensure.medical.history.complete'])->name('dashboard');
 
 // Ruta temporal para probar colores
 Route::get('/test-colors', function () {
@@ -42,7 +42,7 @@ Route::get('/test-colors', function () {
 
 Route::get('file/serve/{file}', [FileController::class, 'serveFile'])->name('file.serve')->middleware('signed');
 
-Route::middleware([ 'auth', 'ensure.profile.complete'])->group(function () {
+Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.complete'])->group(function () {
     //Administración de pacientes
     Route::resource('security/modules', ModuleController::class)->names('modules');
     Route::resource('security/permissions', PermissionController::class)->names('permissions');
