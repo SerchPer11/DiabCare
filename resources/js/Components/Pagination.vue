@@ -26,7 +26,7 @@
             </ul>
         </div>
 
-        <div class="order-1 text-sm text-gray-600 dark:text-gray-400">
+        <div class="order-1 text-sm text-gray-600">
             <span v-if="total > 0">
                 Mostrando del {{ from }} al {{ to }} de un total de
                 {{ total }} {{ typeRecords }}

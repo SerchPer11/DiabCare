@@ -43,7 +43,7 @@ const componentClass = computed(() => {
     props.padding,
     props.rounded,
     props.flex,
-    props.isModal ? "dark:bg-slate-900" : "dark:bg-slate-900/70",
+    props.isModal ? "" : "",
   ];
 
   if (props.isHoverable) {
@@ -51,7 +51,7 @@ const componentClass = computed(() => {
   }
 
   if (props.hasBorder) {
-    base.push("border-2 border-medic-200/60 dark:border-gray-700 shadow-md");
+    base.push("border-2 border-medic-200/60 shadow-md");
   }
 
   return base;

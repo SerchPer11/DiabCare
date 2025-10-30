@@ -17,7 +17,7 @@
           <div class="relative w-full sm:w-100">
             <BaseFormField v-model="search" type="input" label="Buscar..." placeholder="Ingresa un parámetro..."
               :maxLength="100" />
-            <BaseButton color="whiteDark" :icon="mdiMagnify" small class="absolute top-10 right-0" />
+            <BaseButton color="white" :icon="mdiMagnify" small class="absolute top-10 right-0 mr-1" />
           </div>
         </div>
 

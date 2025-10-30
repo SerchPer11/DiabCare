@@ -8,7 +8,7 @@ defineProps({
   },
   class: {
     type: String,
-    default: 'bg-medic-50 dark:bg-slate-800 text-medic-500',
+    default: 'bg-medic-50 text-medic-500',
   },
   w: {
     type: String,
