@@ -6,7 +6,6 @@ import ThemeToggleGroup from '@/Components/ThemeToggleGroup.vue';
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4">
     <div class="absolute bottom-4 left-4">
-      <ThemeToggleGroup />
     </div>
     <slot />
   </div>

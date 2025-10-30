@@ -4,6 +4,7 @@ import animate from 'tailwindcss-animate';
 
 /** @type {import('tailwindcss').Config} */
 export default {
+	darkMode: false,
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
@@ -20,12 +21,8 @@ export default {
         'ring-medic-100', 'ring-medic-400',
         'hover:bg-medic-100', 'hover:bg-medic-400',
         'hover:border-medic-400', 'hover:text-white',
-        'dark:bg-blue-500', 'dark:bg-blue-600', 'dark:bg-blue-700',
-        'dark:border-blue-500', 'dark:border-blue-600', 'dark:border-blue-700',
-        'dark:ring-blue-700', 'dark:text-blue-500',
     ],
 
-    darkMode: 'class',
     
     theme: {
     	extend: {
