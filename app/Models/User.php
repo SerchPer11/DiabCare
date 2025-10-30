@@ -54,6 +54,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /**
+     * Get the owning profileable model.
+     */
 
     public function profileable(): MorphTo
     {

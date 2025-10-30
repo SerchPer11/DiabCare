@@ -16,16 +16,19 @@ class UserController extends Controller
 {
     use Filterable;
 
+    // User management
     protected $routeName;
     protected $source;
     protected $model;
 
     public function __construct()
     {
+        // Initialize properties
         $this->routeName = 'users.';
         $this->source = 'Admin/Users/Pages/';
         $this->model = new User();
 
+        // Set middleware for specific routes
         $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
         $this->middleware("permission:{$this->routeName}create")->only(['store', 'create']);
         $this->middleware("permission:{$this->routeName}edit")->only(['edit', 'update']);
@@ -34,6 +37,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
+        // Get filters and query users
         $filters = $this->getFiltersBase($request->query());
         $query = $this->model->with('roles')->when($filters->search, function ($query, $search) {
                 $query->where('name', 'LIKE', '%' . $search . '%')
@@ -57,6 +61,7 @@ class UserController extends Controller
 
     public function create()
     {
+        // Render create page
         return Inertia::render("{$this->source}Create", [
             'title'       => 'Usuaios',
             'routeName'   => $this->routeName,
@@ -66,6 +71,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+        // Create user and sync roles
         $user = $this->model::create($request->validated());
         $user->syncRoles($request->roles);
         return redirect()->route("{$this->routeName}index")->with('success', 'Usuario creado con éxito');
@@ -73,6 +79,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        // Render edit page
         $user->load('roles');
         return Inertia::render("{$this->source}Edit", [
             'title'       => 'Usuarios',
@@ -84,6 +91,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user)
     {
+        // Update user and sync roles
         $data = $request->validated();
 
         if (!$request->filled('password')) {
@@ -97,6 +105,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        // Delete user
         $user->delete();
         return redirect()->route("{$this->routeName}index")->with('success', 'Usuario eliminado con éxito');
     }
