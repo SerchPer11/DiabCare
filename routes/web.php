@@ -17,6 +17,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Doctor\DoctorSurveyController;
+use App\Http\Controllers\Patient\PatientSurveyController;
 use Inertia\Inertia;
 
 
@@ -32,7 +36,23 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $user = Auth::user();
+    $data = [];
+    
+    // Si es doctor, cargar estadísticas de encuestas
+    if ($user->hasRole('doctor')) {
+        $surveys = \App\Models\Survey::where('created_by', $user->id);
+        $data['stats'] = [
+            'total' => $surveys->count(),
+            'active' => $surveys->where('is_active', true)->count(),
+            'inactive' => $surveys->where('is_active', false)->count(),
+            'total_responses' => \App\Models\SurveyResponse::whereIn('survey_id', 
+                $surveys->pluck('id'))->count(),
+            'average_response_rate' => 0, // Calcular después si es necesario
+        ];
+    }
+    
+    return Inertia::render('Dashboard', $data);
 })->middleware(['auth', 'verified', 'ensure.profile.complete', 'ensure.medical.history.complete'])->name('dashboard');
 
 // Ruta temporal para probar colores
@@ -43,6 +63,24 @@ Route::get('/test-colors', function () {
 Route::get('file/serve/{file}', [FileController::class, 'serveFile'])->name('file.serve')->middleware('signed');
 
 Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.complete'])->group(function () {
+    
+    // Doctor Survey routes
+    Route::prefix('doctor')->name('doctor.')->group(function () {
+        Route::resource('surveys', DoctorSurveyController::class);
+        Route::patch('surveys/{survey}/toggle-status', [DoctorSurveyController::class, 'toggleStatus'])->name('surveys.toggle-status');
+        Route::get('surveys/{survey}/results', [DoctorSurveyController::class, 'showResults'])->name('surveys.show-results');
+        Route::get('survey-results', [DoctorSurveyController::class, 'results'])->name('surveys.results');
+    });
+
+    // Patient Survey routes
+    Route::prefix('patient')->name('patient.')->group(function () {
+        Route::get('surveys', [PatientSurveyController::class, 'index'])->name('surveys.index');
+        Route::get('surveys/{survey}/answer', [PatientSurveyController::class, 'show'])->name('surveys.answer');
+        Route::post('surveys/{survey}/save-progress', [PatientSurveyController::class, 'saveProgress'])->name('surveys.save-progress');
+        Route::post('surveys/{survey}/submit', [PatientSurveyController::class, 'submitResponse'])->name('surveys.submit');
+        Route::get('my-survey-responses', [PatientSurveyController::class, 'myResponses'])->name('surveys.my-responses');
+        Route::get('survey-response/{response}', [PatientSurveyController::class, 'showResponse'])->name('surveys.show-response');
+    });
     //Administración de pacientes
     Route::resource('security/modules', ModuleController::class)->names('modules');
     Route::resource('security/permissions', PermissionController::class)->names('permissions');
