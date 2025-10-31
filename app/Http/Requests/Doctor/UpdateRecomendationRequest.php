@@ -47,6 +47,13 @@ class UpdateRecomendationRequest extends FormRequest
         );
     }
 
+    public function messages(): array
+    {
+        return [
+            'end_date.after_or_equal' => 'La fecha de finalización debe ser igual o posterior a la fecha de inicio',
+        ];
+    }
+
     public function attributes(): array
     {
         return array_merge(

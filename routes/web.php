@@ -8,8 +8,10 @@ use App\Http\Controllers\Patient\PatientProfileController;
 use App\Http\Controllers\Doctor\DoctorProfileController;
 use App\Http\Controllers\Doctor\Catalogs\FoodController;
 use App\Http\Controllers\Doctor\RecomendationController;
+use App\Http\Controllers\Patient\ClinicalLogController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Patient\MeasureController;
+use App\Http\Controllers\Doctor\PatientsController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Admin\RoleController;
@@ -22,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Doctor\DoctorSurveyController;
 use App\Http\Controllers\Patient\PatientSurveyController;
 use Inertia\Inertia;
+use App\Models\User;
 
 
 
@@ -36,7 +39,7 @@ Route::get('/home', function () {
 })->name('home');
 
 Route::get('/dashboard', function () {
-    $user = Auth::user();
+    $user = User::where('id', Auth::id())->first();
     $data = [];
     
     // Si es doctor, cargar estadísticas de encuestas
@@ -105,7 +108,10 @@ Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.c
         //Rutas para gestión de citas médicas
         Route::resource('appointments', AppointmentController::class)->names('appointments');
         Route::resource('recomendations', RecomendationController::class)->names('recomendations');
+
     });
+    //vista de pacientes
+        Route::resource('patients', PatientsController::class)->names('patients');
 
     Route::prefix('patient')->name('patient.')->group(function () {
         //Rutas para gestión de perfil de paciente
@@ -115,6 +121,7 @@ Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.c
         //Rutas para gestión de pacientes
         Route::get('medical-history', [MedicalHistoryController::class, 'index'])->name('medical-history.index');
         Route::put('medical-history', [MedicalHistoryController::class, 'update'])->name('medical-history.update');
+        Route::get('clinical-log/{patient}', [ClinicalLogController::class, 'show'])->name('clinical-log.show');
     });
 
     Route::resource('measures', MeasureController::class)->names('measures');

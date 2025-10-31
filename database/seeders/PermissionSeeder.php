@@ -91,6 +91,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'surveys.delete', 'guard_name' => 'web', 'description' => 'Eliminar encuestas', 'module_key' => 'doctor']);
         Permission::create(['name' => 'surveys.submit', 'guard_name' => 'web', 'description' => 'Responder encuestas', 'module_key' => 'patient']);
         Permission::create(['name' => 'surveys.results', 'guard_name' => 'web', 'description' => 'Ver resultados de encuestas', 'module_key' => 'doctor']);
+
+        //pactients
+        Permission::create(['name' => 'patients.index', 'guard_name' => 'web', 'description' => 'Ver pacientes', 'module_key' => 'doctor']);
+
+        //clinical log
+        Permission::create(['name' => 'clinical-log.index', 'guard_name' => 'web', 'description' => 'Ver seguimiento clínico', 'module_key' => 'activity-log']);
         
 
     }

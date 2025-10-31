@@ -10,11 +10,13 @@ use App\Models\AppointmentStatus;
 use App\Traits\Filterable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogClinicalActivity;
 use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
     use Filterable;
+    use LogClinicalActivity;
 
     protected $routeName;
     protected $source;
@@ -89,6 +91,12 @@ class AppointmentController extends Controller
     public function store(StoreAppointmentRequest $request)
     {
         $appointment = $this->model->create($request->validated());
+        $this->logActivity(
+            $appointment,
+            'Cita medica',
+            $appointment->patient_id,
+            $appointment->doctor_id
+        );
         return redirect()->route($this->routeName . 'index')
             ->with('success', 'Cita creada correctamente.');
     }

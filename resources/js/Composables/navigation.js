@@ -13,6 +13,7 @@ import {
     mdiFoodApple,
     mdiHandHeart,
     mdiClipboardPulse,
+    mdiAccountInjury
 } from '@mdi/js';
 
 const navigation = [
@@ -158,7 +159,13 @@ const navigation = [
             },
         ]
     },
-
+    {
+        type: 'single',
+        title: "Pacientes",
+        route: 'patients.index',
+        icon: mdiAccountInjury,
+        permission: 'patients.index',
+    },
     // Paciente
     {
         type: 'single',

@@ -29,7 +29,7 @@ const props = defineProps({
 const actionTranslations = {
   'create': 'Crear',
   'edit': 'Editar',
-  'show': 'Ver Detalle',
+  'show': 'Ver detalles',
 };
 
 const generatedLinks = computed(() => {
