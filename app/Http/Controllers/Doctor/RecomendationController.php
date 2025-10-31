@@ -17,11 +17,13 @@ use App\DTOs\PhotoStorageConfig;
 use App\Services\PhotoService;
 use App\Services\FileService;
 use App\DTOs\FileStorageConfig;
+use App\Traits\LogClinicalActivity;
 use LaravelLang\Publisher\Console\Update;
 
 class RecomendationController extends Controller
 {
     use Filterable;
+    use LogClinicalActivity;
 
     protected $routeName;
     protected $source;
@@ -90,7 +92,7 @@ class RecomendationController extends Controller
         $patients = User::role('patient')
             ->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])
             ->get();
-        
+
         return Inertia::render("{$this->source}Create", [
             'title'           => 'Recomendaciones',
             'routeName'       => $this->routeName,
@@ -110,6 +112,12 @@ class RecomendationController extends Controller
             $recomendation = Recomendation::create($validated);
             $this->photoService->storePhotos($recomendation, $validated['photos'] ?? [], $this->configPhotos);
             $this->fileService->storeFiles($recomendation,  $validated['files'] ?? [], $this->configFiles);
+            $this->logActivity(
+                $recomendation,
+                'Recomendación medica',
+                $recomendation->patient_id,
+                $recomendation->doctor_id
+            );
         });
 
         return redirect()->route($this->routeName . 'index')
@@ -129,7 +137,7 @@ class RecomendationController extends Controller
         $patients = User::role('patient')
             ->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])
             ->get();
-        
+
         return Inertia::render("{$this->source}Edit", [
             'title'           => 'Recomendaciones',
             'routeName'       => $this->routeName,
@@ -159,8 +167,8 @@ class RecomendationController extends Controller
     public function destroy(Recomendation $recomendation)
     {
         DB::Transaction(function () use ($recomendation) {
-            $this->photoService->deletePhotos($recomendation->photos, $this->configPhotos->disk,true);
-            $this->fileService->deleteFiles($recomendation->files, $this->configFiles->disk,true);
+            $this->photoService->deletePhotos($recomendation->photos, $this->configPhotos->disk, true);
+            $this->fileService->deleteFiles($recomendation->files, $this->configFiles->disk, true);
             $recomendation->delete();
         });
 

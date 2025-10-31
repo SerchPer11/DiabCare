@@ -43,5 +43,19 @@ class ModuleSeeder extends Seeder
             'key' => 'doctor',
             'user_id' => 1,
         ]);
+
+        Module::create([
+            'name' => 'Módulo de seguimiento clínico',
+            'description' => 'Módulo para la gestión del seguimiento clínico de los pacientes',
+            'key' => 'activity-log',
+            'user_id' => 1,
+        ]);
+
+        Module::create([
+            'name' => 'Módulo de encuestas',
+            'description' => 'Módulo para la gestión de encuestas',
+            'key' => 'surveys',
+            'user_id' => 1,
+        ]);
     }
 }

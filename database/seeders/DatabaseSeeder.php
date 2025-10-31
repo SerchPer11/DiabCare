@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Doctor\Catalogs\Medication;
+use App\Models\Patient\ClinicalLog;
 use Database\Seeders\Catalogs\Medications;
 use Database\Seeders\Doctor\SpecialtySeeder;
 use Database\Seeders\ExerciseTypeSeeder;
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
             FoodSeeder::class,
             RecomendationSeeder::class,
             MeasureSeeder::class,
+            ClinicalLogSeeder::class,
         ]);
     }
 }
