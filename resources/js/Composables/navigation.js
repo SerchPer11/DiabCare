@@ -111,6 +111,54 @@ const navigation = [
         permission: 'doctor.recomendations.index',
     },
 
+    {
+        type: 'group',
+        title: "Encuestas",
+        icon: mdiClipboardTextClock,
+        permission: 'doctor.surveys.index',
+        roles: ['doctor'],
+        items: [
+            {
+                title: "Gestionar Encuestas",
+                route: 'doctor.surveys.index',
+                icon: mdiClipboardTextClock,
+                permission: 'doctor.surveys.index',
+                roles: ['doctor']
+            },
+            {
+                title: "Resultados",
+                route: 'doctor.surveys.results',
+                icon: mdiClipboardPulse,
+                permission: 'doctor.surveys.results',
+                roles: ['doctor']
+            },
+        ]
+    },
+
+    {
+        type: 'group',
+        title: "Encuestas",
+        icon: mdiClipboardTextClock,
+        permission: 'patient.surveys.index',
+        roles: ['patient'],
+        items: [
+            {
+                title: "Encuestas Disponibles",
+                route: 'patient.surveys.index',
+                icon: mdiClipboardTextClock,
+                permission: 'patient.surveys.index',
+                roles: ['patient']
+            },
+            {
+                title: "Mis Respuestas",
+                route: 'patient.surveys.my-responses',
+                icon: mdiClipboardPulse,
+                permission: 'patient.surveys.submit',
+                roles: ['patient']
+            },
+        ]
+    },
+
     // Paciente
     {
         type: 'single',
