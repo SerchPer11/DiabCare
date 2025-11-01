@@ -31,6 +31,7 @@ class UserSeeder extends Seeder
         $doctor= User::create([
             'name' => 'Dr. Juan',
             'last_name' => 'Pérez',
+            'second_last_name'=>'Sanchéz',
             'email' => 'doctor@gmail.com',
             'password' => bcrypt('12345678'),
             'phone' => '5555555555',
@@ -42,6 +43,7 @@ class UserSeeder extends Seeder
         $patient = User::create([
             'name' => 'María',
             'last_name' => 'González',
+            'second_last_name'=>'Hernández',
             'email' => 'paciente@gmail.com',
             'password' => bcrypt('12345678'),
             'phone' => '1111111111',

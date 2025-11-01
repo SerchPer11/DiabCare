@@ -18,6 +18,10 @@ const props = defineProps({
     label: String,
     error: String,
     placeholder: String,
+    nomLabel:{
+        type:Boolean,
+        default:false
+    },
     required: {
         type: Boolean,
         default: false,
@@ -77,7 +81,7 @@ const computedInputType = computed(() => {
 
 <template>
     <div class="space-y-2">
-        <Label v-if="type !== 'switch' && type !== 'checkbox'" :for="label"
+        <Label v-if="type !== 'switch' && type !== 'checkbox' && !nomLabel" :for="label"
             :class="[{ 'text-destructive': error }, 'text-md text-gray-700']">
             {{ label }}
             <span v-if="required" class="text-destructive"> *</span>
