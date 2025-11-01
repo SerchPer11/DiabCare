@@ -10,6 +10,7 @@ defineProps({
 
 const nav = [
   { label: 'Módulos', href: '#modules' },
+  { label: 'Foro', href: '/forum'}
 ]
 </script>
 
@@ -24,7 +25,7 @@ const nav = [
 
   <div class="min-h-screen bg-gradient-to-b from-medic-50 via-white to-medic-50 text-medic-800">
     <!-- Top bar -->
-    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-medic-100">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur border-b border-medic-100 shadow-md">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="h-16 flex items-center justify-between">
           <div class="flex items-center gap-3">

@@ -73,3 +73,20 @@ export function messageConfirm(message = "Esta acción no se puede revertir") {
         returnFocus: false,
     });
 }
+
+export function messageConfirmGood(message = "Se enviará la respuesta y no podrá ser cambiada") {
+    return Swal.fire({
+        title: "¿Está seguro?",
+        text: message,
+        icon: "warning",
+        customClass: {
+            icon: "swal-warning-icon"
+        },
+        showCancelButton: true,
+        cancelButtonText: cancelMessage,
+        cancelButtonColor: warningColor,
+        confirmButtonColor: cancelColor,
+        confirmButtonText: warningMessage,
+        returnFocus: false,
+    });
+}

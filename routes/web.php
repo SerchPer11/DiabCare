@@ -20,7 +20,8 @@ use App\Http\Controllers\FileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Forum\ForumController;
+use App\Http\Controllers\Forum\ForumAnswerController;
 use App\Http\Controllers\Doctor\DoctorSurveyController;
 use App\Http\Controllers\Patient\PatientSurveyController;
 use Inertia\Inertia;
@@ -41,7 +42,7 @@ Route::get('/home', function () {
 Route::get('/dashboard', function () {
     $user = User::where('id', Auth::id())->first();
     $data = [];
-    
+
     // Si es doctor, cargar estadísticas de encuestas
     if ($user->hasRole('doctor')) {
         $surveys = \App\Models\Survey::where('created_by', $user->id);
@@ -49,12 +50,14 @@ Route::get('/dashboard', function () {
             'total' => $surveys->count(),
             'active' => $surveys->where('is_active', true)->count(),
             'inactive' => $surveys->where('is_active', false)->count(),
-            'total_responses' => \App\Models\SurveyResponse::whereIn('survey_id', 
-                $surveys->pluck('id'))->count(),
+            'total_responses' => \App\Models\SurveyResponse::whereIn(
+                'survey_id',
+                $surveys->pluck('id')
+            )->count(),
             'average_response_rate' => 0, // Calcular después si es necesario
         ];
     }
-    
+
     return Inertia::render('Dashboard', $data);
 })->middleware(['auth', 'verified', 'ensure.profile.complete', 'ensure.medical.history.complete'])->name('dashboard');
 
@@ -65,8 +68,8 @@ Route::get('/test-colors', function () {
 
 Route::get('file/serve/{file}', [FileController::class, 'serveFile'])->name('file.serve')->middleware('signed');
 
-Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.complete'])->group(function () {
-    
+Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.complete'])->group(function () {
+
     // Doctor Survey routes
     Route::prefix('doctor')->name('doctor.')->group(function () {
         Route::resource('surveys', DoctorSurveyController::class);
@@ -90,9 +93,7 @@ Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.c
     Route::resource('security/roles', RoleController::class)->names('roles');
     Route::resource('administration/users', UserController::class)->names('users');
 
-    Route::prefix('catalogs')->name('catalogs.')->group(function () {
-        
-    });
+    Route::prefix('catalogs')->name('catalogs.')->group(function () {});
 
     Route::prefix('doctor')->name('doctor.')->group(function () {
         //Rutas para gestión de perfil de doctor
@@ -108,10 +109,9 @@ Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.c
         //Rutas para gestión de citas médicas
         Route::resource('appointments', AppointmentController::class)->names('appointments');
         Route::resource('recomendations', RecomendationController::class)->names('recomendations');
-
     });
     //vista de pacientes
-        Route::resource('patients', PatientsController::class)->names('patients');
+    Route::resource('patients', PatientsController::class)->names('patients');
 
     Route::prefix('patient')->name('patient.')->group(function () {
         //Rutas para gestión de perfil de paciente
@@ -125,9 +125,12 @@ Route::middleware([ 'auth', 'ensure.profile.complete', 'ensure.medical.history.c
     });
 
     Route::resource('measures', MeasureController::class)->names('measures');
-    
+
+    //forum
+    Route::resource('/forum', ForumController::class)->names('forum');
+    Route::resource('/forum/answers', ForumAnswerController::class)->names('forum.answers');
 });
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
