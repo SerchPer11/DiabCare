@@ -3,7 +3,8 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Button } from '@/Components/ui/button';
+import BaseButton from '@/Components/BaseButton.vue';
+import { mdiCheck, mdiLogin } from '@mdi/js';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
@@ -24,7 +25,6 @@ const submit = () => {
 <template>
   <GuestLayout>
     <Head title="Log in" />
-
     <Card class="w-full max-w-sm">
       <CardHeader>
         <CardTitle class="text-2xl">
@@ -62,9 +62,15 @@ const submit = () => {
                 ¿Olvidaste tu contraseña?
                 </Link>
             </div>
-            <Button type="submit" class="w-full hover:opacity-60 bg-blue-500 text-accent" :disabled="form.processing">
-              Acceder
-            </Button>
+            <BaseButton
+              type="submit"
+              color="info"
+              :icon="mdiLogin"
+              label="Acceder"
+              title="Acceder"
+              :disabled="form.processing"
+              :processing="form.processing"
+            />
           </div>
         </form>
         <div class="mt-4 text-center text-sm">
