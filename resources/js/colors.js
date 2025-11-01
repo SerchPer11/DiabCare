@@ -18,7 +18,7 @@ export const getButtonColor = (
     ring: {
       white: "ring-gray-200",
       whiteDark: "ring-gray-200",
-      lightDark: "ring-gray-200",
+      lightDark: "ring-medic-200",
       contrast: "ring-gray-300",
       success: "ring-success-400",
       danger: "ring-red-300",
@@ -28,7 +28,7 @@ export const getButtonColor = (
     active: {
       white: "bg-gray-100",
       whiteDark: "bg-gray-100",
-      lightDark: "bg-gray-200",
+      lightDark: "bg-medic-200",
       contrast: "bg-gray-700",
       success: "bg-success-400",
       danger: "bg-red-700",
@@ -38,7 +38,7 @@ export const getButtonColor = (
     bg: {
       white: "bg-white text-black",
       whiteDark: "bg-white text-black",
-      lightDark: "bg-transparent text-black",
+      lightDark: "bg-transparent text-medic-500",
       contrast: "bg-gray-800 text-white",
       success: "bg-success-400 text-white",
       danger: "bg-error-400  text-white",
@@ -58,7 +58,7 @@ export const getButtonColor = (
     borders: {
       white: "border-white",
       whiteDark: "border-white",
-      lightDark: "border-gray-300",
+      lightDark: "border-medic-300",
       contrast: "border-gray-800",
       success: "border-success-400",
       danger: "border-red-600",
@@ -68,7 +68,7 @@ export const getButtonColor = (
     text: {
       white: "text-black",
       whiteDark: "text-black",
-      lightDark: "text-black",
+      lightDark: "text-medic-500",
       contrast: "dark:text-slate-100",
       success: "text-success-300",
       danger: "text-red-600",
