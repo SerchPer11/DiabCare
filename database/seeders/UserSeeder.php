@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone' => '0987654321',
             'gender' => 'male',
+            'email_verified_at' => now(),
         ]);
         
         // Crear usuario Doctor
@@ -34,6 +35,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone' => '5555555555',
             'gender' => 'male',
+            'email_verified_at' => now(),
         ]);
 
         // Crear usuario Paciente
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone' => '1111111111',
             'gender' => 'female',
+            'email_verified_at' => now(),
         ]);
 
         
