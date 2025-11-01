@@ -8,11 +8,17 @@
 
             </div>
             <div>
-                <BaseButton :icon="mdiPencil" color="info" label="Ver detalle" :routeName="`doctor.recomendations.edit`"
-                    :parameter="clinicalLog.activity.id" class="ml-auto" />
+                <BaseButton v-if="userPrimaryRole !== 'patient'" :icon="mdiPencil" color="info" label="Ver detalle"
+                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity.id" class="ml-auto" />
+                <BaseButton v-if="userPrimaryRole === 'patient'" :icon="mdiEye" color="info" label="Ver detalle"
+                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity.id" class="ml-auto" />
             </div>
         </div>
-        <div class="m-6 ml-10 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="m-6 ml-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <div>
+                <p class="text-xs text-gray-400">Título</p>
+                <p class="text-gray-600">{{ clinicalLog.activity.title }}</p>
+            </div>
             <div>
                 <p class="text-xs text-gray-400">Prioridad</p>
                 <p class="text-gray-600">{{ priority[clinicalLog.activity.priority] }}</p>
@@ -36,8 +42,10 @@
 import CardBox from '@/Components/CardBox.vue';
 import BaseIcon from '@/Components/BaseIcon.vue';
 import IconRounded from '@/Components/IconRounded.vue';
-import { mdiHandHeart, mdiPencil } from '@mdi/js';
+import { mdiHandHeart, mdiPencil, mdiEye } from '@mdi/js';
 import BaseButton from '@/Components/BaseButton.vue';
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     title: {
@@ -63,4 +71,7 @@ const priority = {
     medium: 'Media',
     high: 'Alta'
 };
+const userPrimaryRole = computed(() => {
+    return usePage().props.auth?.roles?.[0] ?? null;
+});
 </script>

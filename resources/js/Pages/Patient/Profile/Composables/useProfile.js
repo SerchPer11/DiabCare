@@ -12,6 +12,7 @@ export const useProfile = (props = {}) => {
 
     const form = useForm({
         _method: "put",
+        id: profile.id ?? null,
         name: profile.name ?? null,
         last_name: profile.last_name ?? null,
         email: profile.email ?? null,

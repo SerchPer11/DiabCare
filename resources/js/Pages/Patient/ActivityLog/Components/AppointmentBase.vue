@@ -8,8 +8,10 @@
 
             </div>
             <div>
-                <BaseButton :icon="mdiPencil" color="info" label="Ver detalle" :routeName="`doctor.appointments.edit`"
-                    :parameter="clinicalLog.activity.id" class="ml-auto" />
+                <BaseButton v-if="userPrimaryRole !== 'patient'" :icon="mdiPencil" color="info" label="Ver detalle"
+                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity.id" class="ml-auto" />
+                <BaseButton v-if="userPrimaryRole === 'patient'" :icon="mdiEye" color="info" label="Ver detalle"
+                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity.id" class="ml-auto" />
             </div>
         </div>
         <div class="m-6 ml-10 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -37,8 +39,10 @@
 import CardBox from '@/Components/CardBox.vue';
 import BaseIcon from '@/Components/BaseIcon.vue';
 import IconRounded from '@/Components/IconRounded.vue';
-import { mdiClipboardTextClock, mdiPencil } from '@mdi/js';
+import { mdiClipboardTextClock, mdiPencil, mdiEye } from '@mdi/js';
 import BaseButton from '@/Components/BaseButton.vue';
+import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     title: {
@@ -57,5 +61,9 @@ const props = defineProps({
         type: Object,
         required: true
     }
+});
+
+const userPrimaryRole = computed(() => {
+    return usePage().props.auth?.roles?.[0] ?? null;
 });
 </script>

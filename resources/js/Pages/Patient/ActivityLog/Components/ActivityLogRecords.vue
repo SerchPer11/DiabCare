@@ -1,5 +1,5 @@
 <template>
-    <CardBox v-if="clinicalLogs.data && clinicalLogs.data.length > 0" class="border-0 shadow-none overflow-auto max-h-96" bg="transparent">
+    <CardBox v-if="clinicalLogs.data && clinicalLogs.data.length > 0" class="border-transparent shadow-none overflow-auto max-h-96" bg="transparent">
         <div v-for="clinicalLog in clinicalLogs.data" :key="clinicalLog.id" class="mb-4">
             <AppointmentBase v-if="clinicalLog.activity_type === 'Appointment'" :clinicalLog="clinicalLog" />
             <RecomendationBase v-else-if="clinicalLog.activity_type === 'Recomendation'" :clinicalLog="clinicalLog" />

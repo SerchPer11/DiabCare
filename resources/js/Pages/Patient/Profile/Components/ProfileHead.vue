@@ -12,6 +12,10 @@
                     <p class="text-md text-muted-foreground">{{ userEmail }}</p>
                     <Badge variant="outline" class="mt-2 bg-medic-100 border-medic-300 shadow-md">Paciente</Badge>
                 </div>
+                <div class="m-auto flex justify-center md:justify-end">
+                <BaseButton :icon="mdiArchiveClock " color="info" label="Mi seguimiento clínico" :routeName="`patient.clinical-log.show`" 
+                :parameter="form.id"/>
+            </div>
             </div>
         </div>
     </CardBox>
@@ -22,6 +26,8 @@ import { computed, inject } from 'vue';
 import CardBox from '@/Components/CardBox.vue';
 import { Avatar, AvatarFallback } from '@/Components/ui/avatar';
 import { Badge } from '@/Components/ui/badge';
+import BaseButton from '@/Components/BaseButton.vue';
+import { mdiArchiveClock } from '@mdi/js';
 
 const form = inject('form');
 

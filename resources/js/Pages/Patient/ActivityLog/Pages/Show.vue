@@ -11,7 +11,7 @@
             </div>
             <div v-if="userPrimaryRole === 'patient'" class="flex gap-2 justify-end">
                 <BaseButton :icon="mdiArrowULeftBottom" color="whiteDark" label="Volver" variant="outline"
-                    :routeName="`profile.show`" />
+                    :routeName="`patient.profile.show`" />
             </div>
         </CrudButtons>
     </AuthenticatedLayout>
