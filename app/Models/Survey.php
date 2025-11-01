@@ -76,4 +76,22 @@ class Survey extends Model
     {
         return $this->responses()->where('user_id', $userId)->where('is_complete', false)->first();
     }
+
+    // Calcular porcentaje de respuestas completadas
+    public function calculateCompletionRate()
+    {
+        $totalResponses = $this->responses()->count();
+        if ($totalResponses === 0) {
+            return 0;
+        }
+        
+        $completedResponses = $this->responses()->where('is_complete', true)->count();
+        return round(($completedResponses / $totalResponses) * 100);
+    }
+
+    // Obtener número de respuestas completadas
+    public function getCompletedResponsesCount()
+    {
+        return $this->responses()->where('is_complete', true)->count();
+    }
 }

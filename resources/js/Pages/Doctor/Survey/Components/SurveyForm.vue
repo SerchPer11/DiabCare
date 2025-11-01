@@ -13,10 +13,10 @@
                         v-model="form.title"
                         type="text"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        :class="{ 'border-red-500': errors.title }"
+                        :class="{ 'border-red-500': allErrors.title }"
                         placeholder="Ej: Encuesta de Calidad de Vida"
                     />
-                    <p v-if="errors.title" class="text-red-500 text-sm mt-1">{{ errors.title }}</p>
+                    <InputError :message="allErrors.title" class="mt-1" />
                 </div>
 
                 <div>
@@ -26,61 +26,67 @@
                     <select
                         v-model="form.is_active"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        :class="{ 'border-red-500': allErrors.is_active }"
                     >
                         <option :value="true">Activa</option>
                         <option :value="false">Inactiva</option>
                     </select>
+                    <InputError :message="allErrors.is_active" class="mt-1" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Fecha de Inicio
+                        Fecha de Inicio *
                     </label>
                     <input
                         v-model="form.starts_at"
                         type="date"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        :class="{ 'border-red-500': errors.starts_at }"
+                        :class="{ 'border-red-500': allErrors.starts_at }"
                     />
-                    <p v-if="errors.starts_at" class="text-red-500 text-sm mt-1">{{ errors.starts_at }}</p>
+                    <InputError :message="allErrors.starts_at" class="mt-1" />
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Fecha de Fin
+                        Fecha de Fin *
                     </label>
                     <input
                         v-model="form.ends_at"
                         type="date"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        :class="{ 'border-red-500': errors.ends_at }"
+                        :class="{ 'border-red-500': allErrors.ends_at }"
                     />
-                    <p v-if="errors.ends_at" class="text-red-500 text-sm mt-1">{{ errors.ends_at }}</p>
+                    <InputError :message="allErrors.ends_at" class="mt-1" />
                 </div>
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Descripción
+                    Descripción *
                 </label>
                 <textarea
                     v-model="form.description"
                     rows="3"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    :class="{ 'border-red-500': allErrors.description }"
                     placeholder="Describe el propósito de esta encuesta..."
                 ></textarea>
+                <InputError :message="allErrors.description" class="mt-1" />
             </div>
 
             <div class="mt-4">
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Instrucciones para los pacientes
+                    Instrucciones para los pacientes *
                 </label>
                 <textarea
                     v-model="form.instructions"
                     rows="2"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    :class="{ 'border-red-500': allErrors.instructions }"
                     placeholder="Ej: Por favor responde basándote en tu experiencia de las últimas 2 semanas..."
                 ></textarea>
+                <InputError :message="allErrors.instructions" class="mt-1" />
             </div>
         </div>
 
@@ -146,12 +152,10 @@
                                 v-model="question.question"
                                 rows="2"
                                 class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                :class="{ 'border-red-500': errors[`questions.${index}.question`] }"
+                                :class="{ 'border-red-500': allErrors[`questions.${index}.question`] }"
                                 placeholder="Escribe tu pregunta aquí..."
                             ></textarea>
-                            <p v-if="errors[`questions.${index}.question`]" class="text-red-500 text-sm mt-1">
-                                {{ errors[`questions.${index}.question`] }}
-                            </p>
+                            <InputError :message="allErrors[`questions.${index}.question`]" class="mt-1" />
                         </div>
 
                         <div class="flex items-center">
@@ -183,7 +187,26 @@
                 </div>
             </div>
 
-            <p v-if="errors.questions" class="text-red-500 text-sm mt-2">{{ errors.questions }}</p>
+            <InputError :message="allErrors.questions" class="mt-2" />
+        </div>
+
+        <!-- Errores generales -->
+        <div v-if="Object.keys(allErrors).length > 0" class="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div class="flex">
+                <svg class="w-5 h-5 text-red-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+                <div>
+                    <h3 class="text-sm font-medium text-red-800">
+                        Por favor corrige los siguientes errores:
+                    </h3>
+                    <div class="mt-2 text-sm text-red-700">
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li v-for="(error, key) in allErrors" :key="key">{{ error }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Botones de acción -->
@@ -209,8 +232,9 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useSurveys } from '../Composables/useSurveys'
+import InputError from '@/Components/InputError.vue'
 
 const props = defineProps({
     survey: Object,
@@ -224,6 +248,12 @@ const emit = defineEmits(['submit', 'cancel'])
 const { likertScale, validateSurveyForm } = useSurveys()
 
 const isEditing = ref(!!props.survey)
+const clientValidationErrors = ref({})
+
+// Combinar errores del servidor (props.errors) con errores de validación del cliente
+const allErrors = computed(() => {
+    return { ...props.errors, ...clientValidationErrors.value }
+})
 
 const form = ref({
     title: props.survey?.title || '',
@@ -270,11 +300,34 @@ const moveQuestion = (index, direction) => {
     }
 }
 
+// Limpiar errores de validación del cliente cuando cambian los datos
+watch(form, () => {
+    // Solo limpiar errores específicos si el valor ha cambiado
+    if (Object.keys(clientValidationErrors.value).length > 0) {
+        const newErrors = { ...clientValidationErrors.value }
+        
+        // Verificar cada error y eliminar si el campo ya no tiene el problema
+        Object.keys(newErrors).forEach(key => {
+            const currentValidation = validateSurveyForm(form.value)
+            if (!currentValidation[key]) {
+                delete newErrors[key]
+            }
+        })
+        
+        clientValidationErrors.value = newErrors
+    }
+}, { deep: true })
+
 const handleSubmit = () => {
     const validationErrors = validateSurveyForm(form.value)
     if (Object.keys(validationErrors).length > 0) {
+        // Guardar los errores de validación para mostrarlos en el template
+        clientValidationErrors.value = validationErrors
         return
     }
+    
+    // Limpiar errores si la validación pasa
+    clientValidationErrors.value = {}
     
     emit('submit', form.value)
 }

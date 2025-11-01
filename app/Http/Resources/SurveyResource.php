@@ -29,6 +29,11 @@ class SurveyResource extends JsonResource
             }, []),
             'questions_count' => $this->questions_count ?? $this->questions?->count() ?? 0,
             'responses_count' => $this->responses_count ?? 0,
+            'completed_responses_count' => $this->completed_responses_count ?? $this->getCompletedResponsesCount(),
+            // Calcular porcentaje de respuestas completadas para esta encuesta específica
+            'completion_rate' => $this->calculateCompletionRate(),
+            // Verificar si la encuesta tiene respuestas (para determinar si es editable)
+            'has_responses' => $this->responses_count > 0 || $this->responses()->exists(),
             // Include creator information
             'creator' => $this->whenLoaded('creator', function () {
                 return $this->creator ? [

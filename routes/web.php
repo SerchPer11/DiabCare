@@ -85,7 +85,7 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         Route::post('surveys/{survey}/save-progress', [PatientSurveyController::class, 'saveProgress'])->name('surveys.save-progress');
         Route::post('surveys/{survey}/submit', [PatientSurveyController::class, 'submitResponse'])->name('surveys.submit');
         Route::get('my-survey-responses', [PatientSurveyController::class, 'myResponses'])->name('surveys.my-responses');
-        Route::get('survey-response/{response}', [PatientSurveyController::class, 'showResponse'])->name('surveys.show-response');
+        // Route::get('survey-response/{response}', [PatientSurveyController::class, 'showResponse'])->name('surveys.show-response'); // Comentado: ahora se usa modal
     });
     //Administración de pacientes
     Route::resource('security/modules', ModuleController::class)->names('modules');

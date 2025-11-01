@@ -129,7 +129,6 @@
                         :key="survey.id"
                         :survey="survey"
                         @toggle-status="handleToggleStatus"
-                        @delete="handleDelete"
                     />
                 </div>
 
@@ -324,15 +323,6 @@ const handleToggleStatus = (surveyId, newStatus) => {
     router.patch(route('doctor.surveys.toggle-status', surveyId), {
         is_active: newStatus
     }, {
-        preserveScroll: true,
-        onSuccess: () => {
-            // Mostrar notificación de éxito si es necesario
-        }
-    })
-}
-
-const handleDelete = (surveyId) => {
-    router.delete(route('doctor.surveys.destroy', surveyId), {
         preserveScroll: true,
         onSuccess: () => {
             // Mostrar notificación de éxito si es necesario

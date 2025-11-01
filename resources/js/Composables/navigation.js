@@ -116,21 +116,21 @@ const navigation = [
         type: 'group',
         title: "Encuestas",
         icon: mdiClipboardTextClock,
-        permission: 'doctor.surveys.index',
+        permission: 'surveys.index',
         roles: ['doctor'],
         items: [
             {
                 title: "Gestionar Encuestas",
                 route: 'doctor.surveys.index',
                 icon: mdiClipboardTextClock,
-                permission: 'doctor.surveys.index',
+                permission: 'surveys.index',
                 roles: ['doctor']
             },
             {
                 title: "Resultados",
                 route: 'doctor.surveys.results',
                 icon: mdiClipboardPulse,
-                permission: 'doctor.surveys.results',
+                permission: 'surveys.results',
                 roles: ['doctor']
             },
         ]

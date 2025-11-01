@@ -335,6 +335,13 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal para mostrar detalles de respuesta -->
+        <ResponseModal 
+            :show="showModal" 
+            :response="selectedResponse"
+            @close="closeModal"
+        />
     </AuthenticatedLayout>
 </template>
 
@@ -343,6 +350,8 @@ import { ref, computed, watch } from 'vue'
 import { Head, Link, router } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import { useSurveyResponse } from '../Composables/useSurveyResponse'
+import ResponseModal from '../Components/ResponseModal.vue'
+import TestModal from '../Components/TestModal.vue'
 
 const props = defineProps({
     responses: [Array, Object], // Accept both Array and paginated Object
@@ -379,6 +388,10 @@ const sortBy = ref('created_at_desc')
 const currentPage = ref(1)
 const responsesPerPage = 10
 const openMenus = ref({})
+
+// Estados para el modal
+const showModal = ref(false)
+const selectedResponse = ref(null)
 
 // Computadas para estadísticas
 const totalResponses = computed(() => responsesData.value.length || 0)
@@ -546,8 +559,27 @@ const getQuestionsArray = (survey) => {
 
 // Métodos auxiliares
 const isCompleted = (response) => {
+    // Una respuesta está completa si:
+    // 1. Está marcada como completa en el servidor (is_complete = true)
+    // 2. O si tiene respuestas a todas las preguntas obligatorias
+    if (response.is_complete) {
+        return true
+    }
+    
     const questionsArray = getQuestionsArray(response.survey)
-    return response.answers.length === questionsArray.length
+    const requiredQuestions = questionsArray.filter(q => q.is_required !== false) // Por defecto las preguntas son requeridas
+    
+    // Si no hay preguntas o no podemos determinar cuáles son obligatorias,
+    // usamos el campo is_complete del servidor
+    if (requiredQuestions.length === 0) {
+        return response.is_complete || false
+    }
+    
+    // Verificar que se han respondido todas las preguntas obligatorias
+    const answeredQuestionIds = response.answers.map(a => a.survey_question_id)
+    const requiredQuestionIds = requiredQuestions.map(q => q.id)
+    
+    return requiredQuestionIds.every(id => answeredQuestionIds.includes(id))
 }
 
 const isSurveyStillActive = (survey) => {
@@ -557,8 +589,16 @@ const isSurveyStillActive = (survey) => {
 }
 
 const getCompletionPercentage = (response) => {
+    // Si está marcada como completa, mostrar 100%
+    if (response.is_complete) {
+        return 100
+    }
+    
     const questionsArray = getQuestionsArray(response.survey)
     if (questionsArray.length === 0) return 0
+    
+    // Para el porcentaje, usar todas las preguntas (obligatorias y opcionales)
+    // pero dar prioridad al estado is_complete del servidor
     return Math.round((response.answers.length / questionsArray.length) * 100)
 }
 
@@ -612,7 +652,16 @@ const toggleResponseMenu = (responseId) => {
 }
 
 const viewResponseDetail = (response) => {
-    router.visit(route('patient.surveys.show-response', response.id))
+    console.log('Abriendo modal con respuesta:', response)
+    selectedResponse.value = response
+    showModal.value = true
+    // Cerrar el menú si está abierto
+    openMenus.value[response.id] = false
+}
+
+const closeModal = () => {
+    showModal.value = false
+    selectedResponse.value = null
 }
 
 const continueResponse = (response) => {

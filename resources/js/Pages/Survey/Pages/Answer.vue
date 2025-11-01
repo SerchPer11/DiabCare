@@ -15,6 +15,7 @@
                             <span class="text-xs mt-1">{{ likertLabels[value-1] }}</span>
                         </label>
                     </div>
+                    <InputError class="mt-2" :message="form.errors[`answers.${idx}.likert_value`] || form.errors[`answers.${idx}.survey_question_id`]" />
                 </div>
                 <div class="flex justify-end gap-2 mt-6">
                     <BaseButton color="whiteDark" label="Cancel" :to="{ name: routeName + 'index' }" variant="outline" />
@@ -26,6 +27,7 @@
 </template>
 
 <script setup>
+import InputError from '@/Components/InputError.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CrudHead from '@/Components/CrudHead.vue';
 import BaseButton from '@/Components/BaseButton.vue';

@@ -56,7 +56,7 @@
                 <div v-if="!showPreview">
                     <SurveyForm
                         :processing="form.processing"
-                        :errors="form.errors"
+                        :errors="{ ...form.errors, ...clientErrors }"
                         route-name="doctor.surveys.store"
                         @submit="handleSubmit"
                         @cancel="handleCancel"
@@ -172,12 +172,14 @@ import { Head, Link, useForm, router } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import SurveyForm from '../Components/SurveyForm.vue'
 import { useSurveys } from '../Composables/useSurveys'
+import Swal from 'sweetalert2'
 
 const { likertScale, formatDate, validateSurveyForm } = useSurveys()
 
 // Estados reactivos
 const showPreview = ref(false)
 const previewData = ref({})
+const clientErrors = ref({})
 
 // Formulario Inertia
 const form = useForm({
@@ -192,11 +194,15 @@ const form = useForm({
 
 const handleSubmit = (formData) => {
     // Validar formulario
-    const errors = validateSurveyForm(formData)
-    if (Object.keys(errors).length > 0) {
-        // Los errores se muestran en el componente SurveyForm
+    const validationErrors = validateSurveyForm(formData)
+    if (Object.keys(validationErrors).length > 0) {
+        // Mostrar errores de validación del lado del cliente
+        clientErrors.value = validationErrors
         return
     }
+
+    // Limpiar errores si la validación pasa
+    clientErrors.value = {}
 
     // Guardar datos para vista previa
     previewData.value = { ...formData }
@@ -211,6 +217,9 @@ const handleSubmit = (formData) => {
 }
 
 const confirmCreate = () => {
+    // Limpiar errores del cliente antes de enviar
+    clientErrors.value = {}
+    
     form.post(route('doctor.surveys.store'), {
         onSuccess: () => {
             router.visit(route('doctor.surveys.index'))
@@ -222,8 +231,20 @@ const confirmCreate = () => {
     })
 }
 
-const handleCancel = () => {
-    if (confirm('¿Estás seguro de que quieres cancelar? Se perderán todos los cambios.')) {
+const handleCancel = async () => {
+    const result = await Swal.fire({
+        title: '¿Cancelar creación?',
+        text: '¿Estás seguro de que quieres cancelar? Se perderán todos los cambios realizados.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#10b981',
+        confirmButtonText: 'Sí, cancelar',
+        cancelButtonText: 'Continuar editando',
+        reverseButtons: true
+    })
+
+    if (result.isConfirmed) {
         router.visit(route('doctor.surveys.index'))
     }
 }

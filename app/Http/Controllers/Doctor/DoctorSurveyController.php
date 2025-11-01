@@ -30,18 +30,24 @@ class DoctorSurveyController extends Controller
         $this->model = new Survey();
         
         // Permisos específicos para doctores
-        $this->middleware("permission:doctor.surveys.index")->only(['index', 'show']);
-        $this->middleware("permission:doctor.surveys.create")->only(['store', 'create']);
-        $this->middleware("permission:doctor.surveys.edit")->only(['edit', 'update']);
-        $this->middleware("permission:doctor.surveys.delete")->only(['destroy']);
-        $this->middleware("permission:doctor.surveys.results")->only(['results', 'showResults']);
+        $this->middleware("permission:surveys.index")->only(['index', 'show']);
+        $this->middleware("permission:surveys.create")->only(['store', 'create']);
+        $this->middleware("permission:surveys.edit")->only(['edit', 'update']);
+        $this->middleware("permission:surveys.delete")->only(['destroy']);
+        $this->middleware("permission:surveys.results")->only(['results', 'showResults']);
     }
 
     public function index(Request $request)
     {
         $filters = $this->getFiltersBase($request->query());
         $query = $this->model->with(['questions', 'creator'])
-            ->withCount(['questions', 'responses'])
+            ->withCount([
+                'questions', 
+                'responses',
+                'responses as completed_responses_count' => function ($query) {
+                    $query->where('is_complete', true);
+                }
+            ])
             ->where('created_by', $request->user()->id) // Solo encuestas creadas por el doctor actual
             ->when($filters->search, function ($query, $search) {
                 $query->where('title', 'LIKE', '%' . $search . '%')
@@ -133,6 +139,13 @@ class DoctorSurveyController extends Controller
             abort(403, 'No tienes permiso para editar esta encuesta.');
         }
 
+        // Verificar si la encuesta tiene respuestas
+        $hasResponses = $survey->responses()->exists();
+        if ($hasResponses) {
+            return redirect()->route($this->routeName . 'index')
+                ->with('error', 'No se puede editar una encuesta que ya tiene respuestas de pacientes.');
+        }
+
         $survey->load(['questions', 'creator']);
         return Inertia::render("{$this->source}Edit", [
             'title'     => 'Editar Encuesta',
@@ -146,6 +159,13 @@ class DoctorSurveyController extends Controller
         // Verificar que el doctor sean el creador de la encuesta
         if ($survey->created_by !== Auth::id()) {
             abort(403, 'No tienes permiso para editar esta encuesta.');
+        }
+
+        // Verificar si la encuesta tiene respuestas
+        $hasResponses = $survey->responses()->exists();
+        if ($hasResponses) {
+            return redirect()->route($this->routeName . 'index')
+                ->with('error', 'No se puede editar una encuesta que ya tiene respuestas de pacientes.');
         }
 
         DB::transaction(function () use ($request, $survey) {
@@ -173,6 +193,13 @@ class DoctorSurveyController extends Controller
         // Verificar que el doctor sea el creador de la encuesta
         if ($survey->created_by !== Auth::id()) {
             abort(403, 'No tienes permiso para eliminar esta encuesta.');
+        }
+
+        // Verificar si la encuesta tiene respuestas
+        $hasResponses = $survey->responses()->exists();
+        if ($hasResponses) {
+            return redirect()->route($this->routeName . 'index')
+                ->with('error', 'No se puede eliminar una encuesta que ya tiene respuestas de pacientes. Puede desactivarla en su lugar.');
         }
 
         $survey->delete();
@@ -245,29 +272,39 @@ class DoctorSurveyController extends Controller
             abort(403, 'No tienes permiso para ver los resultados de esta encuesta.');
         }
 
-        // Cargar respuestas completadas
+        // Cargar todas las respuestas (no solo las completadas) con sus relaciones
         $survey->load([
             'questions',
             'creator',
             'responses' => function ($query) {
-                $query->where('is_complete', true)->with(['user', 'answers']);
+                $query->with(['user', 'answers']);
             }
         ]);
 
-        // Obtener estadísticas básicas
-        $completedResponses = $survey->responses;
-        $totalResponses = $completedResponses->count();
+        // Obtener todas las respuestas
+        $allResponses = $survey->responses;
+        $totalResponses = $allResponses->count();
 
         // Calcular estadísticas por pregunta
         $questionResults = [];
         foreach ($survey->questions as $question) {
-            $answers = $completedResponses->flatMap->answers->where('survey_question_id', $question->id);
+            // Obtener todas las respuestas para esta pregunta específica
+            $answers = $allResponses->flatMap->answers->where('survey_question_id', $question->id);
+            
+            // Crear distribución por valor Likert
+            $distribution = [];
+            for ($i = 1; $i <= 5; $i++) {
+                $distribution[$i] = $answers->where('likert_value', $i)->count();
+            }
+            
             $questionResults[] = [
                 'id' => $question->id,
                 'question' => $question->question,
+                'is_required' => $question->is_required ?? true,
+                'order' => $question->order ?? 0,
                 'totalAnswers' => $answers->count(),
                 'average' => $answers->count() > 0 ? round($answers->avg('likert_value'), 2) : 0,
-                'distribution' => $answers->groupBy('likert_value')->map->count()->toArray(),
+                'distribution' => $distribution,
             ];
         }
 
@@ -278,7 +315,7 @@ class DoctorSurveyController extends Controller
             'title' => 'Resultados: ' . $survey->title,
             'routeName' => $this->routeName,
             'survey' => (new SurveyResource($survey))->resolve(),
-            'responses' => $completedResponses,
+            'responses' => $allResponses,
             'questionResults' => $questionResults,
             'temporalData' => $temporalData,
         ]);

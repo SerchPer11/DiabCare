@@ -166,6 +166,19 @@ class PatientSurveyController extends Controller
                         }
                     }
                 }
+                
+                // Verificar si ahora todas las preguntas obligatorias han sido respondidas
+                $requiredQuestions = $survey->questions()->where('is_required', true)->pluck('id');
+                $answeredQuestions = $response->answers()->pluck('survey_question_id');
+                
+                $allRequiredAnswered = $requiredQuestions->every(function ($questionId) use ($answeredQuestions) {
+                    return $answeredQuestions->contains($questionId);
+                });
+                
+                if ($allRequiredAnswered && !$response->is_complete) {
+                    // Marcar como completa si todas las preguntas obligatorias están respondidas
+                    $response->markAsComplete();
+                }
             });
             
             return back()->with('success', 'Progreso guardado correctamente');
@@ -208,8 +221,18 @@ class PatientSurveyController extends Controller
                 ]);
             }
             
-            // Marcar como completa
-            $response->markAsComplete();
+            // Verificar si todas las preguntas obligatorias han sido respondidas
+            $requiredQuestions = $survey->questions()->where('is_required', true)->pluck('id');
+            $answeredQuestions = $response->answers()->pluck('survey_question_id');
+            
+            $allRequiredAnswered = $requiredQuestions->every(function ($questionId) use ($answeredQuestions) {
+                return $answeredQuestions->contains($questionId);
+            });
+            
+            if ($allRequiredAnswered) {
+                // Marcar como completa solo si todas las preguntas obligatorias están respondidas
+                $response->markAsComplete();
+            }
         });
         
         return redirect()->route($this->routeName . 'index')
@@ -223,7 +246,8 @@ class PatientSurveyController extends Controller
         
         $query = SurveyResponse::with(['survey.questions', 'answers.question'])
             ->where('user_id', $userId)
-            ->where('is_complete', true)
+            // Mostrar todas las respuestas (completas e incompletas)
+            // El frontend decidirá cómo mostrarlas basado en is_complete y preguntas obligatorias
             ->when($filters->search, function ($query, $search) {
                 $query->whereHas('survey', function ($q) use ($search) {
                     $q->where('title', 'LIKE', '%' . $search . '%');
@@ -246,6 +270,7 @@ class PatientSurveyController extends Controller
         ]);
     }
 
+    /* COMENTADO: Método no necesario, ahora se usa modal en el frontend
     public function showResponse(SurveyResponse $response, Request $request)
     {
         // Verificar que la respuesta pertenece al usuario actual
@@ -261,6 +286,7 @@ class PatientSurveyController extends Controller
             'routeName' => $this->routeName,
         ]);
     }
+    */
 
     private function generateTemporalData($userId)
     {

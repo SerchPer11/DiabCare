@@ -5,7 +5,19 @@
             <!-- Encabezado -->
             <div class="flex justify-between items-start mb-3">
                 <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ survey.title }}</h3>
+                    <div class="flex items-center gap-2 mb-1">
+                        <h3 class="text-lg font-semibold text-gray-900">{{ survey.title }}</h3>
+                        <span 
+                            v-if="survey.has_responses" 
+                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800"
+                            title="Esta encuesta tiene respuestas y no se puede editar o eliminar"
+                        >
+                            <svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            Protegida
+                        </span>
+                    </div>
                     <p v-if="survey.description" class="text-sm text-gray-600">
                         {{ survey.description }}
                     </p>
@@ -41,7 +53,10 @@
                                 </button>
                                 <button
                                     @click="handleEdit"
-                                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                                    :class="survey.has_responses ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700'"
+                                    :disabled="survey.has_responses"
+                                    :title="survey.has_responses ? 'No se puede editar una encuesta con respuestas' : ''"
                                 >
                                     Editar
                                 </button>
@@ -61,7 +76,10 @@
                                 </button>
                                 <button
                                     @click="handleDelete"
-                                    class="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-gray-100"
+                                    class="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+                                    :class="survey.has_responses ? 'text-gray-400 cursor-not-allowed' : 'text-red-700'"
+                                    :disabled="survey.has_responses"
+                                    :title="survey.has_responses ? 'No se puede eliminar una encuesta con respuestas' : ''"
                                 >
                                     Eliminar
                                 </button>
@@ -139,6 +157,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { useSurveys } from '../Composables/useSurveys'
+import { messageConfirm } from '@/Hooks/useErrorsForm'
 
 const props = defineProps({
     survey: {
@@ -147,7 +166,7 @@ const props = defineProps({
     }
 })
 
-const emit = defineEmits(['toggle-status', 'delete'])
+const emit = defineEmits(['toggle-status'])
 
 const { formatDate, getSurveyStatus } = useSurveys()
 
@@ -182,10 +201,20 @@ const statusText = computed(() => {
 })
 
 const completionRate = computed(() => {
-    if (!props.survey?.total_possible_responses || props.survey.total_possible_responses === 0) {
+    // Usar el completion_rate calculado por el servidor si está disponible
+    if (props.survey?.completion_rate !== undefined) {
+        return props.survey.completion_rate
+    }
+    
+    // Fallback: calcular basado en respuestas completadas vs total de respuestas
+    const totalResponses = props.survey?.responses_count || 0
+    const completedResponses = props.survey?.completed_responses_count || 0
+    
+    if (totalResponses === 0) {
         return 0
     }
-    return Math.round((props.survey.responses_count / props.survey.total_possible_responses) * 100)
+    
+    return Math.round((completedResponses / totalResponses) * 100)
 })
 
 const daysRemaining = computed(() => {
@@ -220,6 +249,9 @@ const handleView = () => {
 
 const handleEdit = () => {
     showMenu.value = false
+    if (props.survey?.has_responses) {
+        return // No hacer nada si la encuesta tiene respuestas
+    }
     if (props.survey?.id) {
         router.visit(route('doctor.surveys.edit', props.survey.id))
     }
@@ -241,10 +273,20 @@ const handleToggleStatus = () => {
 
 const handleDelete = () => {
     showMenu.value = false
+    if (props.survey?.has_responses) {
+        return // No hacer nada si la encuesta tiene respuestas
+    }
     if (props.survey?.id && props.survey?.title) {
-        if (confirm(`¿Estás seguro de que quieres eliminar la encuesta "${props.survey.title}"?`)) {
-            emit('delete', props.survey.id)
-        }
+        messageConfirm(`Se eliminará permanentemente la encuesta "${props.survey.title}" y todas sus preguntas asociadas.`).then((res) => {
+            if (res.isConfirmed) {
+                router.delete(route('doctor.surveys.destroy', props.survey.id), {
+                    preserveScroll: true,
+                    onSuccess: () => {
+                        // La notificación se maneja automáticamente por el controlador
+                    }
+                })
+            }
+        })
     }
 }
 
@@ -270,5 +312,14 @@ onUnmounted(() => {
 /* Animaciones suaves */
 .transition-colors {
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+/* Estilos para botones deshabilitados */
+button:disabled {
+    pointer-events: none;
+}
+
+button:disabled:hover {
+    background-color: transparent !important;
 }
 </style>

@@ -119,7 +119,7 @@
                     <SurveyForm
                         :survey="surveyForForm"
                         :processing="form.processing"
-                        :errors="form.errors"
+                        :errors="{ ...form.errors, ...clientErrors }"
                         route-name="doctor.surveys.update"
                         @submit="handleSubmit"
                         @cancel="handleCancel"
@@ -192,6 +192,7 @@ const surveyForForm = computed(() => {
 
 // Estados reactivos
 const showForceEdit = ref(false)
+const clientErrors = ref({})
 
 // Computadas
 const hasResponses = computed(() => (surveyData.value?.responses_count || 0) > 0)
@@ -244,10 +245,15 @@ watchEffect(() => {
 
 const handleSubmit = (formData) => {
     // Validar formulario
-    const errors = validateSurveyForm(formData)
-    if (Object.keys(errors).length > 0) {
+    const validationErrors = validateSurveyForm(formData)
+    if (Object.keys(validationErrors).length > 0) {
+        // Mostrar errores de validación del lado del cliente
+        clientErrors.value = validationErrors
         return
     }
+
+    // Limpiar errores si la validación pasa
+    clientErrors.value = {}
 
     // Actualizar form con los datos
     Object.keys(formData).forEach(key => {
@@ -258,6 +264,9 @@ const handleSubmit = (formData) => {
     form.put(route('doctor.surveys.update', surveyData.value?.id), {
         onSuccess: () => {
             router.visit(route('doctor.surveys.show', surveyData.value?.id))
+        },
+        onError: (errors) => {
+            // Los errores del servidor se manejan automáticamente por Inertia
         }
     })
 }

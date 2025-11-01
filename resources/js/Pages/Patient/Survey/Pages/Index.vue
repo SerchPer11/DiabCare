@@ -144,48 +144,33 @@
 
                 <!-- Enlaces útiles -->
                 <div class="mt-8 bg-blue-50 rounded-lg border border-blue-200 p-6">
-                    <h3 class="text-lg font-medium text-blue-900 mb-4">Enlaces Útiles</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <h3 class="text-lg font-medium text-blue-900 mb-4 text-center">Enlaces Útiles</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
                         <Link
                             :href="route('patient.surveys.my-responses')"
-                            class="flex items-center p-3 bg-white rounded border hover:shadow-sm transition-shadow"
+                            class="flex items-center p-4 bg-white rounded-lg border hover:shadow-md transition-all duration-200 hover:border-blue-300"
                         >
-                            <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="w-6 h-6 text-blue-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                             <div>
                                 <div class="font-medium text-gray-900">Mis Respuestas</div>
-                                <div class="text-sm text-gray-600">Ver historial completo</div>
+                                <div class="text-sm text-gray-600">Ver historial completo de encuestas</div>
                             </div>
                         </Link>
                         
-                        <a
-                            href="#"
-                            @click.prevent="showHelp = true"
-                            class="flex items-center p-3 bg-white rounded border hover:shadow-sm transition-shadow"
+                        <button
+                            @click="showHelp = true"
+                            class="flex items-center p-4 bg-white rounded-lg border hover:shadow-md transition-all duration-200 hover:border-green-300 text-left"
                         >
-                            <svg class="w-5 h-5 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="w-6 h-6 text-green-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <div>
                                 <div class="font-medium text-gray-900">Ayuda</div>
-                                <div class="text-sm text-gray-600">Cómo responder encuestas</div>
+                                <div class="text-sm text-gray-600">Cómo responder encuestas correctamente</div>
                             </div>
-                        </a>
-
-                        <a
-                            href="#"
-                            @click.prevent="showContact = true"
-                            class="flex items-center p-3 bg-white rounded border hover:shadow-sm transition-shadow"
-                        >
-                            <svg class="w-5 h-5 text-purple-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                            <div>
-                                <div class="font-medium text-gray-900">Contactar Doctor</div>
-                                <div class="text-sm text-gray-600">Dudas o consultas</div>
-                            </div>
-                        </a>
+                        </button>
                     </div>
                 </div>
 
