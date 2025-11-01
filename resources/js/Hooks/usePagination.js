@@ -67,7 +67,7 @@ export const usePagination = (props) => {
         }
 
         if (active) {
-            return `${baseClasses} bg-medic-400 text-white shadow-sm`;
+            return `${baseClasses} bg-medic-500 text-white shadow-sm hover:bg-medic-400 border border-medic-500 hover:ring-medic-100`;
         }
 
         if (isPrevious(label) || isNext(label)) {
