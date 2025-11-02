@@ -12,6 +12,9 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {   
+        // Dashboard - Acceso general
+        Permission::create(['name' => 'dashboard.view', 'guard_name' => 'web', 'description' => 'Ver dashboard', 'module_key' => 'general']);
+        
         //securityistrador
         
         // Vistas de subgrupos de securityistración

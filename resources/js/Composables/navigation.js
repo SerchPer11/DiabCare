@@ -25,6 +25,7 @@ const navigation = [
         title: "Dashboard",
         route: 'dashboard',
         icon: mdiViewDashboard,
+        permission: 'dashboard.view',
     },
 
     // Seguridad
@@ -89,24 +90,28 @@ const navigation = [
         title: "Catalogo Medico",
         icon: mdiMedicalBag ,
         permission: 'medic.view',
+        roles: ['doctor', 'admin'],
         items: [
             {
                 title: "Ejercicios",
                 route: 'doctor.catalogs.exercises.index',
                 icon: mdiGymnastics,
                 permission: 'doctor.catalogs.exercises.index',
+                roles: ['doctor', 'admin']
             },
             {
                 title: "Medicamentos",
                 route: 'doctor.catalogs.medications.index',
                 icon: mdiMedication,
                 permission: 'doctor.catalogs.medications.index',
+                roles: ['doctor', 'admin']
             },
             {
                 title: "Alimentos",
                 route: 'doctor.catalogs.foods.index',
                 icon: mdiFoodApple,
                 permission: 'doctor.catalogs.foods.index',
+                roles: ['doctor', 'admin']
             },
         ], 
         /*type: 'single',
@@ -122,6 +127,7 @@ const navigation = [
         route: 'doctor.appointments.index',
         icon: mdiClipboardTextClock,
         permission: 'doctor.appointments.index',
+        roles: ['doctor', 'admin']
     },
     {
         type: 'single',
@@ -129,6 +135,7 @@ const navigation = [
         route: 'doctor.recomendations.index',
         icon: mdiHandHeart,
         permission: 'doctor.recomendations.index',
+        roles: ['doctor', 'admin']
     },
     {
         type: 'single',
@@ -136,6 +143,7 @@ const navigation = [
         route: 'doctor.plans.index',
         icon: mdiCalendarCheck,
         permission: 'doctor.plans.index',
+        roles: ['doctor']
     },
 
     {
@@ -190,6 +198,7 @@ const navigation = [
         title: "Reportes",
         route: 'reports.index',
         icon: mdiFileChart,
+        roles: ['doctor', 'admin'],
         //permission: 'reports.index',
     },
     {
@@ -198,6 +207,7 @@ const navigation = [
         route: 'patients.index',
         icon: mdiAccountInjury,
         permission: 'patients.index',
+        roles: ['doctor', 'admin']
     },
     // Paciente
     {
@@ -206,6 +216,7 @@ const navigation = [
         route: 'patient.medical-history.index',
         icon: mdiClipboardTextClock,
         permission: 'patient.medical-history.index',
+        roles: ['patient']
     },
     {
         type: 'single',
@@ -221,6 +232,7 @@ const navigation = [
         route: 'measures.index',
         icon: mdiClipboardPulse,
         permission: 'measures.index',
+        roles: ['patient', 'doctor', 'admin']
     },
 ];
 

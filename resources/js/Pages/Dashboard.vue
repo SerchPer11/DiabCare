@@ -1,26 +1,46 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import AdminDashboard from './Dashboard/Components/AdminDashboard.vue';
+import DoctorDashboard from './Dashboard/Components/DoctorDashboard.vue';
+import PatientDashboard from './Dashboard/Components/PatientDashboard.vue';
+
+const page = usePage();
 
 const props = defineProps({
-    auth: Object,
-    surveys: {
-        type: Array,
-        default: () => []
-    },
-    stats: {
+    dashboardData: {
         type: Object,
         default: () => ({})
+    },
+    userRole: {
+        type: String,
+        default: 'user'
     }
 });
 
-const userRole = computed(() => {
-    return props.auth.roles?.[0]?.name || 'user'
+// Acceder a datos de autenticación global
+const user = computed(() => page.props.auth?.user?.data || page.props.auth?.user);
+const userRoles = computed(() => page.props.auth?.roles || []);
+const currentRole = computed(() => userRoles.value[0] || props.userRole || 'user');
+
+const isAdmin = computed(() => currentRole.value === 'admin');
+const isDoctor = computed(() => currentRole.value === 'doctor');
+const isPatient = computed(() => currentRole.value === 'patient');
+
+const dashboardTitle = computed(() => {
+    const roleMap = {
+        admin: 'Administrador',
+        doctor: 'Doctor',
+        patient: 'Paciente'
+    };
+    return `Dashboard - ${roleMap[currentRole.value] || 'Usuario'}`;
 });
 
-const isDoctor = computed(() => userRole.value === 'doctor');
-const isPatient = computed(() => userRole.value === 'patient');
+const userName = computed(() => {
+    if (!user.value) return 'Usuario';
+    return user.value.name || 'Usuario';
+});
 </script>
 
 <template>
@@ -30,22 +50,8 @@ const isPatient = computed(() => userRole.value === 'patient');
         <template #header>
             <div class="flex justify-between items-center">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    Dashboard - {{ userRole === 'doctor' ? 'Doctor' : userRole === 'patient' ? 'Paciente' : 'Usuario' }}
+                    {{ dashboardTitle }}
                 </h2>
-                <div v-if="isDoctor" class="flex gap-2">
-                    <Link
-                        :href="route('doctor.surveys.create')"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-                    >
-                        + Nueva Encuesta
-                    </Link>
-                    <Link
-                        :href="route('doctor.surveys.index')"
-                        class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
-                    >
-                        Ver Encuestas
-                    </Link>
-                </div>
             </div>
         </template>
 
@@ -55,14 +61,17 @@ const isPatient = computed(() => userRole.value === 'patient');
                 <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <h3 class="text-lg font-medium text-gray-900 mb-2">
-                            ¡Bienvenido, {{ auth.user.name }}!
+                            ¡Bienvenido, {{ userName }}!
                         </h3>
                         <p class="text-gray-600">
-                            <span v-if="isDoctor">
-                                Desde aquí puedes gestionar tus encuestas, revisar respuestas de pacientes y crear nuevas evaluaciones.
+                            <span v-if="isAdmin">
+                                Panel de control administrativo del sistema DiabCare.
+                            </span>
+                            <span v-else-if="isDoctor">
+                                Gestiona tus pacientes, citas y planes médicos desde aquí.
                             </span>
                             <span v-else-if="isPatient">
-                                Aquí puedes ver las encuestas disponibles, completar evaluaciones y revisar tu historial.
+                                Controla tu progreso, citas y planes de salud.
                             </span>
                             <span v-else>
                                 Panel de control principal de DiabCare.
@@ -71,106 +80,32 @@ const isPatient = computed(() => userRole.value === 'patient');
                     </div>
                 </div>
 
-                <!-- Estadísticas rápidas para doctores -->
-                <div v-if="isDoctor" class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                        <div class="p-6 text-center">
-                            <div class="text-3xl font-bold text-blue-600">{{ stats.total || 0 }}</div>
-                            <div class="text-sm text-gray-600">Total Encuestas</div>
-                        </div>
+                <!-- Dashboard específico por rol -->
+                <AdminDashboard 
+                    v-if="isAdmin && dashboardData" 
+                    :dashboard-data="dashboardData" 
+                />
+                
+                <DoctorDashboard 
+                    v-else-if="isDoctor && dashboardData" 
+                    :dashboard-data="dashboardData" 
+                />
+                
+                <PatientDashboard 
+                    v-else-if="isPatient && dashboardData" 
+                    :dashboard-data="dashboardData" 
+                />
+
+                <!-- Fallback si no hay datos -->
+                <div v-else class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-center">
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">
+                            Dashboard en construcción
+                        </h3>
+                        <p class="text-gray-600">
+                            Los datos del dashboard se están cargando...
+                        </p>
                     </div>
-                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                        <div class="p-6 text-center">
-                            <div class="text-3xl font-bold text-green-600">{{ stats.active || 0 }}</div>
-                            <div class="text-sm text-gray-600">Activas</div>
-                        </div>
-                    </div>
-                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                        <div class="p-6 text-center">
-                            <div class="text-3xl font-bold text-purple-600">{{ stats.total_responses || 0 }}</div>
-                            <div class="text-sm text-gray-600">Total Respuestas</div>
-                        </div>
-                    </div>
-                    <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                        <div class="p-6 text-center">
-                            <div class="text-3xl font-bold text-amber-600">{{ Math.round(stats.average_response_rate || 0) }}%</div>
-                            <div class="text-sm text-gray-600">Tasa Respuesta</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Acciones rápidas -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Para Doctores -->
-                    <template v-if="isDoctor">
-                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                            <div class="p-6">
-                                <h4 class="font-medium text-gray-900 mb-2">Gestionar Encuestas</h4>
-                                <p class="text-gray-600 text-sm mb-4">Crea, edita y administra tus encuestas</p>
-                                <Link
-                                    :href="route('doctor.surveys.index')"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700"
-                                >
-                                    Ver Encuestas
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                            <div class="p-6">
-                                <h4 class="font-medium text-gray-900 mb-2">Resultados</h4>
-                                <p class="text-gray-600 text-sm mb-4">Analiza las respuestas de tus pacientes</p>
-                                <Link
-                                    :href="route('doctor.surveys.results')"
-                                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700"
-                                >
-                                    Ver Resultados
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                            <div class="p-6">
-                                <h4 class="font-medium text-gray-900 mb-2">Nueva Encuesta</h4>
-                                <p class="text-gray-600 text-sm mb-4">Crea una nueva encuesta para tus pacientes</p>
-                                <Link
-                                    :href="route('doctor.surveys.create')"
-                                    class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700"
-                                >
-                                    Crear Encuesta
-                                </Link>
-                            </div>
-                        </div>
-                    </template>
-
-                    <!-- Para Pacientes -->
-                    <template v-else-if="isPatient">
-                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                            <div class="p-6">
-                                <h4 class="font-medium text-gray-900 mb-2">Encuestas Disponibles</h4>
-                                <p class="text-gray-600 text-sm mb-4">Completa las evaluaciones asignadas</p>
-                                <Link
-                                    :href="route('patient.surveys.index')"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700"
-                                >
-                                    Ver Encuestas
-                                </Link>
-                            </div>
-                        </div>
-
-                        <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                            <div class="p-6">
-                                <h4 class="font-medium text-gray-900 mb-2">Mis Respuestas</h4>
-                                <p class="text-gray-600 text-sm mb-4">Revisa tus respuestas anteriores</p>
-                                <Link
-                                    :href="route('patient.surveys.my-responses')"
-                                    class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700"
-                                >
-                                    Ver Historial
-                                </Link>
-                            </div>
-                        </div>
-                    </template>
                 </div>
             </div>
         </div>
