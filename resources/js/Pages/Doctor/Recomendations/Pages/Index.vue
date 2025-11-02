@@ -4,7 +4,7 @@
 
         <IndexBanner :title="title" :icon="mdiHandHeart" :routeName="routeName" main @apply-filters="applyFilters"
             @clear-filters="clearFilters" v-model:search="filters.search" v-model:rows="filters.rows"
-            :total="recomendations?.meta?.total || 0" />
+                        :total="recomendations?.meta?.total || 0" />
 
         <RecomendationRecords :recomendations="recomendations" :routeName="routeName" />
     </AuthenticatedLayout>
