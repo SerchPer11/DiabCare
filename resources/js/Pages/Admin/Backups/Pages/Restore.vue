@@ -18,7 +18,7 @@
                     <div class="flex">
                         <Icon :path="mdiAlertOctagon" class="text-rose-500 mr-3 flex-shrink-0" size="24" />
                         <div>
-                            <h4 class="text-rose-800 font-bold text-lg">⚠️ ADVERTENCIA CRÍTICA</h4>
+                            <h4 class="text-rose-800 font-bold text-lg">ADVERTENCIA CRÍTICA</h4>
                             <ul class="text-rose-700 mt-2 list-disc list-inside space-y-1">
                                 <li><strong>Esta operación NO se puede deshacer</strong></li>
                                 <li>Se perderán todos los datos actuales de la base de datos</li>
@@ -260,10 +260,10 @@ const checkIntegrityHandler = async () => {
     try {
         const result = await checkIntegrity(backupData.value.id);
         integrityStatus.value = result.valid 
-            ? '✅ El respaldo está íntegro y listo para restaurar'
-            : '❌ El respaldo está corrupto - NO se puede restaurar';
+            ? 'El respaldo está íntegro y listo para restaurar'
+            : 'El respaldo está corrupto - NO se puede restaurar';
     } catch (error) {
-        integrityStatus.value = '❌ Error al verificar la integridad';
+        integrityStatus.value = 'Error al verificar la integridad';
     } finally {
         checkingIntegrity.value = false;
     }

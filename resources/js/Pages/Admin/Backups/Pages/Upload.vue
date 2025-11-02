@@ -37,7 +37,7 @@
                     <div class="flex">
                         <Icon :path="mdiAlertOctagon" class="text-red-500 mr-3 flex-shrink-0" size="24" />
                         <div>
-                            <h4 class="text-red-800 font-bold">⚠️ Advertencia de Compatibilidad</h4>
+                            <h4 class="text-red-800 font-bold">Advertencia de Compatibilidad</h4>
                             <ul class="text-red-700 mt-2 list-disc list-inside space-y-1 text-sm">
                                 <li><strong>NO subas respaldos de otras aplicaciones</strong></li>
                                 <li>Solo archivos SQL generados por DiabCare son seguros</li>
@@ -119,7 +119,7 @@
                             />
                             <div>
                                 <h4 :class="validation.valid ? 'text-green-800' : 'text-red-800'" class="font-semibold">
-                                    {{ validation.valid ? '✅ Archivo Válido' : '❌ Archivo Inválido' }}
+                                    {{ validation.valid ? 'Archivo Válido' : 'Archivo Inválido' }}
                                 </h4>
                                 <p :class="validation.valid ? 'text-green-700' : 'text-red-700'" class="text-sm mt-1">
                                     {{ validation.message }}

@@ -46,15 +46,15 @@ class FixBackupStatuses extends Command
             $fixed = $this->backupService->fixBackupStatuses();
             
             if ($fixed > 0) {
-                $this->info("✅ Fixed {$fixed} backup(s) with inconsistent statuses.");
+                $this->info("Fixed {$fixed} backup(s) with inconsistent statuses.");
             } else {
-                $this->info('✅ All backup statuses are consistent. No fixes needed.');
+                $this->info('All backup statuses are consistent. No fixes needed.');
             }
 
             return Command::SUCCESS;
 
         } catch (\Exception $e) {
-            $this->error('❌ Error fixing backup statuses: ' . $e->getMessage());
+            $this->error('Error fixing backup statuses: ' . $e->getMessage());
             return Command::FAILURE;
         }
     }
