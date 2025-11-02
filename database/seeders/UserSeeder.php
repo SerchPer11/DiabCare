@@ -49,6 +49,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678'),
             'phone' => '1111111111',
             'gender' => 'female',
+            'birthdate' => '1990-05-15',
             'email_verified_at' => now(),
         ]);
 
