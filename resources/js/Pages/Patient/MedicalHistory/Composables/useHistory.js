@@ -43,7 +43,6 @@ export const useHistory = (props = {}) => {
             form.obesity = false;
             form.obesity_type = null;
         } 
-        console.log(`IMC Calculado: ${imc.toFixed(2)}`);
 
     }, { 
         immediate: true 
