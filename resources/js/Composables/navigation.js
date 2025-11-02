@@ -13,7 +13,8 @@ import {
     mdiFoodApple,
     mdiHandHeart,
     mdiClipboardPulse,
-    mdiAccountInjury
+    mdiAccountInjury,
+    mdiDatabase
 } from '@mdi/js';
 
 const navigation = [
@@ -56,13 +57,29 @@ const navigation = [
         ]
 
     },
+    // Administración
     {
-        type: 'single',
-        title: "Usuarios",
-        route: 'users.index',
-        icon: mdiAccountGroup,
-        permission: 'users.index',
-        roles: ['admin']
+        type: 'group',
+        title: "Administración",
+        icon: mdiViewModule,
+        permission: 'administration.view',
+        roles: ['admin'],
+        items: [
+            {
+                title: "Usuarios",
+                route: 'users.index',
+                icon: mdiAccountGroup,
+                permission: 'users.index',
+                roles: ['admin']
+            },
+            {
+                title: "Respaldos",
+                route: 'backups.index',
+                icon: mdiDatabase,
+                permission: 'backups.index',
+                roles: ['admin']
+            }
+        ]
     },
     // Doctor
     {

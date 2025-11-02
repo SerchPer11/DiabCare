@@ -93,6 +93,21 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
     Route::resource('security/roles', RoleController::class)->names('roles');
     Route::resource('administration/users', UserController::class)->names('users');
 
+    // Backup Management Routes
+    Route::prefix('administration')->name('backups.')->group(function () {
+        Route::get('backups', [App\Http\Controllers\Admin\BackupController::class, 'index'])->name('index');
+        Route::get('backups/create', [App\Http\Controllers\Admin\BackupController::class, 'create'])->name('create');
+        Route::post('backups', [App\Http\Controllers\Admin\BackupController::class, 'store'])->name('store');
+        Route::get('backups/upload', [App\Http\Controllers\Admin\BackupController::class, 'showUpload'])->name('upload.show');
+        Route::post('backups/upload', [App\Http\Controllers\Admin\BackupController::class, 'upload'])->name('upload');
+        Route::post('backups/fix-statuses', [App\Http\Controllers\Admin\BackupController::class, 'fixStatuses'])->name('fix-statuses');
+        Route::get('backups/{backup}/restore', [App\Http\Controllers\Admin\BackupController::class, 'restore'])->name('restore');
+        Route::post('backups/{backup}/confirm-restore', [App\Http\Controllers\Admin\BackupController::class, 'confirmRestore'])->name('confirm-restore');
+        Route::get('backups/{backup}/download', [App\Http\Controllers\Admin\BackupController::class, 'download'])->name('download');
+        Route::get('backups/{backup}/check-integrity', [App\Http\Controllers\Admin\BackupController::class, 'checkIntegrity'])->name('check-integrity');
+        Route::delete('backups/{backup}', [App\Http\Controllers\Admin\BackupController::class, 'destroy'])->name('destroy');
+    });
+
     Route::prefix('catalogs')->name('catalogs.')->group(function () {});
 
     Route::prefix('doctor')->name('doctor.')->group(function () {
