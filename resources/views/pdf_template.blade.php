@@ -15,6 +15,15 @@
 </head>
 <body>
     <h1>{{ $title }}</h1>
+
+    @if(!empty($filters))
+        <h2>Filtros aplicados</h2>
+        <ul>
+            @foreach($filters as $filter)
+                <li><strong>{{ $filter['label'] }}:</strong> {{ $filter['value'] ?? 'No Aplica' }}</li>
+            @endforeach
+        </ul>
+    @endif
     
     @if($stats ?? false)
         <h2>Resumen</h2>
@@ -42,10 +51,6 @@
     <table>
         <thead>
             <tr>
-                <!-- 
-                  CORRECCIÓN 1: 
-                  Tus headers son un array de objetos [{key: '...', label: '...'}]
-                -->
                 @foreach($tableData['headers'] as $header)
                     <th>{{ $header['label'] }}</th> 
                 @endforeach
@@ -54,11 +59,6 @@
         <tbody>
             @foreach($tableData['rows'] as $row)
                 <tr>
-                    <!-- 
-                      CORRECCIÓN 2: 
-                      Debes iterar los 'headers' para obtener la 'key'
-                      y así acceder al 'row' en el orden correcto.
-                    -->
                     @foreach($tableData['headers'] as $header)
                         <td>{{ $row[$header['key']] }}</td>
                     @endforeach

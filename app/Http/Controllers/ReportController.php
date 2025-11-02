@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Reports\DiabetesTypeReportService;
+use App\Services\Reports\MeasuresReportService;
 use App\Traits\Filterable;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,7 +24,7 @@ class ReportController extends Controller
     }
 
     protected $reportServices = [
-        'diabetes-type' => DiabetesTypeReportService::class,
+        'measures' => MeasuresReportService::class,
         /*'user-activity' => UserActivityReportService::class,*/
     ];
 
@@ -67,24 +67,20 @@ class ReportController extends Controller
             abort(404, 'Reporte no encontrado');
         }
 
-        // 1. Obtenemos los datos de la TABLA (la gráfica ya viene como imagen)
         $serviceClass = $this->reportServices[$reportType];
         $service = new $serviceClass();
         $reportData = $service->generate($request->all());
 
-        // 2. Recibimos la imagen de la gráfica desde Vue
-        $chartImage = $request->input('chartImage'); // El string Base64
+        $chartImage = $request->input('chartImage'); 
 
-        // 3. Preparamos los datos para la plantilla Blade
         $dataForPdf = [
-            // Usamos la llave correcta del servicio
             'title' => $reportData['reportTitle'] ?? 'Reporte',
             'tableData' => $reportData['tableData'] ?? [],
             'chartImage' => $chartImage,
             'stats' => $reportData['stats'] ?? [],
+            'filters' => $reportData['filters'] ?? [],
         ];
-
-        // 4. Cargamos la PLANTILLA REUTILIZABLE de PDF
+        // dd($dataForPdf);
         $pdf = Pdf::loadView('pdf_template', $dataForPdf);
 
         return $pdf->download("reporte-{$reportType}.pdf");

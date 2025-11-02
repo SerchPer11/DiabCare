@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
-class DiabetesTypeReportService
+class MeasuresReportService
 {
     public function generate(array $filters = [])
     {
@@ -24,7 +24,7 @@ class DiabetesTypeReportService
             'tableData'   => $this->formatTableData($readings),
             'stats'       => $stats,
             'filters'     => $this->getFiltersDefinition($filters),
-            'reportType'  => 'diabetes-type',
+            'reportType'  => 'measures',
             'reportTitle' => 'De mediciones registradas'
         ];
     }
@@ -82,7 +82,7 @@ class DiabetesTypeReportService
                 'datasets' => [[
                     'label' => 'Medida',
                     'data' => $readings->pluck('value'),
-                    'backgroundColor' => '#7CB9EE', // Un color "medic"
+                    'backgroundColor' => '#7CB9EE',
                     'borderColor' => '#D6E8FB',
                     'borderWidth' => 1,
                 ]]
@@ -115,10 +115,6 @@ class DiabetesTypeReportService
         ];
     }
 
-    /**
-     * HELPER 5: DEFINE QUÉ FILTROS MOSTRAR EN VUE
-     * Esto le dice a tu componente Vue qué filtros debe renderizar.
-     */
     private function getFiltersDefinition(array $currentFilters)
     {
         return [

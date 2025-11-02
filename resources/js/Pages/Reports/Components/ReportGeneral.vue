@@ -10,7 +10,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="diabetes-type"/>
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="measures"/>
             </div>
         </div>
         <BaseDivider />
@@ -24,7 +24,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`patients.index`" class="w-32" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
             </div>
         </div>
         <BaseDivider />
@@ -38,7 +38,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`patients.index`" class="w-32" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
             </div>
         </div>
         <BaseDivider />
@@ -52,7 +52,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`patients.index`" class="w-32" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
             </div>
         </div>
         <BaseDivider />
@@ -66,7 +66,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`patients.index`" class="w-32" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
             </div>
         </div>
         <BaseDivider />
@@ -80,7 +80,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`patients.index`" class="w-32" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
             </div>
         </div>
     </CardBox>
