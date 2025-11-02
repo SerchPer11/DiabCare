@@ -7,64 +7,88 @@
 
         <!-- Filter Banner with Date Range -->
         <CardBox class="mb-4">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                <!-- Search -->
-                <BaseFormField 
-                    type="input"
-                    label="Buscar"
-                    v-model="localFilters.search"
-                    placeholder="Buscar por nombre, descripción o usuario..."
-                />
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-4 items-end">
+                <!-- Search Field -->
+                <div class="md:col-span-2 lg:col-span-4">
+                    <BaseFormField 
+                        type="input"
+                        label="Buscar"
+                        v-model="localFilters.search"
+                        placeholder="Buscar por nombre, descripción o usuario..."
+                        @input="handleSearchInput"
+                    />
+                </div>
 
                 <!-- Start Date -->
-                <BaseFormField 
-                    type="date"
-                    label="Fecha Inicio"
-                    v-model="localFilters.start_date"
-                />
+                <div class="lg:col-span-2">
+                    <BaseFormField 
+                        type="date"
+                        label="Fecha Inicio"
+                        v-model="localFilters.start_date"
+                    />
+                </div>
 
-                <!-- End Date -->
-                <BaseFormField 
-                    type="date"
-                    label="Fecha Fin"
-                    v-model="localFilters.end_date"
-                />
+                <!-- Records per page -->
+                <div class="lg:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Por página</label>
+                    <select 
+                        v-model="localFilters.rows" 
+                        class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        @change="applyFilters"
+                    >
+                        <option value="10">10 registros</option>
+                        <option value="25">25 registros</option>
+                        <option value="50">50 registros</option>
+                        <option value="100">100 registros</option>
+                    </select>
+                </div>
 
-                <!-- Actions -->
-                <div class="flex gap-2">
+                <!-- Action Buttons -->
+                <div class="md:col-span-2 lg:col-span-2 flex gap-2 justify-end">
                     <BaseButton
                         color="info"
                         :icon="mdiMagnify"
                         label="Filtrar"
                         @click="applyFilters"
+                        small
                     />
                     <BaseButton
                         color="light"
                         :icon="mdiRefresh"
                         label="Limpiar"
                         @click="clearFilters"
+                        small
                     />
                 </div>
             </div>
 
-            <!-- Results Info -->
-            <div class="mt-4 flex justify-between items-center text-sm text-gray-600">
-                <div>
-                    Total de registros: {{ backups?.meta?.total || 0 }}
-                </div>
-                <div class="flex items-center gap-2">
-                    Mostrar:
-                    <select 
-                        v-model="localFilters.rows" 
-                        class="border rounded px-2 py-1"
-                        @change="applyFilters"
-                    >
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    por página
+            <!-- Results Summary -->
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <div class="text-sm text-gray-600">
+                        <span class="font-medium">{{ backups?.meta?.total || 0 }}</span> 
+                        respaldos encontrados
+                        <span v-if="backups?.meta?.from && backups?.meta?.to" class="ml-2">
+                            (mostrando {{ backups.meta.from }} - {{ backups.meta.to }})
+                        </span>
+                    </div>
+                    
+                    <!-- Active Filters Indicator -->
+                    <div v-if="hasActiveFilters" class="flex flex-wrap gap-2">
+                        <span class="text-xs text-gray-500">Filtros activos:</span>
+                        <span 
+                            v-if="localFilters.search" 
+                            class="inline-flex items-center px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full"
+                        >
+                            Búsqueda: "{{ localFilters.search }}"
+                        </span>
+                        <span 
+                            v-if="localFilters.start_date" 
+                            class="inline-flex items-center px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full"
+                        >
+                            Desde: {{ localFilters.start_date }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </CardBox>
@@ -75,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import BackupRecords from '../Components/BackupRecords.vue';
@@ -101,7 +125,6 @@ const props = defineProps({
             search: '',
             rows: 10,
             start_date: null,
-            end_date: null,
             order: 'created_at',
             direction: 'desc'
         })
@@ -125,9 +148,13 @@ const localFilters = reactive({
     search: props.filters.search || '',
     rows: props.filters.rows || 10,
     start_date: props.filters.start_date || null,
-    end_date: props.filters.end_date || null,
     order: props.filters.order || 'created_at',
     direction: props.filters.direction || 'desc'
+});
+
+// Check if there are active filters
+const hasActiveFilters = computed(() => {
+    return !!(localFilters.search || localFilters.start_date);
 });
 
 const applyFilters = () => {
@@ -141,25 +168,39 @@ const applyFilters = () => {
 const clearFilters = () => {
     localFilters.search = '';
     localFilters.start_date = null;
-    localFilters.end_date = null;
     localFilters.rows = 10;
     applyFilters();
 };
 
 // Auto-apply filters on search with debounce
-let searchTimeout;
-const watchSearch = () => {
-    clearTimeout(searchTimeout);
+let searchTimeout = null;
+
+// Watch for changes in search field
+const debouncedSearch = () => {
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
+    }
     searchTimeout = setTimeout(() => {
         applyFilters();
-    }, 500);
+    }, 800); // Increased timeout for better UX
 };
 
-onMounted(() => {
-    // Watch search input
-    const searchInput = document.querySelector('input[placeholder*="Buscar"]');
-    if (searchInput) {
-        searchInput.addEventListener('input', watchSearch);
+// Manual search trigger
+const handleSearchInput = () => {
+    debouncedSearch();
+};
+
+// Watch search field changes reactively
+watch(() => localFilters.search, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        debouncedSearch();
+    }
+});
+
+// Cleanup on component unmount
+onBeforeUnmount(() => {
+    if (searchTimeout) {
+        clearTimeout(searchTimeout);
     }
 });
 </script>

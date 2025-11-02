@@ -50,11 +50,14 @@ class BackupController extends Controller
 
         $query = Backup::with('creator')
             ->when($filters->search, function ($query, $search) {
-                $query->where('filename', 'LIKE', '%' . $search . '%')
-                    ->orWhere('description', 'LIKE', '%' . $search . '%')
-                    ->orWhereHas('creator', function ($query) use ($search) {
-                        $query->where('name', 'LIKE', '%' . $search . '%');
-                    });
+                $query->where(function ($q) use ($search) {
+                    $q->where('filename', 'LIKE', '%' . $search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $search . '%')
+                        ->orWhereHas('creator', function ($query) use ($search) {
+                            $query->where('name', 'LIKE', '%' . $search . '%')
+                                ->orWhere('last_name', 'LIKE', '%' . $search . '%');
+                        });
+                });
             })
             ->dateRange($startDate, $endDate);
 
