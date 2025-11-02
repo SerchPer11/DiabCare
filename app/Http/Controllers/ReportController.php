@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Reports\DiabetesTypeReportService;
 use App\Services\Reports\MeasuresReportService;
-use App\Traits\Filterable;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Traits\Filterable;
+use Inertia\Inertia;
+
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
@@ -25,7 +27,8 @@ class ReportController extends Controller
 
     protected $reportServices = [
         'measures' => MeasuresReportService::class,
-        /*'user-activity' => UserActivityReportService::class,*/
+        'diabetes-type' => DiabetesTypeReportService::class,
+        // Agrega más tipos de reportes y sus servicios correspondientes aquí
     ];
 
     public function index()

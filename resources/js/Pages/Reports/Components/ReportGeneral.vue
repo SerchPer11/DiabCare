@@ -10,7 +10,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="measures"/>
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter=""/>
             </div>
         </div>
         <BaseDivider />
@@ -52,7 +52,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="diabetes-type" />
             </div>
         </div>
         <BaseDivider />
@@ -80,7 +80,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="measures" />
             </div>
         </div>
     </CardBox>

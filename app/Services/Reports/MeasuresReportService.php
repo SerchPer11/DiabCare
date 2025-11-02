@@ -19,7 +19,6 @@ class MeasuresReportService
         $stats = $this->getStats($query);
 
         return [
-            'reportTitle' => 'Reporte de Niveles de Glucosa',
             'chartData'   => $this->formatChartData($readings),
             'tableData'   => $this->formatTableData($readings),
             'stats'       => $stats,
