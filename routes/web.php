@@ -25,6 +25,7 @@ use App\Http\Controllers\Forum\ForumAnswerController;
 use App\Http\Controllers\Doctor\DoctorSurveyController;
 use App\Http\Controllers\Patient\PatientSurveyController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DashboardController;
 
 use Inertia\Inertia;
 use App\Models\User;
@@ -41,27 +42,9 @@ Route::get('/home', function () {
     ]);
 })->name('home');
 
-Route::get('/dashboard', function () {
-    $user = User::where('id', Auth::id())->first();
-    $data = [];
-
-    // Si es doctor, cargar estadísticas de encuestas
-    if ($user->hasRole('doctor')) {
-        $surveys = \App\Models\Survey::where('created_by', $user->id);
-        $data['stats'] = [
-            'total' => $surveys->count(),
-            'active' => $surveys->where('is_active', true)->count(),
-            'inactive' => $surveys->where('is_active', false)->count(),
-            'total_responses' => \App\Models\SurveyResponse::whereIn(
-                'survey_id',
-                $surveys->pluck('id')
-            )->count(),
-            'average_response_rate' => 0, // Calcular después si es necesario
-        ];
-    }
-
-    return Inertia::render('Dashboard', $data);
-})->middleware(['auth', 'verified', 'ensure.profile.complete', 'ensure.medical.history.complete'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
 
 // Ruta temporal para probar colores
 Route::get('/test-colors', function () {
