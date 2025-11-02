@@ -40,29 +40,29 @@ export default {
     		colors: {
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
-				'medic': {
-				'50': '#F0F7FF',  // Fondo extra claro, casi blanco
-				'100': '#D6E8FB', // Tono pastel muy suave
-				'200': '#A9D1F5', // Azul pastel claro
-				'300': '#7CB9EE', // Azul amigable principal
-				'400': '#4AA2E5', // Tono más vivido para botones primarios
-				'500': '#2F8AD4', // Azul sólido y profesional
-				'600': '#236BAA', // Tono oscuro para hovers o bordes
-				'700': '#1A5386', // Azul oscuro para texto
-				'800': '#133C62', // Muy oscuro, para fondos o texto en modo noche
-				'900': '#0E2A44',  // El más oscuro, casi negro azulado
-				},
-				'success': {
-				300: '#6EE7B7', // Un verde claro para texto/hover
-				400: '#34D399', // El verde principal de tu botón
-				},
-				'error': {
-				400: '#f03939ff', // Rojo principal
-				},
-				'warning': {
-				300: '#FBBF24', // Amarillo principal
-				400: '#F59E0B', // Un amarillo/naranja para hover
-				},
+    			medic: {
+    				'50': '#F0F7FF',
+    				'100': '#D6E8FB',
+    				'200': '#A9D1F5',
+    				'300': '#7CB9EE',
+    				'400': '#4AA2E5',
+    				'500': '#2F8AD4',
+    				'600': '#236BAA',
+    				'700': '#1A5386',
+    				'800': '#133C62',
+    				'900': '#0E2A44'
+    			},
+    			success: {
+    				'300': '#6EE7B7',
+    				'400': '#34D399'
+    			},
+    			error: {
+    				'400': '#f03939ff'
+    			},
+    			warning: {
+    				'300': '#FBBF24',
+    				'400': '#F59E0B'
+    			},
     			card: {
     				DEFAULT: 'hsl(var(--card))',
     				foreground: 'hsl(var(--card-foreground))'
@@ -111,6 +111,28 @@ export default {
     				border: 'hsl(var(--sidebar-border))',
     				ring: 'hsl(var(--sidebar-ring))'
     			}
+    		},
+    		keyframes: {
+    			'accordion-down': {
+    				from: {
+    					height: '0'
+    				},
+    				to: {
+    					height: 'var(--reka-accordion-content-height)'
+    				}
+    			},
+    			'accordion-up': {
+    				from: {
+    					height: 'var(--reka-accordion-content-height)'
+    				},
+    				to: {
+    					height: '0'
+    				}
+    			}
+    		},
+    		animation: {
+    			'accordion-down': 'accordion-down 0.2s ease-out',
+    			'accordion-up': 'accordion-up 0.2s ease-out'
     		}
     	}
     },

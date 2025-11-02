@@ -21,7 +21,7 @@ import BreadCrumb from '@/Components/BreadCrumb.vue';
 const props = defineProps({
     title: {
         type: String,
-        default: 'Seguimiento clinico'
+        default: ''
     },
     color: {
         type: String,
