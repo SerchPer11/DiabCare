@@ -99,7 +99,6 @@ const valueColor = (item) => {
     const goodClass = 'text-green-600';
     const badClass = 'text-red-500';
 
-    console.log(value, range, measureConfig.min_value, measureConfig.max_value);
 
     if (range === "outrange") {
         if(measureConfig.max_value >= value && value >= measureConfig.min_value ){
