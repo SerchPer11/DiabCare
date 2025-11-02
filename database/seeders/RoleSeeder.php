@@ -20,7 +20,7 @@ class RoleSeeder extends Seeder
         ]);
         
         //$adminPermissions = Permission::all();
-        $adminPermissions = Permission::whereIn('module_key', ['security'])->get();
+        $adminPermissions = Permission::whereIn('module_key', ['security', 'general'])->get();
         $admin->syncPermissions($adminPermissions);
 
         
@@ -28,7 +28,7 @@ class RoleSeeder extends Seeder
             'name' => 'doctor',
             'description' => 'Doctor',
         ]);
-        $doctorPermissions = Permission::whereIn('module_key', ['doctor'])->orWhere('module_key', ['activity-log'])->orWhere('module_key', ['surveys'])->get();
+        $doctorPermissions = Permission::whereIn('module_key', ['doctor', 'general'])->orWhere('module_key', ['activity-log'])->orWhere('module_key', ['surveys'])->get();
         $doctor->syncPermissions($doctorPermissions);
 
         // Patient - Acceso limitado
@@ -37,7 +37,7 @@ class RoleSeeder extends Seeder
             'description' => 'Paciente',
         ]);
 
-        $patientPermissions = Permission::whereIn('module_key', ['patient'])->orWhere('module_key', ['activity-log'])->orWhere('module_key', ['surveys'])->get();
+        $patientPermissions = Permission::whereIn('module_key', ['patient', 'general'])->orWhere('module_key', ['activity-log'])->orWhere('module_key', ['surveys'])->get();
         $patient->syncPermissions($patientPermissions);
         
     }
