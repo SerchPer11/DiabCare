@@ -124,6 +124,10 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         //Rutas para gestión de citas médicas
         Route::resource('appointments', AppointmentController::class)->names('appointments');
         Route::resource('recomendations', RecomendationController::class)->names('recomendations');
+        
+        //Rutas para gestión de planes de alimentación y actividad
+        Route::resource('plans', App\Http\Controllers\Doctor\PlanController::class)->names('plans');
+        Route::post('plans/{plan}/duplicate', [App\Http\Controllers\Doctor\PlanController::class, 'duplicate'])->name('plans.duplicate');
     });
     //vista de pacientes
     Route::resource('patients', PatientsController::class)->names('patients');
@@ -137,6 +141,10 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         Route::get('medical-history', [MedicalHistoryController::class, 'index'])->name('medical-history.index');
         Route::put('medical-history', [MedicalHistoryController::class, 'update'])->name('medical-history.update');
         Route::get('clinical-log/{patient}', [ClinicalLogController::class, 'show'])->name('clinical-log.show');
+        
+        //Rutas para visualizar planes asignados
+        Route::get('plans', [App\Http\Controllers\Patient\PlanController::class, 'index'])->name('plans.index');
+        Route::get('plans/{plan}', [App\Http\Controllers\Patient\PlanController::class, 'show'])->name('plans.show');
     });
 
     Route::resource('measures', MeasureController::class)->names('measures');

@@ -14,7 +14,8 @@ import {
     mdiHandHeart,
     mdiClipboardPulse,
     mdiAccountInjury,
-    mdiDatabase
+    mdiDatabase,
+    mdiCalendarCheck
 } from '@mdi/js';
 
 const navigation = [
@@ -128,6 +129,13 @@ const navigation = [
         icon: mdiHandHeart,
         permission: 'doctor.recomendations.index',
     },
+    {
+        type: 'single',
+        title: "Planes de Pacientes",
+        route: 'doctor.plans.index',
+        icon: mdiCalendarCheck,
+        permission: 'doctor.plans.index',
+    },
 
     {
         type: 'group',
@@ -190,6 +198,14 @@ const navigation = [
         route: 'patient.medical-history.index',
         icon: mdiClipboardTextClock,
         permission: 'patient.medical-history.index',
+    },
+    {
+        type: 'single',
+        title: "Mis Planes",
+        route: 'patient.plans.index',
+        icon: mdiCalendarCheck,
+        permission: 'patient.plans.index',
+        roles: ['patient']
     },
     {
         type: 'single',

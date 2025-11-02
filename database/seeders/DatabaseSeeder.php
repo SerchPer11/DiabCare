@@ -43,6 +43,9 @@ class DatabaseSeeder extends Seeder
             ClinicalLogSeeder::class,
             ForumSeeder::class,
             BackupPermissionsSeeder::class,
+            PlanTypeSeeder::class,
+            PlanPermissionsSeeder::class,
+            TestPlanSeeder::class,
         ]);
     }
 }
