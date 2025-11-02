@@ -1,7 +1,7 @@
 <template>
     <AuthenticatedLayout>
-        <CrudHead :title="title" />
-        <ActivityLogHead :title="title" main :icon="mdiArchiveClock" />
+        
+        <CrudHeadWhioutFilters :title="title" main :icon="mdiArchiveClock" />
         <ActivityLogRecords :clinicalLogs="clinicalLogs" :routeName="routeName" />
 
         <CrudButtons>
@@ -23,11 +23,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CrudHead from '@/Components/CrudHead.vue';
 import { mdiArchiveClock  } from '@mdi/js';
 import ActivityLogRecords from '../Components/ActivityLogRecords.vue';
-import ActivityLogHead from '../Components/ActivityLogHead.vue';
 import { mdiArrowULeftBottom } from '@mdi/js';
 import CrudButtons from '@/Components/CrudButtons.vue';
 import BaseButton from '@/Components/BaseButton.vue';
 import { computed } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+import CrudHeadWhioutFilters from '@/Components/CrudHeadWhioutFilters.vue';
 
 
 const props = defineProps({
@@ -48,5 +49,5 @@ const props = defineProps({
 const userPrimaryRole = computed(() => {
   return usePage().props.auth?.roles?.[0] ?? null;
 });
-import { usePage } from '@inertiajs/vue3';
+
 </script>

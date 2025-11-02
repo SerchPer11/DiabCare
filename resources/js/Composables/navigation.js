@@ -15,7 +15,8 @@ import {
     mdiClipboardPulse,
     mdiAccountInjury,
     mdiDatabase,
-    mdiCalendarCheck
+    mdiCalendarCheck,
+    mdiFileChart,
 } from '@mdi/js';
 
 const navigation = [
@@ -183,6 +184,13 @@ const navigation = [
                 roles: ['patient']
             },
         ]
+    },
+    {
+        type: 'single',
+        title: "Reportes",
+        route: 'reports.index',
+        icon: mdiFileChart,
+        //permission: 'reports.index',
     },
     {
         type: 'single',

@@ -24,6 +24,8 @@ use App\Http\Controllers\Forum\ForumController;
 use App\Http\Controllers\Forum\ForumAnswerController;
 use App\Http\Controllers\Doctor\DoctorSurveyController;
 use App\Http\Controllers\Patient\PatientSurveyController;
+use App\Http\Controllers\ReportController;
+
 use Inertia\Inertia;
 use App\Models\User;
 
@@ -152,6 +154,10 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
     //forum
     Route::resource('/forum', ForumController::class)->names('forum');
     Route::resource('/forum/answers', ForumAnswerController::class)->names('forum.answers');
+
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/{reportType}', [ReportController::class, 'show'])->name('reports.show');
+    Route::post('/reports/{reportType}/export', [ReportController::class, 'export'])->name('reports.export');
 });
 
 

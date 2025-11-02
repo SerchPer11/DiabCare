@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{{ $title }}</title>
+    <!-- (Puedes añadir estilos CSS aquí en una etiqueta <style>) -->
+    <style>
+        body { font-family: sans-serif; line-height: 1.5; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; text-align: left; }
+        h1 { color: #333; }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <h1>{{ $title }}</h1>
+    
+    @if($stats ?? false)
+        <h2>Resumen</h2>
+        <table style="margin-bottom: 20px;">
+            <tr>
+                @foreach($stats as $stat)
+                    <td style="text-align: center;">
+                        <strong style="font-size: 1.5em;">{{ $stat['value'] }}</strong>
+                        <br>
+                        <span>{{ $stat['label'] }}</span>
+                    </td>
+                @endforeach
+            </tr>
+        </table>
+    @endif
+
+    @if($chartImage)
+        <h2>Gráfica</h2>
+        <div style="text-align: center;">
+            <img src="{{ $chartImage }}" style="width: 90%; margin: auto;">
+        </div>
+    @endif
+
+    <h2>Datos</h2>
+    <table>
+        <thead>
+            <tr>
+                <!-- 
+                  CORRECCIÓN 1: 
+                  Tus headers son un array de objetos [{key: '...', label: '...'}]
+                -->
+                @foreach($tableData['headers'] as $header)
+                    <th>{{ $header['label'] }}</th> 
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($tableData['rows'] as $row)
+                <tr>
+                    <!-- 
+                      CORRECCIÓN 2: 
+                      Debes iterar los 'headers' para obtener la 'key'
+                      y así acceder al 'row' en el orden correcto.
+                    -->
+                    @foreach($tableData['headers'] as $header)
+                        <td>{{ $row[$header['key']] }}</td>
+                    @endforeach
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</body>
+</html>
