@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             MeasureSeeder::class,
             ClinicalLogSeeder::class,
             ForumSeeder::class,
+            BackupPermissionsSeeder::class,
         ]);
     }
 }
