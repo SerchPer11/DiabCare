@@ -69,7 +69,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+import axios from 'axios';
 import StatCard from './StatCard.vue';
 import ChartCard from './ChartCard.vue';
 import ListCard from './ListCard.vue';
@@ -94,8 +95,17 @@ const getGoalCompletionColor = (percentage) => {
     return 'red';
 };
 
+
+// Copia reactiva local de las tareas de hoy
+const localTodayTasks = ref(props.dashboardData.todayTasks.map(task => ({ ...task })));
+
+// Mantener sincronizado si cambian las props
+watch(() => props.dashboardData.todayTasks, (newTasks) => {
+    localTodayTasks.value = newTasks.map(task => ({ ...task }));
+});
+
 const todayTasksFormatted = computed(() => {
-    return props.dashboardData.todayTasks.map(task => ({
+    return localTodayTasks.value.map(task => ({
         title: task.title,
         subtitle: task.description,
         meta: `Tipo: ${task.type}`,
@@ -107,13 +117,36 @@ const todayTasksFormatted = computed(() => {
             text: task.completed ? 'Ver' : 'Marcar como completado',
             route: 'patient.plans.show',
             params: { plan: task.id },
-            external: false
+            external: !task.completed, // Solo external si no está completado
+            taskId: task.id // Agregar el ID de la tarea para identificarla
         }
     }));
 });
 
-const handleTaskAction = (action) => {
-    // Aquí podrías manejar acciones específicas como marcar tareas como completadas
-    console.log('Task action:', action);
+const handleTaskAction = async (action) => {
+    // Buscar la tarea por taskId para actualización local inmediata
+    const idx = localTodayTasks.value.findIndex(t => t.id === action.taskId);
+    if (idx === -1 || localTodayTasks.value[idx].completed) {
+        return;
+    }
+
+    try {
+        // Llamar al endpoint real para registrar adherencia
+        const response = await axios.post(route('patient.plans.record-adherence', action.taskId));
+        
+        if (response.data.success) {
+            // Actualizar localmente solo después de éxito en el servidor
+            localTodayTasks.value[idx].completed = true;
+            
+            // Mostrar mensaje de éxito (opcional)
+            console.log('✅ Adherencia registrada:', response.data.message);
+        }
+    } catch (error) {
+        console.error('Error al registrar adherencia:', error);
+        
+        // Mostrar error al usuario si tienes el composable de errores disponible
+        const message = error.response?.data?.message || 'Error al registrar la adherencia. Intenta nuevamente.';
+        console.error('❌', message);
+    }
 };
 </script>

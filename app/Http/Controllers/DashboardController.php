@@ -214,7 +214,7 @@ class DashboardController extends Controller
                     'color' => 'green'
                 ],
                 [
-                    'title' => 'Seguimiento de Pacientes',
+                    'title' => 'Seguimientos clinicos',
                     'description' => 'Ver y gestionar pacientes en seguimiento',
                     'route' => 'patients.index',
                     'icon' => 'file-text',
@@ -299,7 +299,7 @@ class DashboardController extends Controller
                     'title' => $plan->title,
                     'type' => $plan->planType->name ?? 'Plan',
                     'description' => $plan->description,
-                    'completed' => false // Por ahora, todas las tareas aparecen como pendientes
+                    'completed' => !$plan->shouldBeTrackedToday() // Si no debe trackearse hoy, significa que ya se completó
                 ];
             });
 
