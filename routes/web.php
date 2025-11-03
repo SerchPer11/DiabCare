@@ -27,6 +27,8 @@ use App\Http\Controllers\Doctor\DoctorSurveyController;
 use App\Http\Controllers\Patient\PatientSurveyController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PatientRecomendationController;
 
 use Inertia\Inertia;
 use App\Models\User;
@@ -141,6 +143,9 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         Route::get('appointments', [PatientAppointmentController::class, 'index'])->name('appointments.index');
         Route::get('appointments/{appointment}', [PatientAppointmentController::class, 'show'])->name('appointments.show');
         Route::patch('appointments/{appointment}/status', [PatientAppointmentController::class, 'updateStatus'])->name('appointments.update-status');
+
+        Route::get('recommendations', [PatientRecomendationController::class, 'index'])->name('recommendations.index');
+        Route::get('recommendations/{recommendation}', [PatientRecomendationController::class, 'show'])->name('recommendations.show');
     });
 
     Route::resource('measures', MeasureController::class)->names('measures');
@@ -152,6 +157,12 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/{reportType}', [ReportController::class, 'show'])->name('reports.show');
     Route::post('/reports/{reportType}/export', [ReportController::class, 'export'])->name('reports.export');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])
+         ->name('notifications.index');
+
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])
+         ->name('notifications.read');
 });
 
 

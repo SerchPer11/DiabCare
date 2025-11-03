@@ -18,7 +18,7 @@ use App\Services\PhotoService;
 use App\Services\FileService;
 use App\DTOs\FileStorageConfig;
 use App\Traits\LogClinicalActivity;
-use LaravelLang\Publisher\Console\Update;
+use App\Events\RecommendationCreated;
 
 class RecomendationController extends Controller
 {
@@ -87,10 +87,10 @@ class RecomendationController extends Controller
             ['value' => 'high', 'label' => 'Alta'],
         ];
         $doctors = User::role('doctor')
-            ->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])
+            ->select(['id', DB::raw("CONCAT(name, ' ', last_name, ' ', second_last_name) as name")])
             ->get();
         $patients = User::role('patient')
-            ->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])
+            ->select(['id', DB::raw("CONCAT(name, ' ', last_name, ' ', second_last_name) as name")])
             ->get();
 
         return Inertia::render("{$this->source}Create", [
@@ -118,6 +118,7 @@ class RecomendationController extends Controller
                 $recomendation->patient_id,
                 $recomendation->doctor_id
             );
+            RecommendationCreated::dispatch($recomendation, $recomendation->patient);
         });
 
         return redirect()->route($this->routeName . 'index')
@@ -132,10 +133,10 @@ class RecomendationController extends Controller
             ['value' => 'high', 'label' => 'Alta'],
         ];
         $doctors = User::role('doctor')
-            ->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])
+            ->select(['id', DB::raw("CONCAT(name, ' ', last_name, ' ', second_last_name) as name")])
             ->get();
         $patients = User::role('patient')
-            ->select(['id', 'name', 'last_name', DB::raw("CONCAT(name, ' ', last_name) as full_name")])
+            ->select(['id', DB::raw("CONCAT(name, ' ', last_name, ' ', second_last_name) as name")])
             ->get();
 
         return Inertia::render("{$this->source}Edit", [

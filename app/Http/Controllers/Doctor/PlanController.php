@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use App\Events\PlanAssigned;
 
 class PlanController extends Controller
 {
@@ -128,7 +129,6 @@ class PlanController extends Controller
                 'end_date' => $request->end_date,
                 'status' => 'activo',
             ]);
-
             // Create plan elements
             foreach ($request->elements as $index => $element) {
                 PlanElement::create([
@@ -145,8 +145,9 @@ class PlanController extends Controller
                     'order' => $index + 1,
                 ]);
             }
-
+            
             DB::commit();
+            PlanAssigned::dispatch($plan, $plan->patient);
 
             // TODO: Send notification to patient
 

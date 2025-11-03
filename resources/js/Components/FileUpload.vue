@@ -12,13 +12,13 @@
 
                 <!-- <button @click="triggerFileInput" class="rounded relative m-0 px-3 py-2" -->
                 <div class="flex justify-center items-center">
-                    <button
+                    <button 
                         class="flex transition-colors border focus:outline-none items-center relative rounded h-10 px-2 py-1 m-0"
                         :class="getButtonColor('info', false, true)">
                         <BaseIcon :path="mdiPlus" />
                         <span class="text-sm">Subir archivos</span>
                         <input ref="FileInput" class="m-0 p-0 absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                            accept=".pdf,.docx" multiple @change="handleFileInput" type="file">
+                            accept=".pdf,.docx" multiple @change="handleFileInput" type="file" :disabled="disabled"> 
                     </button>
                 </div>
             </div>
@@ -75,6 +75,10 @@ const { form } = defineProps({
     iconClasses: {
         type: String,
         default: 'bg-forest-400 text-white',
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
     }
 });
 

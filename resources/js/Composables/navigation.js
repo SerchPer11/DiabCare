@@ -250,6 +250,14 @@ const navigation = [
         icon: mdiClipboardTextClock,
         permission: 'patient.appointments.index',
         roles: ['patient']
+    },
+    {
+        type: 'single',
+        title: "Mis Recomendaciones",
+        route: 'patient.recommendations.index',
+        icon: mdiHandHeart,
+        //permission: 'patient.recommendations.index',
+        roles: ['patient']
     }
 ];
 
