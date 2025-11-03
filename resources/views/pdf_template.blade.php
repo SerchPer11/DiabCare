@@ -11,10 +11,28 @@
         th { background-color: #f2f2f2; text-align: left; }
         h1 { color: #333; }
         h2 { border-bottom: 2px solid #eee; padding-bottom: 5px; }
+        h1 text-medic-500 { color: #144594; }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+.header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
-    <h1>{{ $title }}</h1>
+    <div class="header">
+            <div class="logo">DiabCare</div>
+            <p>Sistema de Gestión Médica para Diabetes</p>
+            <p style="font-size: 0.9em; color: #555;">
+    Generado el: {{ \Carbon\Carbon::now()->format('d/m/Y h:i A') }}
+</p>
+        </div>  
+    <h2>Reporte de {{ $title }}</h2> 
 
     @if(!empty($filters))
         <h2>Filtros aplicados</h2>
