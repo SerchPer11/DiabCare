@@ -22,7 +22,7 @@ class AssignRoleUserSeeder extends Seeder
 
         
 
-        $patient = User::find(3);
+        $patient = User::find(2);
         $role = Role::find(3);
         $patient->assignRole($role);
     }
