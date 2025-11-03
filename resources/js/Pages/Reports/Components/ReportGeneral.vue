@@ -20,11 +20,11 @@
             <div>
                 <p class="text-medic-400 text-xl font-bold">Reporte por adherencia a planes</p>
                 <p class="text-sm font-light text-gray-500">
-                    Reporte que muestra la cantidad de pacientes por adherencia a planes.
+                    Reporte que muestra la adherencia de los pacientes a sus planes asignados.
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="plan-adherence" />
             </div>
         </div>
         <BaseDivider />
