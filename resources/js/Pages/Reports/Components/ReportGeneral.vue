@@ -6,11 +6,11 @@
             <div>
                 <p class="text-medic-400 text-xl font-bold">Reporte por evolución de glucosa</p>
                 <p class="text-sm font-light text-gray-500">
-                    Reporte que muestra la cantidad de pacientes por evolución de glucosa.
+                    Reporte que muestra la evolución de glucosa de los pacientes detectando tendencias y picos.
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter=""/>
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="glucose-evolution"/>
             </div>
         </div>
         <BaseDivider />
