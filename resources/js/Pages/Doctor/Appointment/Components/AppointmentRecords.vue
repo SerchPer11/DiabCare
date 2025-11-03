@@ -1,10 +1,6 @@
 <template>
     <CardBox class="mt-2">
         <template v-if="Array.isArray(appointments.data) && appointments.data.length > 0">
-            <div class="flex justify-end mb-4 md:mr-10">
-                <BaseButton color="info" :icon="mdiPlus" label="Agregar" title="Agregar cita"
-                    :routeName="`${routeName}create`" />
-            </div>
             <table class="w-full text-center md:table-fixed sm:table-auto shadow-md">
                 <thead class="h-12 border-gray-200 bg-medic-50 text-gray-600 shadow-sm">
                     <tr>
@@ -46,8 +42,6 @@
         <template v-else>
             <div class="flex items-center justify-center gap-4 py-8">
                 <span class="text-gray-500 text-lg">No hay registros</span>
-                <BaseButton color="info" :icon="mdiPlus" label="Agregar" title="Agregar cita"
-                    :routeName="`${routeName}create`" />
             </div>
         </template>
     </CardBox>

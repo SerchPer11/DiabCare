@@ -5,6 +5,7 @@ use App\Http\Controllers\Doctor\Catalogs\MedicationController;
 use App\Http\Controllers\Doctor\Catalogs\ExerciseController;
 use App\Http\Controllers\Patient\MedicalHistoryController;
 use App\Http\Controllers\Patient\PatientProfileController;
+use App\Http\Controllers\Patient\AppointmentController as PatientAppointmentController;
 use App\Http\Controllers\Doctor\DoctorProfileController;
 use App\Http\Controllers\Doctor\Catalogs\FoodController;
 use App\Http\Controllers\Doctor\RecomendationController;
@@ -133,6 +134,11 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         //Rutas para visualizar planes asignados
         Route::get('plans', [App\Http\Controllers\Patient\PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/{plan}', [App\Http\Controllers\Patient\PlanController::class, 'show'])->name('plans.show');
+        
+        //Rutas para visualizar citas asignadas
+        Route::get('appointments', [PatientAppointmentController::class, 'index'])->name('appointments.index');
+        Route::get('appointments/{appointment}', [PatientAppointmentController::class, 'show'])->name('appointments.show');
+        Route::patch('appointments/{appointment}/status', [PatientAppointmentController::class, 'updateStatus'])->name('appointments.update-status');
     });
 
     Route::resource('measures', MeasureController::class)->names('measures');

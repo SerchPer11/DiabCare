@@ -10,6 +10,7 @@ use App\Models\AppointmentStatus;
 use App\Traits\Filterable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use App\Traits\LogClinicalActivity;
 use Inertia\Inertia;
 
@@ -91,14 +92,20 @@ class AppointmentController extends Controller
     public function store(StoreAppointmentRequest $request)
     {
         $appointment = $this->model->create($request->validated());
+        $appointment->load(['patient', 'doctor', 'status']);
+        
         $this->logActivity(
             $appointment,
             'Cita medica',
             $appointment->patient_id,
             $appointment->doctor_id
         );
+
+        // Enviar correo de notificación al paciente
+        Mail::to($appointment->patient->email)->send(new \App\Mail\AppointmentAssigned($appointment));
+
         return redirect()->route($this->routeName . 'index')
-            ->with('success', 'Cita creada correctamente.');
+            ->with('success', 'Cita creada correctamente. Se ha enviado una notificación al paciente.');
     }
 
     public function edit(Appointment $appointment)

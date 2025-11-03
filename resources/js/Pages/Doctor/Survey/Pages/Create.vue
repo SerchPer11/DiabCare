@@ -33,24 +33,7 @@
                     </p>
                 </div>
 
-                <!-- Consejos para crear encuestas -->
-                <div class="mb-6 bg-blue-50 rounded-lg border border-blue-200 p-4">
-                    <div class="flex items-start">
-                        <svg class="w-6 h-6 text-blue-600 mr-3 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div>
-                            <h4 class="text-sm font-medium text-blue-900 mb-2">Consejos para crear una buena encuesta:</h4>
-                            <ul class="text-sm text-blue-800 space-y-1">
-                                <li>• Usa un título claro y descriptivo</li>
-                                <li>• Redacta preguntas específicas y fáciles de entender</li>
-                                <li>• Establece fechas de inicio y fin apropiadas</li>
-                                <li>• Incluye entre 10-20 preguntas para mejores resultados</li>
-                                <li>• Proporciona instrucciones claras a tus pacientes</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- Formulario de creación -->
                 <div v-if="!showPreview">

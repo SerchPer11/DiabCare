@@ -111,6 +111,10 @@ class PermissionSeeder extends Seeder
         //clinical log
         Permission::create(['name' => 'clinical-log.index', 'guard_name' => 'web', 'description' => 'Ver seguimiento clínico', 'module_key' => 'activity-log']);
         
+        // Permisos para citas de pacientes
+        Permission::create(['name' => 'patient.appointments.index', 'guard_name' => 'web', 'description' => 'Ver mis citas', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.appointments.show', 'guard_name' => 'web', 'description' => 'Ver detalles de mi cita', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.appointments.update-status', 'guard_name' => 'web', 'description' => 'Actualizar estado de mis citas', 'module_key' => 'patient']);
 
     }
 }

@@ -243,6 +243,14 @@ const navigation = [
         permission: 'measures.index',
         roles: ['patient', 'doctor', 'admin']
     },
+    {
+        type: 'single',
+        title: "Mis Citas",
+        route: 'patient.appointments.index',
+        icon: mdiClipboardTextClock,
+        permission: 'patient.appointments.index',
+        roles: ['patient']
+    }
 ];
 
 export default navigation;
