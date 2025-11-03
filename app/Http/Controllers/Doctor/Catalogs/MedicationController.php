@@ -120,10 +120,11 @@ class MedicationController extends Controller
 
     public function update(UpdateMedicationRequest $request, Medication $medication)
     {
-        DB::Transaction(function () use ($request, $medication) {
-            $medication->update($request->validated());
+        $validated = $request->validated();
+        DB::Transaction(function () use ($validated, $medication) {
+            $medication->update($validated);
 
-            $this->photoService->syncPhotos($medication, $request->file('photos') ?? [], $this->configPhotos);
+            $this->photoService->syncPhotos($medication, $validated['photos'] ?? [], $this->configPhotos);
         });
         return redirect()->route("{$this->routeName}index")
             ->with('success', 'Medicamento actualizado exitosamente.');
