@@ -38,7 +38,7 @@
                 </p>
             </div>
             <div class="ml-auto">
-                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="" />
+                <BaseButton :icon="mdiEye" color="info" label="Ver" :routeName="`${routeName}show`" class="w-32" parameter="appointment-status" />
             </div>
         </div>
         <BaseDivider />
