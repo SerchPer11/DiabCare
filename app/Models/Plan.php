@@ -31,10 +31,6 @@ class Plan extends Model
         'has_progress' => 'boolean',
         'overall_adherence' => 'decimal:2',
         'days_tracked' => 'integer',
-        'last_tracked_date' => 'date',
-        'total_plan_days' => 'integer',
-        'overall_adherence' => 'decimal:2',
-        'days_tracked' => 'integer',
         'total_plan_days' => 'integer',
     ];
 
@@ -164,43 +160,7 @@ class Plan extends Model
         return $query;
     }
 
-    /**
-     * Calculate total days of the plan duration.
-     */
-    public function calculateTotalPlanDays()
-    {
-        if (!$this->start_date || !$this->end_date) {
-            return;
-        }
 
-        $startDate = Carbon::parse($this->start_date);
-        $endDate = Carbon::parse($this->end_date);
-        $totalDays = $startDate->diffInDays($endDate) + 1; // +1 to include both start and end dates
-
-        $this->update(['total_plan_days' => $totalDays]);
-        
-        return $totalDays;
-    }
-
-    /**
-     * Update adherence percentage based on tracked days.
-     * This method would be called when plan tracking is recorded.
-     */
-    public function updateAdherencePercentage()
-    {
-        if ($this->total_plan_days == 0) {
-            $this->calculateTotalPlanDays();
-        }
-
-        if ($this->total_plan_days > 0) {
-            $adherencePercentage = min(100, ($this->days_tracked / $this->total_plan_days) * 100);
-            
-            $this->update([
-                'overall_adherence' => round($adherencePercentage, 2),
-                'last_tracked_date' => now()->toDateString()
-            ]);
-        }
-    }
 
     /**
      * Increment tracked days and update adherence.
@@ -242,6 +202,10 @@ class Plan extends Model
      */
     public function calculateTotalPlanDays(): int
     {
+        if (!$this->start_date || !$this->end_date) {
+            return 0;
+        }
+
         $totalDays = Carbon::parse($this->start_date)->diffInDays(Carbon::parse($this->end_date)) + 1;
         $this->update(['total_plan_days' => $totalDays]);
         return $totalDays;
@@ -252,9 +216,17 @@ class Plan extends Model
      */
     public function updateAdherencePercentage(): void
     {
+        if ($this->total_plan_days == 0) {
+            $this->calculateTotalPlanDays();
+        }
+
         if ($this->total_plan_days > 0) {
-            $adherencePercentage = ($this->days_tracked / $this->total_plan_days) * 100;
-            $this->update(['overall_adherence' => round($adherencePercentage, 2)]);
+            $adherencePercentage = min(100, ($this->days_tracked / $this->total_plan_days) * 100);
+            
+            $this->update([
+                'overall_adherence' => round($adherencePercentage, 2),
+                'last_tracked_date' => now()->toDateString()
+            ]);
         }
     }
 
