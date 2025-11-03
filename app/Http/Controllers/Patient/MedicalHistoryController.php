@@ -27,8 +27,8 @@ class MedicalHistoryController extends Controller
         $this->source = 'Patient/MedicalHistory/Pages/';
         //$this->model = new Exercise();
 
-        /*$this->middleware("permission:{$this->routeName}index")->only(['index']);
-        $this->middleware("permission:{$this->routeName}edit")->only(['update']);*/
+        $this->middleware("permission:{$this->routeName}index")->only(['index']);
+        $this->middleware("permission:{$this->routeName}edit")->only(['update']);
     }
 
     public function index(): Response

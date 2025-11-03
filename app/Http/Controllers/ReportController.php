@@ -26,7 +26,7 @@ class ReportController extends Controller
         $this->source = 'Reports/Pages/';
         $this->routeName = 'reports.';
 
-        /*$this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);*/
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
     }
 
     protected $reportServices = [

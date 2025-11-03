@@ -26,10 +26,7 @@ class PatientRecomendationController extends Controller
         $this->source = 'Patient/Recomendation/Pages/';
         $this->model = new Recomendation();
 
-        /*$this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
-        $this->middleware("permission:{$this->routeName}create")->only(['store', 'create']);
-        $this->middleware("permission:{$this->routeName}edit")->only(['edit', 'update']);
-        $this->middleware("permission:{$this->routeName}delete")->only(['destroy']);*/
+        $this->middleware("permission:{$this->routeName}index")->only(['index', 'show']);
     }
 
     public function index(Request $request)

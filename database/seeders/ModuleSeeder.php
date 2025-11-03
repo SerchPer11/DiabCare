@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Module;
 use Illuminate\Database\Seeder;
+use PhpParser\Node\Expr\AssignOp\Mod;
 
 class ModuleSeeder extends Seeder
 {
@@ -55,6 +56,20 @@ class ModuleSeeder extends Seeder
             'name' => 'Módulo de encuestas',
             'description' => 'Módulo para la gestión de encuestas',
             'key' => 'surveys',
+            'user_id' => 1,
+        ]);
+
+        Module::create([
+            'name' => 'Módulo de reportes',
+            'description' => 'Módulo para la generación de reportes',
+            'key' => 'reports',
+            'user_id' => 1,
+        ]);
+
+        Module::create([
+            'name' => 'Módulo general',
+            'description' => 'Módulo para la gestión general admin y doctor',
+            'key' => 'general',
             'user_id' => 1,
         ]);
     }

@@ -1,6 +1,6 @@
 <template>
     <AuthenticatedLayout>
-        
+        <CrudHead :title="title" />
         <CrudHeadWhioutFilters :title="title" main :icon="mdiArchiveClock" />
         <ActivityLogRecords :clinicalLogs="clinicalLogs" :routeName="routeName" />
 

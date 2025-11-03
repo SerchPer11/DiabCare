@@ -115,12 +115,6 @@ const navigation = [
                 roles: ['doctor', 'admin']
             },
         ], 
-        /*type: 'single',
-        title: "Citas Médicas",
-        route: 'doctor.appointments.index',
-        icon: mdiClipboardTextClock,
-        permission: 'doctor.appointments.index',
-        roles: ['doctor']*/
     },
     {
         type: 'single',
@@ -208,7 +202,7 @@ const navigation = [
         route: 'reports.index',
         icon: mdiFileChart,
         roles: ['doctor', 'admin'],
-        //permission: 'reports.index',
+        permission: 'reports.index',
     },
     {
         type: 'single',
@@ -256,7 +250,7 @@ const navigation = [
         title: "Mis Recomendaciones",
         route: 'patient.recommendations.index',
         icon: mdiHandHeart,
-        //permission: 'patient.recommendations.index',
+        permission: 'patient.recommendations.index',
         roles: ['patient']
     }
 ];

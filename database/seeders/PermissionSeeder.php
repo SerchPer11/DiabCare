@@ -83,10 +83,10 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'clinical-logbook.delete', 'guard_name' => 'web', 'description' => 'Eliminar entradas de bitácora', 'module_key' => 'doctor']);
 
         // mediciones del paciente
-        Permission::create(['name' => 'patient.medical-history.index', 'guard_name' => 'web', 'description' => 'Ver historial médico', 'module_key' => 'patient']);
-        Permission::create(['name' => 'patient.medical-history.create', 'guard_name' => 'web', 'description' => 'Crear historial médico', 'module_key' => 'patient']);
-        Permission::create(['name' => 'patient.medical-history.edit', 'guard_name' => 'web', 'description' => 'Editar historial médico', 'module_key' => 'patient']);
-        Permission::create(['name' => 'patient.medical-history.delete', 'guard_name' => 'web', 'description' => 'Eliminar historial médico', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.medical-history.index', 'guard_name' => 'web', 'description' => 'Ver historial médico', 'module_key' => 'activity-log']);
+        Permission::create(['name' => 'patient.medical-history.create', 'guard_name' => 'web', 'description' => 'Crear historial médico', 'module_key' => 'activity-log']);
+        Permission::create(['name' => 'patient.medical-history.edit', 'guard_name' => 'web', 'description' => 'Editar historial médico', 'module_key' => 'activity-log']);
+        Permission::create(['name' => 'patient.medical-history.delete', 'guard_name' => 'web', 'description' => 'Eliminar historial médico', 'module_key' => 'activity-log']);
 
         Permission::create(['name' => 'measures.index', 'guard_name' => 'web', 'description' => 'Ver mediciones', 'module_key' => 'patient']);
         Permission::create(['name' => 'measures.create', 'guard_name' => 'web', 'description' => 'Crear mediciones', 'module_key' => 'patient']);
@@ -106,7 +106,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'patient.surveys.submit', 'guard_name' => 'web', 'description' => 'Responder encuestas', 'module_key' => 'patient']);
 
         //pactients
-        Permission::create(['name' => 'patients.index', 'guard_name' => 'web', 'description' => 'Ver pacientes', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'patients.index', 'guard_name' => 'web', 'description' => 'Ver pacientes', 'module_key' => 'general']);
 
         //clinical log
         Permission::create(['name' => 'clinical-log.index', 'guard_name' => 'web', 'description' => 'Ver seguimiento clínico', 'module_key' => 'activity-log']);
@@ -116,5 +116,17 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'patient.appointments.show', 'guard_name' => 'web', 'description' => 'Ver detalles de mi cita', 'module_key' => 'patient']);
         Permission::create(['name' => 'patient.appointments.update-status', 'guard_name' => 'web', 'description' => 'Actualizar estado de mis citas', 'module_key' => 'patient']);
 
+        //patient recommendations
+        Permission::create(['name' => 'patient.recommendations.index', 'guard_name' => 'web', 'description' => 'Ver mis recomendaciones médicas', 'module_key' => 'patient']);
+
+        //reports
+        Permission::create(['name' => 'reports.index', 'guard_name' => 'web', 'description' => 'Ver reportes', 'module_key' => 'reports']);
+
+        //profile
+        Permission::create(['name' => 'doctor.profile.show', 'guard_name' => 'web', 'description' => 'Ver perfil del doctor', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'doctor.profile.edit', 'guard_name' => 'web', 'description' => 'Editar perfil del doctor', 'module_key' => 'doctor']);
+
+        Permission::create(['name' => 'patient.profile.show', 'guard_name' => 'web', 'description' => 'Ver perfil del paciente', 'module_key' => 'patient']);
+        Permission::create(['name' => 'patient.profile.edit', 'guard_name' => 'web', 'description' => 'Editar perfil del paciente', 'module_key' => 'patient']);
     }
 }

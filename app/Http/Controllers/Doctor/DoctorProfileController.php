@@ -26,8 +26,8 @@ class DoctorProfileController extends Controller
         $this->routeName = 'doctor.profile.';
         $this->source = 'Doctor/Profile/Pages/';
 
-        /*$this->middleware("permission:{$this->routeName}show")->only(['profile']);
-        $this->middleware("permission:{$this->routeName}edit")->only(['update']); */
+        $this->middleware("permission:{$this->routeName}show")->only(['profile']);
+        $this->middleware("permission:{$this->routeName}edit")->only(['update']); 
     }
 
     public function profile(): Response
