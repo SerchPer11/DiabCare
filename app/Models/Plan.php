@@ -27,10 +27,14 @@ class Plan extends Model
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
+        'last_tracked_date' => 'date',
         'has_progress' => 'boolean',
         'overall_adherence' => 'decimal:2',
         'days_tracked' => 'integer',
         'last_tracked_date' => 'date',
+        'total_plan_days' => 'integer',
+        'overall_adherence' => 'decimal:2',
+        'days_tracked' => 'integer',
         'total_plan_days' => 'integer',
     ];
 
@@ -80,9 +84,9 @@ class Plan extends Model
     public function isCurrentlyActive(): bool
     {
         $now = Carbon::now()->toDateString();
-        return $this->status === 'active' && 
-               $this->start_date <= $now && 
-               $this->end_date >= $now;
+        return $this->status === 'activo' && 
+               $this->start_date->toDateString() <= $now && 
+               $this->end_date->toDateString() >= $now;
     }
 
     /**
@@ -229,6 +233,98 @@ class Plan extends Model
             'media' => $query->whereBetween('overall_adherence', [60, 79.99]),
             'baja' => $query->whereBetween('overall_adherence', [40, 59.99]),
             'muy_baja' => $query->where('overall_adherence', '<', 40),
+            default => $query
+        };
+    }
+
+    /**
+     * Calculate and update the total plan days.
+     */
+    public function calculateTotalPlanDays(): int
+    {
+        $totalDays = Carbon::parse($this->start_date)->diffInDays(Carbon::parse($this->end_date)) + 1;
+        $this->update(['total_plan_days' => $totalDays]);
+        return $totalDays;
+    }
+
+    /**
+     * Update adherence percentage based on tracked days.
+     */
+    public function updateAdherencePercentage(): void
+    {
+        if ($this->total_plan_days > 0) {
+            $adherencePercentage = ($this->days_tracked / $this->total_plan_days) * 100;
+            $this->update(['overall_adherence' => round($adherencePercentage, 2)]);
+        }
+    }
+
+    /**
+     * Record a day as tracked.
+     */
+    public function recordTrackedDay(\Carbon\Carbon $date = null): void
+    {
+        $trackingDate = $date ?? Carbon::now();
+        
+        // Solo actualizar si la fecha es diferente a la última registrada
+        if (!$this->last_tracked_date || $trackingDate->toDateString() !== $this->last_tracked_date->toDateString()) {
+            $this->increment('days_tracked');
+            $this->update(['last_tracked_date' => $trackingDate]);
+            $this->updateAdherencePercentage();
+        }
+    }
+
+    /**
+     * Get adherence status based on percentage.
+     */
+    public function getAdherenceStatusAttribute(): string
+    {
+        $adherence = $this->overall_adherence;
+        
+        if ($adherence >= 80) {
+            return 'excellent'; // Excelente
+        } elseif ($adherence >= 60) {
+            return 'good'; // Buena
+        } elseif ($adherence >= 40) {
+            return 'regular'; // Regular
+        } else {
+            return 'poor'; // Deficiente
+        }
+    }
+
+    /**
+     * Get adherence status in Spanish.
+     */
+    public function getAdherenceStatusSpanishAttribute(): string
+    {
+        return match($this->adherence_status) {
+            'excellent' => 'Excelente',
+            'good' => 'Buena',
+            'regular' => 'Regular',
+            'poor' => 'Deficiente',
+            default => 'Sin datos'
+        };
+    }
+
+    /**
+     * Check if the plan should be tracked today.
+     */
+    public function shouldBeTrackedToday(): bool
+    {
+        $today = Carbon::now()->toDateString();
+        return $this->isCurrentlyActive() && 
+               (!$this->last_tracked_date || $this->last_tracked_date->toDateString() !== $today);
+    }
+
+    /**
+     * Scope to filter by adherence status.
+     */
+    public function scopeByAdherenceStatus($query, $status)
+    {
+        return match($status) {
+            'excellent' => $query->where('overall_adherence', '>=', 80),
+            'good' => $query->where('overall_adherence', '>=', 60)->where('overall_adherence', '<', 80),
+            'regular' => $query->where('overall_adherence', '>=', 40)->where('overall_adherence', '<', 60),
+            'poor' => $query->where('overall_adherence', '<', 40),
             default => $query
         };
     }

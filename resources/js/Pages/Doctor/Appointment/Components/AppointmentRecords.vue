@@ -1,7 +1,16 @@
 <template>
-    <CardBox class="mt-2">
-        <template v-if="Array.isArray(appointments.data) && appointments.data.length > 0">
-            <table class="w-full text-center md:table-fixed sm:table-auto shadow-md">
+    <CardBox v-if="appointments.data && appointments.data.length > 0" class="mt-2">
+        <div class="flex justify-end mb-4 md:mr-10">
+            <BaseButton 
+                color="info" 
+                :icon="mdiPlus" 
+                label="Agregar" 
+                title="Crear nueva cita"
+                :routeName="`${routeName}create`" 
+            />
+        </div>
+
+        <table class="w-full text-center md:table-fixed sm:table-auto shadow-md">
                 <thead class="h-12 border-gray-200 bg-medic-50 text-gray-600 shadow-sm">
                     <tr>
                         <th>Paciente</th>
@@ -36,14 +45,27 @@
                     </tr>
                 </tbody>
             </table>
-            <Pagination v-if="appointments?.meta" :links="appointments.meta.links" :total="appointments.meta.total" :to="appointments.meta.to"
-            :from="appointments.meta.from" />
-        </template>
-        <template v-else>
-            <div class="flex items-center justify-center gap-4 py-8">
-                <span class="text-gray-500 text-lg">No hay registros</span>
-            </div>
-        </template>
+        <Pagination 
+            v-if="appointments?.links" 
+            :links="appointments.links" 
+            :total="appointments.total" 
+            :to="appointments.to"
+            :from="appointments.from" 
+            typeRecords="citas"
+        />
+    </CardBox>
+
+    <CardBox v-else class="mt-2">
+        <div class="flex items-center justify-center gap-4 py-8">
+            <span class="text-gray-500 text-lg">No hay citas registradas</span>
+            <BaseButton 
+                color="info" 
+                :icon="mdiPlus" 
+                label="Crear Cita" 
+                title="Crear primera cita"
+                :routeName="`${routeName}create`" 
+            />
+        </div>
     </CardBox>
 </template>
 

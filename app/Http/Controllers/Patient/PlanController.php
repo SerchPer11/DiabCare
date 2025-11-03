@@ -16,6 +16,8 @@ class PlanController extends Controller
         $this->middleware(['auth', 'role:patient']);
         $this->middleware('permission:patient.plans.index')->only(['index']);
         $this->middleware('permission:patient.plans.show')->only(['show']);
+        $this->middleware('permission:patient.plans.record-adherence')->only(['recordAdherence']);
+        $this->middleware('permission:patient.plans.adherence-stats')->only(['getAdherenceStats']);
     }
     /**
      * Display a listing of plans assigned to the authenticated patient.
@@ -86,6 +88,97 @@ class PlanController extends Controller
 
         return Inertia::render('Patient/Plans/Show', [
             'plan' => new PlanResource($plan),
+        ]);
+    }
+
+    /**
+     * Record daily adherence for the authenticated patient's plan.
+     */
+    public function recordAdherence(Plan $plan, Request $request)
+    {
+        // Verificar que el plan pertenece al paciente logueado
+        if ($plan->patient_id !== Auth::user()->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para modificar este plan.'
+            ], 403);
+        }
+
+        // Verificar que el plan está activo
+        if (!$plan->isCurrentlyActive()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Este plan no está activo actualmente.'
+            ], 400);
+        }
+
+        // Verificar si ya se registró adherencia hoy
+        if (!$plan->shouldBeTrackedToday()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'La adherencia de hoy ya fue registrada.'
+            ], 400);
+        }
+
+        try {
+            // Registrar la adherencia del día
+            $plan->recordTrackedDay();
+            
+            // Recargar el plan para obtener los datos actualizados
+            $plan->refresh();
+
+            return response()->json([
+                'success' => true,
+                'message' => '¡Excelente! Has completado tu plan del día.',
+                'data' => [
+                    'adherence_percentage' => $plan->overall_adherence,
+                    'adherence_status' => $plan->adherence_status_spanish,
+                    'days_tracked' => $plan->days_tracked,
+                    'total_plan_days' => $plan->total_plan_days,
+                    'last_tracked_date' => $plan->last_tracked_date?->format('Y-m-d'),
+                    'should_track_today' => $plan->shouldBeTrackedToday(),
+                ]
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al registrar la adherencia. Intenta nuevamente.',
+                'error' => config('app.debug') ? $e->getMessage() : null
+            ], 500);
+        }
+    }
+
+    /**
+     * Get adherence statistics for the authenticated patient's plan.
+     */
+    public function getAdherenceStats(Plan $plan)
+    {
+        // Verificar que el plan pertenece al paciente logueado
+        if ($plan->patient_id !== Auth::user()->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No tienes permisos para ver este plan.'
+            ], 403);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'plan_id' => $plan->id,
+                'title' => $plan->title,
+                'adherence_percentage' => $plan->overall_adherence,
+                'adherence_status' => $plan->adherence_status_spanish,
+                'adherence_status_code' => $plan->adherence_status,
+                'days_tracked' => $plan->days_tracked,
+                'total_plan_days' => $plan->total_plan_days,
+                'days_remaining' => $plan->total_plan_days - $plan->days_tracked,
+                'should_track_today' => $plan->shouldBeTrackedToday(),
+                'last_tracked_date' => $plan->last_tracked_date?->format('d/m/Y'),
+                'is_currently_active' => $plan->isCurrentlyActive(),
+                'vigency_status' => $plan->vigency_status,
+                'start_date' => $plan->start_date->format('d/m/Y'),
+                'end_date' => $plan->end_date->format('d/m/Y'),
+            ]
         ]);
     }
 }

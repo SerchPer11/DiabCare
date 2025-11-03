@@ -134,6 +134,8 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         //Rutas para visualizar planes asignados
         Route::get('plans', [App\Http\Controllers\Patient\PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/{plan}', [App\Http\Controllers\Patient\PlanController::class, 'show'])->name('plans.show');
+        Route::post('plans/{plan}/adherence', [App\Http\Controllers\Patient\PlanController::class, 'recordAdherence'])->name('plans.record-adherence');
+        Route::get('plans/{plan}/adherence-stats', [App\Http\Controllers\Patient\PlanController::class, 'getAdherenceStats'])->name('plans.adherence-stats');
         
         //Rutas para visualizar citas asignadas
         Route::get('appointments', [PatientAppointmentController::class, 'index'])->name('appointments.index');

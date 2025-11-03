@@ -46,19 +46,22 @@
                         <p class="text-xs text-gray-500 uppercase tracking-wide">Duración</p>
                     </div>
 
-                    <!-- Progreso -->
+                    <!-- Adherencia -->
                     <div class="text-center">
                         <div class="mb-2">
                             <div class="flex items-center justify-center mb-1">
-                                <span class="text-lg font-semibold text-gray-900">{{ planProgress }}%</span>
+                                <span class="text-lg font-semibold text-gray-900">{{ adherencePercentage }}%</span>
                             </div>
                             <div class="w-full bg-gray-200 rounded-full h-2">
                                 <div class="h-2 rounded-full transition-all duration-300"
-                                     :class="progressBarColor"
-                                     :style="{ width: planProgress + '%' }"></div>
+                                     :class="adherenceBarColor"
+                                     :style="{ width: adherencePercentage + '%' }"></div>
                             </div>
                         </div>
-                        <p class="text-xs text-gray-500 uppercase tracking-wide">Progreso</p>
+                        <p class="text-xs text-gray-500 uppercase tracking-wide">Adherencia</p>
+                        <p class="text-xs font-medium mt-1" :class="adherenceStatusColor">
+                            {{ adherenceStatus }}
+                        </p>
                     </div>
                 </div>
 
@@ -78,6 +81,93 @@
                 <div v-if="planData.description" class="pt-6 border-t border-gray-200">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Descripción del Plan</label>
                     <p class="text-gray-900 leading-relaxed">{{ planData.description }}</p>
+                </div>
+            </CardBox>
+
+            <!-- Seguimiento de Adherencia -->
+            <CardBox v-if="planData.adherence?.is_currently_active">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        Seguimiento Diario
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <!-- Días Completados -->
+                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-green-800">Días Completados</p>
+                                <p class="text-2xl font-bold text-green-900">{{ planData.adherence?.days_tracked || 0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Días Totales -->
+                    <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-blue-800">Días del Plan</p>
+                                <p class="text-2xl font-bold text-blue-900">{{ planData.adherence?.total_plan_days || 0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Días Restantes -->
+                    <div class="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg p-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <svg class="w-8 h-8 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-orange-800">Días Restantes</p>
+                                <p class="text-2xl font-bold text-orange-900">{{ planData.adherence?.days_remaining || 0 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de seguimiento diario -->
+                <div class="text-center">
+                    <div v-if="planData.adherence?.should_track_today" class="space-y-4">
+                        <p class="text-gray-600 text-sm">
+                            ¿Has completado todas las actividades de tu plan para hoy?
+                        </p>
+                        <BaseButton
+                            :icon="mdiCheck"
+                            label="Marcar Día Completado"
+                            color="success"
+                            :loading="isRecordingAdherence"
+                            @click="recordTodayAdherence"
+                            class="px-6 py-3 text-lg font-medium"
+                        />
+                    </div>
+                    <div v-else class="space-y-2">
+                        <div class="inline-flex items-center px-4 py-2 rounded-full bg-green-100 text-green-800">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            ¡Ya registraste tu adherencia para hoy!
+                        </div>
+                        <p class="text-sm text-gray-500">
+                            Último registro: {{ planData.adherence?.last_tracked_date || 'Nunca' }}
+                        </p>
+                    </div>
                 </div>
             </CardBox>
 
@@ -305,13 +395,18 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CrudBanner from '@/Components/CrudBanner.vue';
 import CardBox from '@/Components/CardBox.vue';
 import BaseButton from '@/Components/BaseButton.vue';
-import { mdiArrowLeft } from '@mdi/js';
-import { computed } from 'vue';
+import { mdiArrowLeft, mdiCheck } from '@mdi/js';
+import { computed, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
+import axios from 'axios';
+import { messageSuccess, error500 } from '@/Hooks/useErrorsForm';
 
 const props = defineProps({
     plan: Object,
 });
+
+// Variables reactivas
+const isRecordingAdherence = ref(false);
 
 // Extraer los datos del plan del resource
 const planData = computed(() => props.plan?.data || props.plan || {});
@@ -418,7 +513,62 @@ const progressBarColor = computed(() => {
     return 'bg-blue-500';
 });
 
+// Computadas de adherencia
+const adherencePercentage = computed(() => {
+    return planData.value?.adherence?.overall_percentage || 0;
+});
+
+const adherenceStatus = computed(() => {
+    return planData.value?.adherence?.status_spanish || 'Sin datos';
+});
+
+const adherenceStatusColor = computed(() => {
+    const status = planData.value?.adherence?.status;
+    const colors = {
+        'excellent': 'text-green-600',
+        'good': 'text-blue-600', 
+        'regular': 'text-yellow-600',
+        'poor': 'text-red-600'
+    };
+    return colors[status] || 'text-gray-600';
+});
+
+const adherenceBarColor = computed(() => {
+    const percentage = adherencePercentage.value;
+    if (percentage >= 80) return 'bg-green-500';
+    if (percentage >= 60) return 'bg-blue-500';
+    if (percentage >= 40) return 'bg-yellow-500';
+    return 'bg-red-500';
+});
+
 // Métodos
+const recordTodayAdherence = async () => {
+    if (isRecordingAdherence.value) return;
+    
+    try {
+        isRecordingAdherence.value = true;
+        
+        const response = await axios.post(route('patient.plans.record-adherence', planData.value.id));
+        
+        if (response.data.success) {
+            messageSuccess(response.data.message);
+            
+            // Recargar la página para actualizar los datos
+            router.reload({
+                preserveScroll: true,
+                preserveState: true,
+            });
+        }
+    } catch (error) {
+        console.error('Error al registrar adherencia:', error);
+        
+        const message = error.response?.data?.message || 'Error al registrar la adherencia. Intenta nuevamente.';
+        error500(message);
+    } finally {
+        isRecordingAdherence.value = false;
+    }
+};
+
 const goBack = () => {
     router.visit(route('patient.plans.index'));
 };
