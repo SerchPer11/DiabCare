@@ -55,6 +55,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    classInput: {
+        type: String,
+        default: '',
+    },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -89,7 +93,7 @@ const computedInputType = computed(() => {
 
     <div v-if="['input', 'text', 'email', 'password', 'number', 'date', 'time'].includes(type)" class="relative w-full">
             <Input :id="label" :type="computedInputType" v-model="computedValue" :placeholder="placeholder"
-                :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength"
+                :class="[{ 'border-destructive': error }, h, classInput]" :maxlength="maxLength"
                 :autocomplete="type === 'password' ? 'new-password' : null" :disabled="disabled" />
             <BaseButton v-if="type === 'password'" type="button" small :icon="showPassword ? mdiEyeClosed : mdiEye"
                 @click="showPassword = !showPassword"
@@ -98,10 +102,10 @@ const computedInputType = computed(() => {
         </div>
 
         <Textarea v-if="type === 'textarea'" :id="label" v-model="computedValue" :placeholder="placeholder"
-            :class="[{ 'border-destructive': error }, h]" :maxlength="maxLength" :disabled="disabled" />
+            :class="[{ 'border-destructive': error }, h, classInput]" :maxlength="maxLength" :disabled="disabled" />
 
         <Select v-if="type === 'select'" v-model="computedValue" :disabled="disabled">
-            <SelectTrigger :id="label" :class="{ 'border-destructive': error }" class="h-12">
+            <SelectTrigger :id="label" :class="[{ 'border-destructive': error }, classInput]" class="h-12">
                 <SelectValue :placeholder="placeholder" />
             </SelectTrigger>
             <SelectContent>

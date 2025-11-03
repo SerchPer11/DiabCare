@@ -71,8 +71,18 @@ class PlanController extends Controller
     /**
      * Display the specified plan.
      */
-    public function show(Plan $plan)
+    public function show(Request $request, Plan $plan)
     {
+        if ($request->has('notif_id')) {
+            $notification = $request->user()
+                ->notifications()
+                ->where('id', $request->query('notif_id'))
+                ->first();
+
+            if ($notification && $notification->unread()) {
+                $notification->markAsRead();
+            }
+        }
         // Verificar que el plan pertenece al paciente logueado
         if ($plan->patient_id !== Auth::user()->id) {
             abort(403, 'No tienes permisos para ver este plan.');

@@ -1,7 +1,7 @@
 <template>
     <div class="w-full mx-auto p-4 space-y-6">
         <div class="relative">
-            <input ref="fileInput" type="file" multiple accept="image/*" @change="handleFileInput" class="hidden" />
+            <input ref="fileInput" type="file" multiple accept="image/*" @change="handleFileInput" class="hidden" :disabled="disabled"/>
 
             <div @click="$refs.fileInput.click()" @dragover.prevent="isDragging = true"
                 @dragleave.prevent="isDragging = false" @drop.prevent="handleFileInput" :class="[
@@ -112,6 +112,10 @@ const { form } = defineProps({
     form: {
         type: Object,
         required: true,
+    },
+    disabled: {
+        type: Boolean,
+        default: false,
     },
 });
 
