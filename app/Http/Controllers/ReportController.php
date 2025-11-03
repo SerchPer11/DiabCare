@@ -7,6 +7,7 @@ use App\Services\Reports\DiabetesTypeReportService;
 use App\Services\Reports\DemographicReportService;
 use App\Services\Reports\MeasuresReportService;
 use App\Services\Reports\PlanAdherenceReportService;
+use App\Services\Reports\GlucoseEvolutionReportService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Filterable;
@@ -34,6 +35,7 @@ class ReportController extends Controller
         'appointment-status' => AppointmentStatusReportService::class,
         'demographic' => DemographicReportService::class,
         'plan-adherence' => PlanAdherenceReportService::class,
+        'glucose-evolution' => GlucoseEvolutionReportService::class,
         // Agrega más tipos de reportes y sus servicios correspondientes aquí
     ];
 

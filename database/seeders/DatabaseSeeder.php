@@ -15,6 +15,7 @@ use Database\Seeders\Catalogs\FoodSeeder;
 use Database\Seeders\Doctor\RecomendationSeeder;
 use Database\Seeders\Forum\ForumSeeder;
 use Database\Seeders\Patient\MeasureSeeder;
+use Database\Seeders\Patient\GlucoseMeasureSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,6 +41,7 @@ class DatabaseSeeder extends Seeder
             FoodSeeder::class,
             RecomendationSeeder::class,
             MeasureSeeder::class,
+            GlucoseMeasureSeeder::class,
             ClinicalLogSeeder::class,
             ForumSeeder::class,
             BackupPermissionsSeeder::class,
