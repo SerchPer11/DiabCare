@@ -76,6 +76,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'doctor.recomendations.edit', 'guard_name' => 'web', 'description' => 'Editar recomendaciones médicas', 'module_key' => 'doctor']);
         Permission::create(['name' => 'doctor.recomendations.delete', 'guard_name' => 'web', 'description' => 'Eliminar recomendaciones médicas', 'module_key' => 'doctor']);
 
+        //bitácora clínica
+        Permission::create(['name' => 'clinical-logbook.index', 'guard_name' => 'web', 'description' => 'Ver bitácora clínica', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'clinical-logbook.create', 'guard_name' => 'web', 'description' => 'Crear entradas de bitácora', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'clinical-logbook.edit', 'guard_name' => 'web', 'description' => 'Editar entradas de bitácora', 'module_key' => 'doctor']);
+        Permission::create(['name' => 'clinical-logbook.delete', 'guard_name' => 'web', 'description' => 'Eliminar entradas de bitácora', 'module_key' => 'doctor']);
+
         // mediciones del paciente
         Permission::create(['name' => 'patient.medical-history.index', 'guard_name' => 'web', 'description' => 'Ver historial médico', 'module_key' => 'patient']);
         Permission::create(['name' => 'patient.medical-history.create', 'guard_name' => 'web', 'description' => 'Crear historial médico', 'module_key' => 'patient']);

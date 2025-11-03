@@ -113,6 +113,9 @@ Route::middleware(['auth', 'ensure.profile.complete', 'ensure.medical.history.co
         //Rutas para gestión de planes de alimentación y actividad
         Route::resource('plans', App\Http\Controllers\Doctor\PlanController::class)->names('plans');
         Route::post('plans/{plan}/duplicate', [App\Http\Controllers\Doctor\PlanController::class, 'duplicate'])->name('plans.duplicate');
+        
+        //Rutas para bitácora clínica
+        Route::resource('clinical-logbook', App\Http\Controllers\Doctor\ClinicalLogController::class)->names('clinical-logbook');
     });
     //vista de pacientes
     Route::resource('patients', PatientsController::class)->names('patients');

@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
             PlanTypeSeeder::class,
             PlanPermissionsSeeder::class,
             TestPlanSeeder::class,
+            ClinicalLogTestSeeder::class,
         ]);
     }
 }
