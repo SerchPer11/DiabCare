@@ -16,31 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
-        // Crear usuario Admin
-        User::create([
-            'name' => 'Admin',
-            'last_name' => 'General',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('12345678'),
-            'phone' => '0987654321',
-            'gender' => 'male',
-            'email_verified_at' => now(),
-        ]);
-
-        // Crear usuario Doctor
-        $doctor = User::create([
-            'name' => 'Dr. Juan',
-            'last_name' => 'Pérez',
-            'second_last_name' => 'Sanchéz',
-            'email' => 'doctor@gmail.com',
-            'password' => bcrypt('12345678'),
-            'phone' => '5555555555',
-            'gender' => 'male',
-            'email_verified_at' => now(),
-        ]);
-
-        // Crear usuario Paciente
+        // Crear pacientes
         $patient = User::create([
             'name' => 'María',
             'last_name' => 'González',
@@ -52,8 +28,6 @@ class UserSeeder extends Seeder
             'birthdate' => '1990-05-15',
             'email_verified_at' => now(),
         ]);
-
-
 
         // Crear perfil de paciente
         $patientProfile = PatientProfile::create([
@@ -72,5 +46,7 @@ class UserSeeder extends Seeder
 
         $patient->profileable()->associate($patientProfile);
         $patient->save();
+
+        User::factory(12)->patient()->create();
     }
 }

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('obesity')->default(false);
             $table->enum('obesity_type', ['N', 'I', 'II', 'III'])->nullable(); // Grados de obesidad
             $table->boolean('allergies')->default(false);
-            $table->text('allergies_details')->nullable();
+            $table->text('allergy_details')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

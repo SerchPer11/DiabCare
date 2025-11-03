@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Module;
 use Illuminate\Database\Seeder;
 use PhpParser\Node\Expr\AssignOp\Mod;
+use App\Models\User;
 
 class ModuleSeeder extends Seeder
 {
@@ -13,6 +14,15 @@ class ModuleSeeder extends Seeder
      */
     public function run(): void
     {
+        User::create([
+            'name' => 'Admin',
+            'last_name' => 'General',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('12345678'),
+            'phone' => '0987654321',
+            'gender' => 'male',
+            'email_verified_at' => now(),
+        ]);
         //modulos de administrador
         Module::create([
             'name' => 'Módulo de seguridad',

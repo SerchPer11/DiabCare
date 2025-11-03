@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use App\Models\File;
 use App\Models\User;
-use App\Models\Doctor\Appointment;
+use App\Models\Appointment;
 
 
 class DoctorProfile extends Model

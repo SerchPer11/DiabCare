@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Doctor\DoctorProfile;
+use Spatie\Permission\Models\Role;
 
 class SpecialtySeeder extends Seeder
 {
@@ -34,12 +35,26 @@ class SpecialtySeeder extends Seeder
             ['name' => 'Radiología', 'description' => 'Uso de imágenes para diagnosticar enfermedades'],
         ]);
 
+        $doctor = User::create([
+            'name' => 'Juan',
+            'last_name' => 'Pérez',
+            'second_last_name' => 'Sanchéz',
+            'email' => 'doctor@gmail.com',
+            'password' => bcrypt('12345678'),
+            'phone' => '5555555555',
+            'gender' => 'male',
+            'email_verified_at' => now(),
+        ]);
+
+        User::factory()->count(3)->doctor()->create();
+
         $doctorProfile = DoctorProfile::create([
             'specialty_id' => 1,
             'license_number' => 'DOC123456',
         ]);
 
-        $doctor = User::where('id', 2)->first();
+        $role = Role::find(2);
+        $doctor->assignRole($role);
         $doctor->profileable()->associate($doctorProfile);
         $doctor->save();
     }
