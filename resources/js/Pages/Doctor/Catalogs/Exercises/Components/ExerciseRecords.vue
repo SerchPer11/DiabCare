@@ -40,8 +40,14 @@
                     </tr>
                 </tbody>
             </table>
-            <Pagination v-if="exercises?.meta" :links="exercises.meta.links" :total="exercises.meta.total" :to="exercises.meta.to"
-            :from="exercises.meta.from" />
+            <Pagination 
+                v-if="exercises?.links" 
+                :links="exercises.links" 
+                :total="exercises.total" 
+                :to="exercises.to"
+                :from="exercises.from" 
+                typeRecords="ejercicios"
+            />
         </template>
         <template v-else>
             <div class="flex items-center justify-center gap-4 py-8">

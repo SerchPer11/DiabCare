@@ -4,7 +4,7 @@
 
         <IndexBanner :title="title" :icon="mdiCalendar" :routeName="routeName" main @apply-filters="applyFilters"
             @clear-filters="clearFilters" v-model:search="filters.search" v-model:rows="filters.rows"
-            :total="appointments?.meta?.total || 0" />
+            :total="appointments?.total || 0" />
 
         <AppointmentRecords :appointments="appointments" :routeName="routeName" />
     </AuthenticatedLayout>

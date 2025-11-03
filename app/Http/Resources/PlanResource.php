@@ -23,6 +23,20 @@ class PlanResource extends JsonResource
             'start_date' => $this->start_date ? $this->start_date->format('Y-m-d') : null,
             'end_date' => $this->end_date ? $this->end_date->format('Y-m-d') : null,
             'status' => $this->status,
+            
+            // Campos de adherencia
+            'adherence' => [
+                'overall_percentage' => $this->overall_adherence,
+                'status' => $this->adherence_status,
+                'status_spanish' => $this->adherence_status_spanish,
+                'days_tracked' => $this->days_tracked,
+                'total_plan_days' => $this->total_plan_days,
+                'days_remaining' => $this->total_plan_days - $this->days_tracked,
+                'last_tracked_date' => $this->last_tracked_date?->format('d/m/Y'),
+                'should_track_today' => $this->shouldBeTrackedToday(),
+                'is_currently_active' => $this->isCurrentlyActive(),
+                'vigency_status' => $this->vigency_status,
+            ],
             'patient' => $this->when($this->patient, [
                 'id' => $this->patient->id ?? null,
                 'name' => $this->patient->name ?? null,
