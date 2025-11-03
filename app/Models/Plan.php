@@ -17,13 +17,21 @@ class Plan extends Model
         'description',
         'start_date',
         'end_date',
-        'status'
+        'status',
+        'overall_adherence',
+        'days_tracked',
+        'last_tracked_date',
+        'total_plan_days'
     ];
 
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',
         'has_progress' => 'boolean',
+        'overall_adherence' => 'decimal:2',
+        'days_tracked' => 'integer',
+        'last_tracked_date' => 'date',
+        'total_plan_days' => 'integer',
     ];
 
     /**
@@ -150,5 +158,78 @@ class Plan extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * Calculate total days of the plan duration.
+     */
+    public function calculateTotalPlanDays()
+    {
+        if (!$this->start_date || !$this->end_date) {
+            return;
+        }
+
+        $startDate = Carbon::parse($this->start_date);
+        $endDate = Carbon::parse($this->end_date);
+        $totalDays = $startDate->diffInDays($endDate) + 1; // +1 to include both start and end dates
+
+        $this->update(['total_plan_days' => $totalDays]);
+        
+        return $totalDays;
+    }
+
+    /**
+     * Update adherence percentage based on tracked days.
+     * This method would be called when plan tracking is recorded.
+     */
+    public function updateAdherencePercentage()
+    {
+        if ($this->total_plan_days == 0) {
+            $this->calculateTotalPlanDays();
+        }
+
+        if ($this->total_plan_days > 0) {
+            $adherencePercentage = min(100, ($this->days_tracked / $this->total_plan_days) * 100);
+            
+            $this->update([
+                'overall_adherence' => round($adherencePercentage, 2),
+                'last_tracked_date' => now()->toDateString()
+            ]);
+        }
+    }
+
+    /**
+     * Increment tracked days and update adherence.
+     * Call this method when a patient completes a day of the plan.
+     */
+    public function incrementTrackedDays()
+    {
+        $this->increment('days_tracked');
+        $this->updateAdherencePercentage();
+    }
+
+    /**
+     * Get adherence level as text.
+     */
+    public function getAdherenceLevelAttribute(): string
+    {
+        if ($this->overall_adherence >= 80) return 'Alta';
+        if ($this->overall_adherence >= 60) return 'Media';
+        if ($this->overall_adherence >= 40) return 'Baja';
+        return 'Muy baja';
+    }
+
+    /**
+     * Scope to filter plans by adherence level.
+     */
+    public function scopeWithAdherenceLevel($query, $level)
+    {
+        return match($level) {
+            'alta' => $query->where('overall_adherence', '>=', 80),
+            'media' => $query->whereBetween('overall_adherence', [60, 79.99]),
+            'baja' => $query->whereBetween('overall_adherence', [40, 59.99]),
+            'muy_baja' => $query->where('overall_adherence', '<', 40),
+            default => $query
+        };
     }
 }
