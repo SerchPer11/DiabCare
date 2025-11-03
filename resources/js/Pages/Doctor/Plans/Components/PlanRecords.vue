@@ -30,11 +30,6 @@
                     
                     <td data-label="Paciente">
                         <div class="flex items-center justify-center">
-                            <div class="flex-shrink-0 h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                <span class="text-xs font-medium text-blue-600">
-                                    {{ plan.patient.name.charAt(0).toUpperCase() }}
-                                </span>
-                            </div>
                             <div class="ml-2 text-left">
                                 <div class="text-sm font-medium text-gray-900">{{ getFullName(plan.patient) }}</div>
                                 <div class="text-xs text-gray-500">{{ plan.patient.email }}</div>
