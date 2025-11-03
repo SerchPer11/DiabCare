@@ -105,7 +105,7 @@
                         
                         <div class="space-y-3">
                             <div
-                                v-for="(period, index) in (temporalData || []).slice(-6)" 
+                                v-for="(period, index) in (temporalData || []).slice(-3)" 
                                 :key="index"
                                 class="flex items-center justify-between p-3 bg-gray-50 rounded"
                             >

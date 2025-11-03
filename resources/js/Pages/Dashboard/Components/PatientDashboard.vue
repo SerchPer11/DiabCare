@@ -20,7 +20,8 @@
             <StatCard
                 :value="dashboardData.indicators.weeklyGoalCompletion"
                 suffix="%"
-                label="Metas cumplidas (semana)"
+                label="Adherencia semanal"
+                subtitle="Planes y mediciones"
                 :color="getGoalCompletionColor(dashboardData.indicators.weeklyGoalCompletion)"
             />
             
@@ -137,16 +138,11 @@ const handleTaskAction = async (action) => {
         if (response.data.success) {
             // Actualizar localmente solo después de éxito en el servidor
             localTodayTasks.value[idx].completed = true;
-            
-            // Mostrar mensaje de éxito (opcional)
-            console.log('✅ Adherencia registrada:', response.data.message);
+
         }
     } catch (error) {
-        console.error('Error al registrar adherencia:', error);
-        
         // Mostrar error al usuario si tienes el composable de errores disponible
         const message = error.response?.data?.message || 'Error al registrar la adherencia. Intenta nuevamente.';
-        console.error('❌', message);
     }
 };
 </script>

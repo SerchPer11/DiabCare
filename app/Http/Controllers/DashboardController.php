@@ -240,21 +240,58 @@ class DashboardController extends Controller
             ->orderBy('time', 'asc')
             ->first();
 
-        // 2. Porcentaje de metas cumplidas en la semana
-        // Para esto necesitaríamos implementar un sistema de metas/tareas
-        // Por ahora, calculamos basado en mediciones realizadas vs esperadas
+        // 2. Porcentaje de metas cumplidas en la semana (sistema mejorado)
         $startOfWeek = Carbon::now()->startOfWeek();
         $endOfWeek = Carbon::now()->endOfWeek();
         
+        // A. Adherencia a planes activos esta semana
+        $activePlans = Plan::where('patient_id', $patient->id)
+            ->where('status', 'activo')
+            ->where('start_date', '<=', $endOfWeek)
+            ->where('end_date', '>=', $startOfWeek)
+            ->get();
+        
+        $planAdherenceScore = 0;
+        $totalPlanWeight = 0;
+        
+        foreach ($activePlans as $plan) {
+            // Calcular días que el plan estuvo activo esta semana
+            $planStart = max($plan->start_date, $startOfWeek);
+            $planEnd = min($plan->end_date, $endOfWeek);
+            $activeDaysThisWeek = $planStart->diffInDays($planEnd) + 1;
+            
+            // Calcular días completados esta semana
+            $completedDaysThisWeek = 0;
+            if ($plan->last_tracked_date && $plan->last_tracked_date->between($startOfWeek, $endOfWeek)) {
+                // Estimar días completados basado en adherencia general y días activos
+                $weeklyAdherence = ($plan->overall_adherence / 100) * $activeDaysThisWeek;
+                $completedDaysThisWeek = min($activeDaysThisWeek, round($weeklyAdherence));
+            }
+            
+            $planScore = $activeDaysThisWeek > 0 ? ($completedDaysThisWeek / $activeDaysThisWeek) * 100 : 0;
+            $planAdherenceScore += $planScore * $activeDaysThisWeek; // Peso por días activos
+            $totalPlanWeight += $activeDaysThisWeek;
+        }
+        
+        // B. Adherencia a mediciones (peso menor)
         $measuresThisWeek = Measure::whereHas('measureConfig', function($query) use ($patient) {
                 $query->where('patient_id', $patient->id);
             })
             ->whereBetween('measured_at', [$startOfWeek, $endOfWeek])
             ->count();
-
-        // Asumimos que se esperan 2 mediciones por día (desayuno y cena)
-        $expectedMeasures = 7 * 2; // 7 días * 2 mediciones
-        $completionPercentage = $expectedMeasures > 0 ? min(100, ($measuresThisWeek / $expectedMeasures) * 100) : 0;
+        
+        $daysInWeek = min(7, Carbon::now()->diffInDays($startOfWeek) + 1); // No contar días futuros
+        $expectedMeasures = $daysInWeek * 1; // 1 medición por día es más realista
+        $measureScore = $expectedMeasures > 0 ? min(100, ($measuresThisWeek / $expectedMeasures) * 100) : 0;
+        
+        // C. Cálculo final combinado (70% planes, 30% mediciones)
+        if ($totalPlanWeight > 0) {
+            $avgPlanScore = $planAdherenceScore / $totalPlanWeight;
+            $completionPercentage = ($avgPlanScore * 0.7) + ($measureScore * 0.3);
+        } else {
+            // Si no hay planes activos, solo usar mediciones
+            $completionPercentage = $measureScore;
+        }
 
         // 3. Planes activos
         $activePlansCount = Plan::where('patient_id', $patient->id)
