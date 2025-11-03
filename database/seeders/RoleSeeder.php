@@ -20,7 +20,7 @@ class RoleSeeder extends Seeder
         ]);
         
         //$adminPermissions = Permission::all();
-        $adminPermissions = Permission::whereIn('module_key', ['security', 'general'])->get();
+        $adminPermissions = Permission::whereIn('module_key', ['security', 'general'])->orWhere('name', 'like', 'clinical-logbook.%')->get();
         $admin->syncPermissions($adminPermissions);
 
         

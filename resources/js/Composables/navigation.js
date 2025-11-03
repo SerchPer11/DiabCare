@@ -17,6 +17,7 @@ import {
     mdiDatabase,
     mdiCalendarCheck,
     mdiFileChart,
+    mdiNotebook,
 } from '@mdi/js';
 
 const navigation = [
@@ -143,7 +144,15 @@ const navigation = [
         route: 'doctor.plans.index',
         icon: mdiCalendarCheck,
         permission: 'doctor.plans.index',
-        roles: ['doctor']
+        roles: ['doctor', 'admin']
+    },
+    {
+        type: 'single',
+        title: "Bitácora Clínica",
+        route: 'doctor.clinical-logbook.index',
+        icon: mdiNotebook,
+        permission: 'clinical-logbook.index',
+        roles: ['doctor', 'admin']
     },
 
     {
