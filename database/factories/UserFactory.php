@@ -35,6 +35,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('12345678'),
+            'birthdate' => $this->faker->dateTimeBetween('-70 years', '-18 years')->format('Y-m-d'),
             'phone' => $this->faker->numerify('55########'),
             'gender' => $gender,
             'remember_token' => Str::random(10),
