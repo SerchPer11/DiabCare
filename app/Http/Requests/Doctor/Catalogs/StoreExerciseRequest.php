@@ -37,4 +37,19 @@ class StoreExerciseRequest extends FormRequest
             'is_active' => ['nullable', 'boolean'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'El nombre del ejercicio es obligatorio.',
+            'exercise_type_id.required' => 'El tipo de ejercicio es obligatorio.',
+            'exercise_type_id.exists' => 'El tipo de ejercicio seleccionado no es válido.',
+            'intensity.required' => 'La intensidad del ejercicio es obligatoria.',
+            'duration_minutes.required' => 'La duración en minutos es obligatoria.',
+            'calories_burned.required' => 'Las calorías quemadas son obligatorias.',
+            'sets.required' => 'El número de series es obligatorio.',
+            'repetitions.required' => 'El número de repeticiones es obligatorio.',
+            'rest_seconds.required' => 'El tiempo de descanso en segundos es obligatorio.',
+        ];
+    }
 }

@@ -32,7 +32,7 @@
                 placeholder="Describe el ejercicio" />
 
             <BaseFormField type="number" label="Calorías quemadas" v-model="form.calories_burned" :error="form.errors.calories_burned"
-                placeholder="Ejemplo: 100" min="0" />
+                placeholder="Ejemplo: 100" min="0" required/>
 
             <BaseFormField type="select" label="Tipo de ejercicio" v-model="form.exercise_type_id" :error="form.errors.exercise_type_id"
                 :options="exerciseTypes" optionValue="id" optionLabel="name" required />
