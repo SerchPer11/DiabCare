@@ -138,7 +138,7 @@ class DiabetesTypeReportService
                     'label' => 'Distribución de Pacientes',
                     'data' => $data,
                     'backgroundColor' => $colors,
-                    'borderColor' => '#7CB9EE',
+                    'borderColor' => '#ffffff',
                     'borderWidth' => 2,
                 ]]
             ],

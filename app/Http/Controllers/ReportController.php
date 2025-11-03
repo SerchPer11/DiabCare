@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Reports\AppointmentStatusReportService;
 use App\Services\Reports\DiabetesTypeReportService;
+use App\Services\Reports\DemographicReportService;
 use App\Services\Reports\MeasuresReportService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,6 +30,8 @@ class ReportController extends Controller
     protected $reportServices = [
         'measures' => MeasuresReportService::class,
         'diabetes-type' => DiabetesTypeReportService::class,
+        'appointment-status' => AppointmentStatusReportService::class,
+        'demographic' => DemographicReportService::class,
         // Agrega más tipos de reportes y sus servicios correspondientes aquí
     ];
 
