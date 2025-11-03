@@ -4,7 +4,7 @@
 
 		<IndexBanner :title="title" :icon="mdiDumbbell" :routeName="routeName" main @apply-filters="applyFilters"
 			@clear-filters="clearFilters" v-model:search="filters.search" v-model:rows="filters.rows"
-			:total="exercises?.meta?.total || 0" />
+			:total="exercises?.total || 0" />
 
 		<ExerciseRecords :exercises="exercises" :routeName="routeName" />
 	</AuthenticatedLayout>

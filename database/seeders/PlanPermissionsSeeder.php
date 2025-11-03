@@ -26,10 +26,12 @@ class PlanPermissionsSeeder extends Seeder
             'doctor.plans.duplicate'
         ];
 
-        // Crear permisos para pacientes (solo visualización)
+        // Crear permisos para pacientes (solo visualización y adherencia)
         $patientPermissions = [
             'patient.plans.index',
-            'patient.plans.show'
+            'patient.plans.show',
+            'patient.plans.record-adherence',
+            'patient.plans.adherence-stats'
         ];
 
         // Crear todos los permisos
