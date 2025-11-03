@@ -36,7 +36,7 @@ class ReportController extends Controller
         'demographic' => DemographicReportService::class,
         'plan-adherence' => PlanAdherenceReportService::class,
         'glucose-evolution' => GlucoseEvolutionReportService::class,
-        // Agrega más tipos de reportes y sus servicios correspondientes aquí
+        // AAdd more report services here as needed
     ];
 
     public function index()
@@ -91,7 +91,6 @@ class ReportController extends Controller
             'stats' => $reportData['stats'] ?? [],
             'filters' => $reportData['filters'] ?? [],
         ];
-        // dd($dataForPdf);
         $pdf = Pdf::loadView('pdf_template', $dataForPdf);
 
         return $pdf->download("reporte-{$reportType}.pdf");

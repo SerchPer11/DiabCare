@@ -25,6 +25,17 @@ class PlanController extends Controller
     protected $routeName = 'doctor.plans.';
     protected $source = 'Doctor/Plans/Pages/';
 
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:doctor']);
+        $this->middleware('permission:doctor.plans.index')->only(['index']);
+        $this->middleware('permission:doctor.plans.create')->only(['create', 'store']);
+        $this->middleware('permission:doctor.plans.edit')->only(['edit', 'update']);
+        $this->middleware('permission:doctor.plans.show')->only(['show']);
+        $this->middleware('permission:doctor.plans.delete')->only(['destroy']);
+        $this->middleware('permission:doctor.plans.duplicate')->only(['duplicate']);
+    }
+
     /**
      * Display a listing of plans.
      */
