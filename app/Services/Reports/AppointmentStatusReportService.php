@@ -57,8 +57,8 @@ class AppointmentStatusReportService
         $statsQuery = $query->clone();
 
         // !!! AJUSTA ESTOS IDs A TU BASE DE DATOS !!!
-        $ID_COMPLETADA = 2;
-        $ID_CANCELADA = 3;
+        $ID_COMPLETADA = 4;
+        $ID_CANCELADA = 5;
 
         $stats = $statsQuery->select(
             DB::raw('COUNT(id) as total_citas'),
@@ -101,8 +101,8 @@ class AppointmentStatusReportService
     {
         $weeklyQuery = $query->clone();
 
-        $ID_COMPLETADA = 2;
-        $ID_CANCELADA = 3;
+        $ID_COMPLETADA = 4;
+        $ID_CANCELADA = 5;
 
         $weekExpression = DB::raw('YEARWEEK(date, 1) as week_identifier');
 
