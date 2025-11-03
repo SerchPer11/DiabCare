@@ -8,8 +8,8 @@
             <thead class="h-12 border-gray-200 bg-medic-50 text-gray-600 shadow-sm">
                 <tr>
                     <th>Nombre</th>
-                    <th>Correo</th>
                     <th>Rol(es)</th>
+                    <th>Correo</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -20,9 +20,16 @@
                     <td data-label="Nombre">
                         {{ item.name }} {{ item.last_name }}
                     </td>
-                    <td data-label="Correo">
-                        <span v-if="item.email">{{ item.email }}</span>
-                        <span v-else class="text-gray-400">Sin Correo</span>
+                    <td data-label="Rol(es)">
+                        <span v-if="item.roles && item.roles.length">
+                            {{ item.roles.map(r => {
+                                if (r.name === 'doctor') return 'Doctor';
+                                if (r.name === 'patient') return 'Paciente';
+                                if (r.name === 'admin' || r.name === 'administrator') return 'Administrador';
+                                return r.name;
+                            }).join(', ') }}
+                        </span>
+                        <span v-else class="text-gray-400">Sin rol</span>
                     </td>
                     <td data-label="Correo">
                         <span v-if="item.email">{{ item.email }}</span>
