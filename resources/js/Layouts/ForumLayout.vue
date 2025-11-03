@@ -20,7 +20,7 @@ const page = usePage();
         class="sticky top-0 z-10 flex justify-between md:grid md:grid-cols-3 items-center gap-4 border-b px-4 shadow-md py-3">
 
         <Link class="flex items-center gap-3 md:ml-40" :href="route('home')">
-        <img src="https://cdn-icons-png.flaticon.com/512/2966/2966484.png" alt="DiabCare" class="w-8 h-8" />
+        <img src="/logoDiabCare.png" alt="DiabCare" class="w-8 h-8" />
         <span class="font-extrabold text-medic-700">DiabCare</span>
         </Link>
 

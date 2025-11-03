@@ -39,7 +39,11 @@ const submit = () => {
             >
                 <template #default>
                     <div class="mb-6 text-center">
-                        <h2 class="text-2xl font-bold text-medic-700 mb-2">¿Olvidaste tu contraseña?</h2>
+                        <div class="flex flex-col items-center gap-3 mb-6">
+                            <img src="/logoDiabCare.png" alt="DiabCare" class="w-12 h-12" />
+                            <span class="font-extrabold text-2xl text-medic-700">DiabCare</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-medic-700 mb-2">¿Olvidaste tu contraseña?</h2>
                         <p class="text-sm text-gray-600">
                             No hay problema. Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
                         </p>

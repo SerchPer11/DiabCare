@@ -27,8 +27,12 @@ const submit = () => {
     <Head title="Register" />
 
     <Card class="w-full max-w-sm">
-      <CardHeader>
-        <CardTitle class="text-2xl">
+      <CardHeader class="text-center">
+        <Link :href="route('home')" class="flex flex-col items-center gap-3 mb-4">
+          <img src="/logoDiabCare.png" alt="DiabCare" class="w-12 h-12" />
+          <span class="font-extrabold text-2xl text-medic-700">DiabCare</span>
+        </Link>
+        <CardTitle class="text-xl">
           Crear una Cuenta
         </CardTitle>
         <CardDescription>
