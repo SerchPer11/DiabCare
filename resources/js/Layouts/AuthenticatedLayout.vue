@@ -53,11 +53,15 @@ const markAsRead = (notificationId) => {
     });
 };
 
+const nav = [
+  { label: 'Módulos', href: '/home#modules' },
+  { label: 'Foro', href: '/forum' }
+];
 </script>
 
 <template>
     <SidebarProvider>
-        <div class="relative flex min-h-screen w-full">
+        <div class="relative flex min-h-screen w-full ">
 
             <AppSidebar class="hidden md:block shadow-md" />
 
@@ -67,6 +71,10 @@ const markAsRead = (notificationId) => {
                         class="text-medic-300 hover:text-medic-500 focus:ring-0 focus:ring-offset-0 w-6">
                         <BaseButton :icon="mdiMenu" small />
                     </SidebarTrigger>
+                    <nav class="hidden md:flex md:flex-1 md:justify-center items-center gap-6">
+                        <Link v-for="item in nav" :key="item.href" :href="item.href"
+                            class="text-sm font-medium text-medic-600 hover:text-medic-700">{{ item.label }}</Link>
+                    </nav>
 
                     <div class="ml-auto">
                         <div class="relative mr-6">
@@ -94,8 +102,7 @@ const markAsRead = (notificationId) => {
                                             class="mr-3 mt-1 text-medic-400 flex-shrink-0" />
 
                                         <div class="flex-1">
-                                            <Link :href="notif.data.link"
-                                                class="text-sm text-gray-700 cursor-pointer">
+                                            <Link :href="notif.data.link" class="text-sm text-gray-700 cursor-pointer">
                                             {{ notif.data.message }}
                                             </Link>
                                         </div>
