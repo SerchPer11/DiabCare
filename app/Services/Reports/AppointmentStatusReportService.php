@@ -3,7 +3,6 @@
 namespace App\Services\Reports;
 
 use App\Models\Appointment;
-use App\Models\Patient\PatientPathologies;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
