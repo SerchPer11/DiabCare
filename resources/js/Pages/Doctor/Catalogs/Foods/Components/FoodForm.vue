@@ -2,8 +2,8 @@
     <CardBox class="mt-2" isForm>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <BaseFormField type="input" label="Nombre del medicamento" v-model="form.name" :error="form.errors.name"
-                placeholder="Ejm: Paracetamol" required :maxLength="100" />
+            <BaseFormField type="input" label="Nombre del alimento" v-model="form.name" :error="form.errors.name"
+                placeholder="Ejm: Manzána" required :maxLength="100" />
 
             <BaseFormField type="select" label="Grupo alimenticio" v-model="form.food_group_id"
                 :error="form.errors.food_group_id" :options="foodGroups" required placeholder="Selecciona un grupo" />

@@ -14,6 +14,7 @@ export const useUser = (props = {}) => {
         _method: user.id ? "patch" : "post",
         name: user.name ?? null,
         last_name: user.last_name ?? null,
+        second_last_name: user.second_last_name ?? null,
         email: user.email ?? null,
         password: null,
         password_confirmation: null,

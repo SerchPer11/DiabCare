@@ -25,6 +25,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'second_last_name' => 'nullable|string|max:255',
             'email' => [
                 'required',
                 'email',
@@ -44,6 +45,8 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'nombre',
+            'last_name' => 'apellido',
+            'second_last_name' => 'segundo apellido',
             'email' => 'correo electrónico',
             'phone' => 'teléfono',
             'gender' => 'género',
