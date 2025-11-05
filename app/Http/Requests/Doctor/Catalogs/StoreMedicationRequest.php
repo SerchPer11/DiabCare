@@ -27,7 +27,7 @@ class StoreMedicationRequest extends FormRequest
             $this->photoRules(),
             [
                 'name' => 'required|string|max:100',
-                'concentration' => 'required|string|max:50',
+                'concentration' => 'required|integer',
                 'indications' => 'required|string|max:150',
                 'contraindications' => 'required|string|max:150',
                 'medication_type_id' => 'required|exists:medication_types,id',
