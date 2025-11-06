@@ -27,7 +27,7 @@ class UpdateAppointmentRequest extends FormRequest
             'patient_id' => 'sometimes|exists:users,id',
             'doctor_id' => 'sometimes|exists:users,id',
             'date' => 'sometimes|date|after_or_equal:today',
-            'time' => 'sometimes|date_format:H:i',
+            'time' => 'sometimes|date_format:H:i:s',
             'modality' => 'sometimes|in:Presencial,Virtual',
             'reason' => 'sometimes|string|max:500',
             'additional_notes' => 'nullable|string|max:1000',
@@ -52,7 +52,7 @@ class UpdateAppointmentRequest extends FormRequest
                 $time = $this->time ?? $this->route('appointment')->time;
 
                 // Convertir la hora a Carbon para cálculos de rango
-                $requestedDateTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $date . ' ' . $time);
+                $requestedDateTime = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $date . ' ' . $time);
                 $startRange = $requestedDateTime->copy()->subMinutes(15);
                 $endRange = $requestedDateTime->copy()->addMinutes(15);
 
