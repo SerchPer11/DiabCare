@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Admin\Catalogs\RecomendationType;
+use App\Models\Patient\ClinicalLog;
+use Illuminate\Notifications\DatabaseNotification;
 use App\Models\User;
 use App\Models\Photo;
 use App\Models\File;
@@ -27,6 +29,25 @@ class Recomendation extends Model
         'doctor_id',
         'is_active',
     ];
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Recomendation $recomendation) {
+            $recomendation->clinicalLogs()->delete();
+
+            $fragmentoLink = '/patient/recommendations/' . $recomendation->id;
+
+            DatabaseNotification::where('type', 'App\Notifications\NewRecommendation')
+                ->where('data->link', 'like', '%' . $fragmentoLink . '%')
+                ->delete();
+        });
+    }
+
+    public function clinicalLogs()
+    {
+        return $this->morphMany(ClinicalLog::class, 'loggable');
+    }
+
 
     public function recomendationType()
     {

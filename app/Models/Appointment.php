@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Patient\ClinicalLog;
 use App\Models\User;
 
 class Appointment extends Model
@@ -26,6 +27,18 @@ class Appointment extends Model
         'video_call_link',
         'appointment_status_id',
     ];
+
+    protected static function booted(): void
+    {
+        static::deleting(function (Appointment $appointment) {
+            $appointment->clinicalLogs()->delete();
+        });
+    }
+
+    public function clinicalLogs()
+    {
+        return $this->morphMany(ClinicalLog::class, 'loggable');
+    }
 
     public function patient()
     {

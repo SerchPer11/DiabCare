@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\DatabaseNotification;
 use Carbon\Carbon;
 
 class Plan extends Model
@@ -33,6 +34,17 @@ class Plan extends Model
         'days_tracked' => 'integer',
         'total_plan_days' => 'integer',
     ];
+
+    public static function booted(): void
+    {
+        static::deleting(function (Plan $plan) {
+            $notificationType = 'App\Notifications\NewPlanAssigned';
+            $fragmentoLink = '/patient/plans/' . $plan->id;
+            DatabaseNotification::where('type', $notificationType)
+                ->where('data->link', 'like', '%' . $fragmentoLink . '%')
+                ->delete();
+        });
+    }
 
     /**
      * Get the patient this plan belongs to.

@@ -9,31 +9,31 @@
             </div>
             <div>
                 <BaseButton v-if="userPrimaryRole !== 'patient'" :icon="mdiPencil" color="info" label="Ver detalle"
-                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity.id" class="ml-auto" />
+                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity?.id" class="ml-auto" />
                 <BaseButton v-if="userPrimaryRole === 'patient'" :icon="mdiEye" color="info" label="Ver detalle"
-                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity.id" class="ml-auto" />
+                    :routeName="`doctor.recomendations.edit`" :parameter="clinicalLog.activity?.id" class="ml-auto" />
             </div>
         </div>
         <div class="m-6 ml-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             <div>
                 <p class="text-xs text-gray-400">Título</p>
-                <p class="text-gray-600">{{ clinicalLog.activity.title }}</p>
+                <p class="text-gray-600">{{ clinicalLog.activity?.title }}</p>
             </div>
             <div>
                 <p class="text-xs text-gray-400">Prioridad</p>
-                <p class="text-gray-600">{{ priority[clinicalLog.activity.priority] }}</p>
+                <p class="text-gray-600">{{ priority[clinicalLog.activity?.priority] }}</p>
             </div>
             <div>
                 <p class="text-xs text-gray-400">Fecha de inicio</p>
-                <p class="text-gray-600">{{ clinicalLog.activity.start_date }}</p>
+                <p class="text-gray-600">{{ clinicalLog.activity?.start_date }}</p>
             </div>
             <div>
                 <p class="text-xs text-gray-400">Fecha de fin</p>
-                <p class="text-gray-600">{{ clinicalLog.activity.end_date }}</p>
+                <p class="text-gray-600">{{ clinicalLog.activity?.end_date }}</p>
             </div>
             <div>
                 <p class="text-xs text-gray-400">Doctor</p>
-                <p class="text-gray-600">{{ clinicalLog.doctor.name }} {{ clinicalLog.doctor.last_name }}</p>
+                <p class="text-gray-600">{{ clinicalLog.doctor?.name }} {{ clinicalLog.doctor?.last_name }}</p>
             </div>
         </div>
     </CardBox>

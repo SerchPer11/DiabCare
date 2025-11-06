@@ -39,11 +39,12 @@ class ClinicalLogController extends Controller
         if($user->hasRole('patient')){
             $title = 'Mi Seguimiento Clínico';
         }
-
+        $logs = ClinicalLogResource::collection($logs);
+        
         return Inertia::render("{$this->source}Show", [
             'title'     => $title ?? 'Seguimiento Clínico de ' . $patient->name,
             'patient'   => $patient,
-            'clinicalLogs'      => ClinicalLogResource::collection($logs),
+            'clinicalLogs'      => $logs,
         ]);
     }
 
