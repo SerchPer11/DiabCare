@@ -1,10 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import CardBox from '@/Components/CardBox.vue';
-// Asumo que tu componente de formulario está aquí
 import BaseFormField from '@/Components/BaseFormField.vue';
 import BaseButton from '@/Components/BaseButton.vue';
-import SectionTitleLineWithButton from '@/Components/SectionTitleLineWithButton.vue';
 import { mdiFilter , mdiFilterRemove } from '@mdi/js';
 
 const props = defineProps({
@@ -38,6 +36,10 @@ const formatOptionsForSelect = (optionsObject) => {
 const applyFilters = () => {
     emit('filter', filterValues.value);
 };
+
+watch(filterValues, (newValues) => {
+    emit('filter', newValues);
+}, { deep: true }); 
 
 const clearFilters = () => {
     for (const key in filterValues.value) {
