@@ -19,7 +19,7 @@ class AppointmentSeeder extends Seeder
         $scheduledStatus = \App\Models\AppointmentStatus::where('name', 'programada')->first();
 
         if ($patient && $doctor && $scheduledStatus) {
-            $modalities = ['Virtual', 'Presencial'];
+            $modalities = ['virtual', 'presencial'];
             $reasons = [
                 'Consulta de control',
                 'Chequeo general',

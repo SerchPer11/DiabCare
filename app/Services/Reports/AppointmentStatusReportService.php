@@ -129,11 +129,39 @@ class AppointmentStatusReportService
 
     private function formatChartData($weeklyData)
     {
+        // Si no hay datos, devolver arrays vacíos
+        if ($weeklyData->isEmpty()) {
+            return [
+                'type' => 'bar',
+                'data' => [
+                    'labels' => [],
+                    'datasets' => [
+                        [
+                            'label' => 'Virtual',
+                            'data' => [],
+                            'backgroundColor' => '#208B8B',
+                            'borderRadius' => 4,
+                        ],
+                        [
+                            'label' => 'Presencial', 
+                            'data' => [],
+                            'backgroundColor' => '#A0D9D9',
+                            'borderRadius' => 4,
+                        ]
+                    ]
+                ],
+                'options' => [
+                    'responsive' => true,
+                    'maintainAspectRatio' => false,
+                ]
+            ];
+        }
+
         $sortedData = $weeklyData->reverse();
 
-        $labels = $sortedData->map(fn($week) => 'Sem ' . intval(substr($week->week_identifier, 4)));
-        $virtualData = $sortedData->pluck('count_virtual');
-        $presencialData = $sortedData->pluck('count_presencial');
+        $labels = $sortedData->map(fn($week) => 'Sem ' . intval(substr($week->week_identifier, 4)))->values()->toArray();
+        $virtualData = $sortedData->pluck('count_virtual')->values()->toArray();
+        $presencialData = $sortedData->pluck('count_presencial')->values()->toArray();
 
         $colorVirtual = '#208B8B';
         $colorPresencial = '#A0D9D9';
