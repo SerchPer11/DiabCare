@@ -43,17 +43,21 @@ class AppointmentSeeder extends Seeder
             for ($i = 1; $i <= 20; $i++) {
                 $statusId = $statuses[($i - 1) % 3];
                 $doctor = $doctors[($i - 1) % $doctors->count()];
-                Appointment::create([
+                $modality = $modalities[array_rand($modalities)];
+                $appointmentData = [
                     'patient_id' => $patient->id,
                     'doctor_id' => $doctor->id,
                     'date' => now()->addDays($i)->toDateString(),
                     'time' => now()->setTime(rand(8, 17), rand(0, 1) ? '00' : '30')->format('H:i:s'),
-                    'modality' => $modalities[array_rand($modalities)],
+                    'modality' => $modality,
                     'reason' => $reasons[array_rand($reasons)],
                     'additional_notes' => rand(0, 1) ? 'Nota de prueba ' . $i : null,
-                    'video_call_link' => rand(0, 1) ? 'https://meet.example.com/cita' . $i : null,
                     'appointment_status_id' => $statusId,
-                ]);
+                ];
+                if ($modality === 'virtual') {
+                    $appointmentData['video_call_link'] = 'https://meet.example.com/cita' . $i;
+                }
+                Appointment::create($appointmentData);
             }
         }
     }

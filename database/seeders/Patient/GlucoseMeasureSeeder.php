@@ -29,22 +29,26 @@ class GlucoseMeasureSeeder extends Seeder
             ]);
         }
 
-        // Obtener el paciente existente (María - ID 3)
-        $patientId = 3;
+        // Obtener todos los pacientes
+        $patients = User::role('patient')->get();
+        if ($patients->isEmpty()) {
+            return;
+        }
 
-        $config = MeasureConfig::firstOrCreate([
-            'patient_id' => $patientId,
-            'measure_type_id' => $glucoseType->id,
-        ], [
-            'min_value' => 70,
-            'max_value' => 130,
-            'range' => 'outrange',
-            'severity' => 'high',
-            'frequency' => 'daily',
-        ]);
-
-        // Crear mediciones de glucosa para los últimos 30 días
-        $this->createGlucoseMeasures($config->id, $patientId);
+        foreach ($patients as $patient) {
+            $config = MeasureConfig::firstOrCreate([
+                'patient_id' => $patient->id,
+                'measure_type_id' => $glucoseType->id,
+            ], [
+                'min_value' => 70,
+                'max_value' => 130,
+                'range' => 'outrange',
+                'severity' => 'high',
+                'frequency' => 'daily',
+            ]);
+            // Crear mediciones de glucosa para los últimos 30 días para cada paciente
+            $this->createGlucoseMeasures($config->id, $patient->id);
+        }
     }
 
     private function createGlucoseMeasures($configId, $patientId)
