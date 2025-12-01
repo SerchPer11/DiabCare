@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Appointment;
+use App\Models\AppointmentStatus;
+use App\Models\User;
 
 class AppointmentSeeder extends Seeder
 {
@@ -14,11 +15,18 @@ class AppointmentSeeder extends Seeder
     public function run(): void
     {
         // Obtener usuarios con rol paciente y doctor
-        $patient = \App\Models\User::role('patient')->first();
-        $doctor = \App\Models\User::role('doctor')->first();
-        $scheduledStatus = \App\Models\AppointmentStatus::where('name', 'programada')->first();
+        $patient = User::role('patient')->first();
+        $doctors = User::role('doctor')->get();
+        $statusNames = ['programada', 'completada', 'cancelada'];
+        $statuses = [];
+        foreach ($statusNames as $name) {
+            $status = AppointmentStatus::where('name', $name)->first();
+            if ($status) {
+                $statuses[] = $status->id;
+            }
+        }
 
-        if ($patient && $doctor && $scheduledStatus) {
+        if ($patient && $doctors->count() > 0 && count($statuses) === 3) {
             $modalities = ['virtual', 'presencial'];
             $reasons = [
                 'Consulta de control',
@@ -33,6 +41,8 @@ class AppointmentSeeder extends Seeder
                 'Control de glucosa',
             ];
             for ($i = 1; $i <= 20; $i++) {
+                $statusId = $statuses[($i - 1) % 3];
+                $doctor = $doctors[($i - 1) % $doctors->count()];
                 Appointment::create([
                     'patient_id' => $patient->id,
                     'doctor_id' => $doctor->id,
@@ -42,7 +52,7 @@ class AppointmentSeeder extends Seeder
                     'reason' => $reasons[array_rand($reasons)],
                     'additional_notes' => rand(0, 1) ? 'Nota de prueba ' . $i : null,
                     'video_call_link' => rand(0, 1) ? 'https://meet.example.com/cita' . $i : null,
-                    'appointment_status_id' => $scheduledStatus->id,
+                    'appointment_status_id' => $statusId,
                 ]);
             }
         }
