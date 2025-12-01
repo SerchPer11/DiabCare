@@ -15,7 +15,7 @@ class AppointmentStatusReportService
 
         $statsData = $this->getStatsData($query);
 
-        $weeklyData = $this->getWeeklyData($query);
+        $weeklyData = $this->getWeeklyData($query, $filters);
 
         $filtersDefinition = $this->getFiltersDefinition($filters);
 
@@ -34,11 +34,11 @@ class AppointmentStatusReportService
         $query = Appointment::query()->with('status');
 
         $query->when($filters['start_date'] ?? null, function ($q, $date) {
-            $q->where('created_at', '>=', Carbon::parse($date)->startOfDay());
+            $q->where('date', '>=', Carbon::parse($date)->startOfDay());
         });
 
         $query->when($filters['end_date'] ?? null, function ($q, $date) {
-            $q->where('created_at', '<=', Carbon::parse($date)->endOfDay());
+            $q->where('date', '<=', Carbon::parse($date)->endOfDay());
         });
 
         $query->when($filters['doctor_id'] ?? null, function ($q, $doctorId) {
@@ -97,7 +97,7 @@ class AppointmentStatusReportService
         ];
     }
 
-    private function getWeeklyData($query)
+    private function getWeeklyData($query, $filters = [])
     {
         $weeklyQuery = $query->clone();
 
@@ -120,11 +120,13 @@ class AppointmentStatusReportService
                 DB::raw("SUM(CASE WHEN modality = 'presencial' THEN 1 ELSE 0 END) as count_presencial")
             )
             ->groupBy('week_identifier')
-            ->orderBy('week_identifier', 'desc')
-            ->take(4)
-            ->get();
+            ->orderBy('week_identifier', 'desc');
+            if (empty($filters['start_date']) && empty($filters['end_date'])) {
+            $weeklyQuery->take(4);
+        }
+            
 
-        return $weeklyData;
+        return $weeklyData->get();
     }
 
     private function formatChartData($weeklyData)
