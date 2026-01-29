@@ -114,4 +114,8 @@
     border-color: #E10E0E !important;
     color: #E10E0E !important;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
 }

@@ -18,6 +18,7 @@ const page = usePage();
 
             <header
                 class="sticky top-0 z-10 flex justify-between md:grid md:grid-cols-3 items-center gap-4 border-b px-4 shadow-md py-3">
+                <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
                 <Link class="flex items-center gap-3 md:ml-40" :href="route('home')">
                 <img src="/logoDiabCare.png" alt="DiabCare" class="w-8 h-8" />
@@ -26,7 +27,7 @@ const page = usePage();
 
                 <nav class="hidden md:flex md:justify-self-center items-center gap-6">
                     <Link v-for="item in nav" :key="item.href" :href="item.href"
-                        class="text-sm font-medium text-medic-600 hover:text-medic-700">{{ item.label }}</Link>
+                        class="text-sm font-medium text-medic-600 hover:text-medic-700 hover:bg-medic-100 px-3 py-2 rounded transition-colors-200">{{ item.label }}</Link>
                 </nav>
 
                 <div class="md:justify-self-end">

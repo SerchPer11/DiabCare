@@ -104,7 +104,7 @@ const profileRouteName = computed(() => {
              class="flex items-center justify-between gap-2 p-3 rounded-lg
              hover:bg-medic-100 transition-colors duration-200">
                 <SidebarGroupLabel class="text-xl text-medic-700 font-semibold">DiabCare</SidebarGroupLabel>
-                <Icon :path="mdiHeartPulse" class="h-6 w-6 text-medic-700 mr-4" />
+                <img src="/logoDiabCare.png" alt="DiabCare" class="w-8 h-8 bg-transparent"/>
             </Link>
         </SidebarHeader>
 

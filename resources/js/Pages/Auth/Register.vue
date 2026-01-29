@@ -3,10 +3,10 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Button } from '@/Components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
+import BaseButton from '@/Components/BaseButton.vue';
 
 const form = useForm({
     name: '',
@@ -62,9 +62,15 @@ const submit = () => {
               <Input id="password_confirmation" v-model="form.password_confirmation" type="password" required autocomplete="new-password" />
               <p v-if="form.errors.password_confirmation" class="text-sm text-destructive">{{ form.errors.password_confirmation }}</p>
             </div>
-            <Button type="submit" class="w-full" :disabled="form.processing">
-              Crear Cuenta
-            </Button>
+            <BaseButton
+              type="submit"
+              color="info"
+              :icon="mdiLogin"
+              label="Crear Cuenta"
+              title="Crear Cuenta"
+              :disabled="form.processing"
+              :processing="form.processing"
+            />
           </div>
         </form>
         <div class="mt-4 text-center text-sm">
