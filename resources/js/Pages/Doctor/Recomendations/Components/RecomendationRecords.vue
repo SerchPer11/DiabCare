@@ -35,10 +35,10 @@
                         <span v-else class="text-gray-400">No especificado</span>
                     </td>
                     <td data-label="Prioridad">
-                        <div class="px-4 py-1 rounded-full" :class="item.priority === 'low' ? 'text-green-500 bg-green-100' : item.priority === 'medium' ? 'text-yellow-600 bg-yellow-100' : 'text-red-500 bg-red-100'">
+                        <Badge class="px-4 py-1 rounded-full" :color="item.priority === 'low' ? 'green' : item.priority === 'medium' ? 'yellow' : 'red'">
                             <span v-if="item.priority" :class="priorityColors[item.priority]">{{ priority[item.priority] }}</span>
                             <span v-else class="text-gray-400">No especificado</span>
-                        </div>
+                        </Badge>
                     </td>
                     <td data-label="Acciones">
                         <div class="flex gap-4 justify-center">
@@ -71,6 +71,7 @@ import BaseButton from '@/Components/BaseButton.vue';
 import { mdiPencil, mdiDelete, mdiPlus } from '@mdi/js';
 import { useRecomendation } from '../Composables/useRecomendation';
 import Pagination from "@/Components/Pagination.vue";
+import Badge from '@/Components/Badge.vue';
 
 const props = defineProps({
     recomendations: {
