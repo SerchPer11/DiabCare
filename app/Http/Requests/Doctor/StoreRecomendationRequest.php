@@ -32,7 +32,7 @@ class StoreRecomendationRequest extends FormRequest
                 'recomendation_type_id' => 'required|exists:recomendation_types,id',
                 'priority' => 'required|in:low,medium,high',
                 'content' => 'required|string|max:2000',
-                'start_date' => 'required|date',
+                'start_date' => 'required|date|after_or_equal:today',
                 'end_date' => 'nullable|date|after_or_equal:start_date',
                 'patient_id' => 'required',
                 'doctor_id' => 'required',
@@ -45,6 +45,7 @@ class StoreRecomendationRequest extends FormRequest
     {
         return [
             'end_date.after_or_equal' => 'La fecha de finalización debe ser igual o posterior a la fecha de inicio',
+            'start_date.after_or_equal' => 'La fecha de inicio debe ser igual o posterior a la fecha de hoy',
         ];
     }
 

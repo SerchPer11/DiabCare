@@ -35,8 +35,10 @@
                         <span v-else class="text-gray-400">No especificado</span>
                     </td>
                     <td data-label="Prioridad">
-                        <span v-if="item.priority" :class="priorityColors[item.priority]">{{ priority[item.priority] }}</span>
-                        <span v-else class="text-gray-400">No especificado</span>
+                        <badge class="px-4 py-1 rounded-full" :class="item.priority === 'low' ? 'text-green-500 bg-green-100' : item.priority === 'medium' ? 'text-yellow-600 bg-yellow-100' : 'text-red-500 bg-red-100'">
+                            <span v-if="item.priority" :class="priorityColors[item.priority]">{{ priority[item.priority] }}</span>
+                            <span v-else class="text-gray-400">No especificado</span>
+                        </badge>
                     </td>
                     <td data-label="Acciones">
                         <div class="flex gap-4 justify-center">

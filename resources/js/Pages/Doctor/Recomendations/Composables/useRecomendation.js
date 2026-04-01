@@ -2,6 +2,7 @@ import { useLoading } from '@/Hooks/useLoading';
 import { useForm } from '@inertiajs/vue3';
 import { provide, computed } from 'vue';
 import { messageConfirm } from "@/Hooks/useErrorsForm";
+import { now } from 'lodash';
 
 export const useRecomendation = (props = {}) => {
     const { setLoading } = useLoading();
@@ -14,10 +15,10 @@ export const useRecomendation = (props = {}) => {
         recomendation_type_id: recomendation.recomendation_type_id ?? null,
         priority: recomendation.priority ?? null,
         content: recomendation.content ?? null,
-        start_date: recomendation.start_date ?? null,
+        start_date: recomendation.start_date ?? new Date(now()).toISOString().substr(0, 10),
         end_date: recomendation.end_date ?? null,
         patient_id: recomendation.patient_id ?? null,
-        doctor_id: recomendation.doctor_id ?? null,
+        doctor_id: recomendation.doctor_id ?? (props.doctors && props.doctors.length === 1 ? props.doctors[0].id : null),
         is_active: recomendation.is_active ?? true,
 
         photos: recomendation.photos ?? [],

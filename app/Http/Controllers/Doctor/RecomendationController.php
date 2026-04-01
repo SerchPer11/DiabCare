@@ -19,6 +19,7 @@ use App\Services\FileService;
 use App\DTOs\FileStorageConfig;
 use App\Traits\LogClinicalActivity;
 use App\Events\RecommendationCreated;
+use Illuminate\Support\Facades\Auth;
 
 class RecomendationController extends Controller
 {
@@ -92,6 +93,10 @@ class RecomendationController extends Controller
         $patients = User::role('patient')
             ->select(['id', DB::raw("CONCAT(name, ' ', last_name, ' ', second_last_name) as name")])
             ->get();
+
+        if (User::where('id', Auth::id())->role('doctor')) {
+            $doctors = $doctors->where('id', Auth::id());
+        }
 
         return Inertia::render("{$this->source}Create", [
             'title'           => 'Recomendaciones',
